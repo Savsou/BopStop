@@ -1,7 +1,5 @@
 # API Routes
 
-Hi! I'm your first Markdown file in **StackEdit**. If you want to learn about StackEdit, you can read me. If you want to play with Markdown, you can edit me. Once you have finished with me, you can create new files by opening the **file explorer** on the left corner of the navigation bar.
-
 ## Products
 
 ### Get all Products
@@ -29,9 +27,11 @@ Users should be able to create a Product.
     ```json
     {
         "name": "ProductName"
-        "artist": "ArtistName"
-        "description": "Description"
+        "userId": 1
+        "type": "CD"
         "price": 3
+        "description": "Description here"
+        "imageUrl": "image.url"
     }
     ```
 
@@ -45,9 +45,10 @@ Users should be able to create a Product.
         "message": "Bad Request",
         "errors": {
             "name": "Name is required"
-            "artist": "Artist is required"
-            "description": "Description is required"
+            "userId": "User is required"
             "price": "Price must be a positive number"
+            "description": "Description is required"
+            "imageUrl": "Image is required"
         }
     }
     ```
@@ -66,9 +67,10 @@ Users should be able to update their Product(s).
     ```json
     {
         "name": "ProductName"
-        "artist": "ArtistName"
-        "description": "Description"
+        "userId": 1
         "price": 2
+        "description": "Description here"
+        "imageUrl": "image.url"
     }
     ```
 
@@ -82,9 +84,10 @@ Users should be able to update their Product(s).
         "message": "Bad Request",
         "errors": {
             "name": "Name is required"
-            "artist": "Artist is required"
-            "description": "Description is required"
+            "userId": "User is required"
             "price": "Price must be a positive number"
+            "description": "Description is required"
+            "imageUrl": "Image is required"
         }
     }
     ```
@@ -122,7 +125,7 @@ Users should be able to delete their Product(s).
   - Body:
     ```json
     {
-      "message": "Spot couldn't be found"
+      "message": "Product couldn't be found"
     }
     ```
 
@@ -224,11 +227,10 @@ Users should be able to update their review for a Product.
   - Body:
     ```json
     {
-        "message": "Bad Request",
-        "errors": {
-            "review": "Review is required"
-            "stars": "Stars must be an integer from 1 to 5"
-        }
+      "message": "Bad Request",
+      "errors": {
+        "review": "Review is required"
+      }
     }
     ```
 
@@ -323,7 +325,7 @@ Users should be able to add products to their shopping cart.
         "products": [
           {
             "productId": 1,
-            "name": ProdctName,
+            "name": "ProductName",
             "quantity": 2,
             "price": 2
           }
@@ -420,12 +422,14 @@ Users should be able to view all of their wishlisted products.
   "wishlist": [
     {
       "productId": 1,
-      "name": "ProductName",
+      "productName": "ProductName",
+      "userId": 1,
       "price": 2
     },
     {
       "productId": 2,
       "name": "AnotherProductName",
+      "userId": 1,
       "price": 50
     }
   ]
@@ -449,8 +453,56 @@ Users should be able to wishlisted products.
     ```
 
 - Successful Response
+
   - Status Code: 200
+  - Body:
+    ```json
+    {
+      "message": "Product added to the wishlist"
+      "wishlist": [
+        {
+          "productId": 1
+          "productName": "ProductName",
+          "userId": 1,
+          "price": 2
+        }
+      ]
+    }
+    ```
+
+- Error Response: Product already exists in wishlist
+  - Status Code: 400
+  - Body:
+    ```json
+    {
+      "message": "Product is already in the wishlist"
+    }
+    ```
 
 ### Delete product from Wishlist
 
 Users should be able to delete products from their Wishlist.
+
+- Request Authentication: True
+- Request
+  - Method: DELETE
+  - Route Path: /api/wishlist/:productId
+  - Body: None
+- Successful Response
+
+  - Status Code: 200
+  - Body:
+    ```json
+    {
+      "message": "Product remove from the wishlist"
+    }
+    ```
+
+- Error Response
+  - Status Code: 404
+  - Body:
+    ```json
+    {
+      "message": "Product not found in wishlist"
+    }
+    ```
