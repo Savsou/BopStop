@@ -1,5 +1,7 @@
 # **Database Schema**
 
+![bopstop-database-schema](Group-BandCamp.png)
+
 ## `users`
 
 | column name     | data type | details                   |
