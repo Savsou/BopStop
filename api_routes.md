@@ -12,7 +12,26 @@ Users should be able to view all Products.
   - **Route path**: /api/products
   - **Body**: none
 - **Successful Response**
+
   - **Status Code**: 200
+  - **Body**:
+
+    ```json
+    {
+      "products": [
+        {
+          "productId": 1,
+          "name": "ProductName",
+          "userId": 1,
+          "type": "CD",
+          "price": 3,
+          "description": "Description Here",
+          "imageUrl": "image.url"
+        }
+        // more products...
+      ]
+    }
+    ```
 
 ### Create a Product
 
@@ -26,30 +45,46 @@ Users should be able to create a Product.
   - **Body**:
     ```json
     {
-        "name": "ProductName"
-        "userId": 1
-        "type": "CD"
-        "price": 3
-        "description": "Description here"
-        "imageUrl": "image.url"
+      "name": "ProductName2",
+      "userId": 2,
+      "type": "CD",
+      "price": 4,
+      "description": "Description here too",
+      "imageUrl": "image.url"
     }
     ```
 
 - **Successful Response**
+
   - **Status Code**: 201
-- \***\*Error Response: Body Validation Errorse**
+  - **Body**:
+    ```json
+    {
+      "product": {
+        "productId": 2,
+        "name": "ProductName2",
+        "userId": 2,
+        "type": "CD",
+        "price": 4,
+        "description": "Description here too",
+        "imageUrl": "image.url"
+      }
+    }
+    ```
+
+- **Error Response: Body Validation Errorse**
   - **Status Code**: 400
   - **Body**:
     ```json
     {
-        "message": "Bad **Request**",
-        "errors": {
-            "name": "Name is required"
-            "userId": "User is required"
-            "price": "Price must be a positive number"
-            "description": "Description is required"
-            "imageUrl": "Image is required"
-        }
+      "message": "Bad Request",
+      "errors": {
+        "name": "Name is required",
+        "userId": "User is required",
+        "price": "Price must be a positive number",
+        "description": "Description is required",
+        "imageUrl": "Image is required"
+      }
     }
     ```
 
@@ -66,32 +101,47 @@ Users should be able to update their Product(s).
   - **Body**:
     ```json
     {
-        "name": "ProductName"
-        "userId": 1
-        "price": 2
-        "description": "Description here"
-        "imageUrl": "image.url"
+      "name": "ProductName",
+      "userId": 1,
+      "price": 2,
+      "description": "Updated description here",
+      "imageUrl": "image.url"
     }
     ```
 
 - **Successful Response**
+
   - **Status Code**: 200
-- \***\*Error Response: Body Validation Errorse**
+  - **Body**:
+    ```json
+    {
+      "product": {
+        "productId": 1,
+        "name": "ProductName",
+        "userId": 1,
+        "price": 2,
+        "description": "Updated description here",
+        "imageUrl": "image.url"
+      }
+    }
+    ```
+
+- **Error Response: Body Validation Errorse**
   - **Status Code**: 400
   - **Body**:
     ```json
     {
-        "message": "Bad **Request**",
-        "errors": {
-            "name": "Name is required"
-            "userId": "User is required"
-            "price": "Price must be a positive number"
-            "description": "Description is required"
-            "imageUrl": "Image is required"
-        }
+      "message": "Bad Request",
+      "errors": {
+        "name": "Name is required",
+        "userId": "User is required",
+        "price": "Price must be a positive number",
+        "description": "Description is required",
+        "imageUrl": "Image is required"
+      }
     }
     ```
-- \***\*Error Response: Couldn't find a product by specified id**
+- **Error Response: Couldn't find a product by specified id**
   - **Status Code**: 404
   - **Body**:
     ```json
@@ -120,7 +170,7 @@ Users should be able to delete their Product(s).
       "message": "Successfully deleted product"
     }
     ```
-- \***\*Error Response: Couldn't find a product by specified id**
+- **Error Response: Couldn't find a product by specified id**
   - **Status Code**: 404
   - **Body**:
     ```json
@@ -141,8 +191,24 @@ Users should be able to view all reviews on a Product.
   - **Route path**: /api/products/:productId/reviews
   - **Body**: None
 - **Successful Response**
+
   - **Status Code**: 200
-- \***\*Error Response: Couldn't find a product by specified id**
+  - **Body**:
+    ```json
+    {
+      "reviews": [
+        {
+          "id": 1,
+          "productId": 1,
+          "userId": 1,
+          "review": "Random comment"
+        }
+        // more reviews...
+      ]
+    }
+    ```
+
+- **Error Response: Couldn't find a product by specified id**
 
   - **Status Code**: 404
   - **Body**:
@@ -169,8 +235,21 @@ Users should be able to create a review for a Product.
     ```
 
 - **Successful Response**
+
   - **Status Code**: 201
-- \***\*Error Response: Body Validation Errorse**
+  - **Body**:
+    ```json
+    {
+      "review": {
+        "id": 2,
+        "productId": 1,
+        "userId": 2,
+        "review": "Random comment"
+      }
+    }
+    ```
+
+- **Error Response: Body Validation Errorse**
 
   - **Status Code**: 400
   - **Body**:
@@ -183,7 +262,7 @@ Users should be able to create a review for a Product.
     }
     ```
 
-- \***\*Error Response: Couldn't find a product by specified id**
+- **Error Response: Couldn't find a product by specified id**
 
   - **Status Code**: 404
   - **Body**:
@@ -193,7 +272,7 @@ Users should be able to create a review for a Product.
     }
     ```
 
-- \***\*Error Response: Review from the current user already Exists for the Product**
+- **Error Response: Review from the current user already Exists for the Product**
 
   - **Status Code**: 500
   - **Body**:
@@ -221,7 +300,20 @@ Users should be able to update their review for a Product.
 
 - **Successful Response**
   - **Status Code**: 200
-- \***\*Error Response: Body Validation Errors**
+  - **Body**:
+
+```json
+{
+  "review": {
+    "id": 2,
+    "productId": 1,
+    "userId": 2,
+    "review": "Random updated comment"
+  }
+}
+```
+
+- **Error Response: Body Validation Errors**
 
   - **Status Code**: 400
   - **Body**:
@@ -234,7 +326,7 @@ Users should be able to update their review for a Product.
     }
     ```
 
-- \***\*Error Response**: Couldn't find a product by specified id\*\*
+- **Error Response: Couldn't find a product by specified id**
 
   - **Status Code**: 404
   - **Body**:
@@ -263,7 +355,7 @@ Users should be able to delete their review from a Product.
     }
     ```
 
-- \***\*Error Response: Couldn't find a product by specified id**
+- **Error Response: Couldn't find a product by specified id**
 
   - **Status Code**: 404
   - **Body**:
@@ -285,8 +377,27 @@ Users should be able to view all products added to their cart.
   - **Route path**: /api/cart
   - **Body**: None
 - **Successful Response**
+
   - **Status Code**: 200
-- \***\*Error Response**: Can't find the cart\*\*
+  - **Body**:
+    ```json
+    {
+      "cart": {
+        "id": 1,
+        "products": [
+          {
+            "productId": 1,
+            "name": "ProductName",
+            "quantity": 2,
+            "price": 2
+          }
+          // more products in cart
+        ]
+      }
+    }
+    ```
+
+- **Error Response: Can't find the cart**
 
   - **Status Code**: 404
   - **Body**:
@@ -308,7 +419,7 @@ Users should be able to add products to their shopping cart.
   - **Body**:
     ```json
     {
-      "productId": 1
+      "productId": 1,
       "quantity": 2
     }
     ```
@@ -319,7 +430,7 @@ Users should be able to add products to their shopping cart.
   - **Body**:
     ```json
     {
-      "message": "Product added to the cart"
+      "message": "Product added to the cart",
       "cart": {
         "id": 1
         "products": [
@@ -334,7 +445,7 @@ Users should be able to add products to their shopping cart.
     }
     ```
 
-- \***\*Error Response: Body Validation Errors**
+- **Error Response: Body Validation Errors**
 
   - **Status Code**: 400
   - **Body**:
@@ -363,7 +474,7 @@ Users should be able to remove products from their shopping cart.
     }
     ```
 
-- \***\*Error Response: Can't find product**
+- **Error Response: Can't find product**
 
   - **Status Code**: 404
   - **Body**:
@@ -428,9 +539,9 @@ Users should be able to view all of their wishlisted products.
     },
     {
       "productId": 2,
-      "name": "AnotherProductName",
+      "name": "ProductName2",
       "userId": 1,
-      "price": 50
+      "price": 4
     }
   ]
 }
@@ -461,16 +572,16 @@ Users should be able to wishlisted products.
       "message": "Product added to the wishlist"
       "wishlist": [
         {
-          "productId": 1
+          "productId": 1,
           "productName": "ProductName",
-          "userId": 1,
+          "userId": 2,
           "price": 2
         }
       ]
     }
     ```
 
-- \***\*Error Response: Product already exists in wishlist**
+- **Error Response: Product already exists in wishlist**
   - **Status Code**: 400
   - **Body**:
     ```json
@@ -494,7 +605,7 @@ Users should be able to delete products from their Wishlist.
   - **Body**:
     ```json
     {
-      "message": "Product remove from the wishlist"
+      "message": "Product removed from the wishlist"
     }
     ```
 
