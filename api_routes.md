@@ -6,24 +6,24 @@
 
 Users should be able to view all Products.
 
-- Require authentication: false
-- Request
-  - Method: GET
-  - Route path: /api/products
-  - Body: none
-- Successful Response
-  - Status Code: 200
+- **Require authentication**: false
+- **Request**
+  - **Method**: GET
+  - **Route path**: /api/products
+  - **Body**: none
+- **Successful Response**
+  - **Status Code**: 200
 
 ### Create a Product
 
 Users should be able to create a Product.
 
-- Require Authentication: True
-- Request
+- **Require authentication**: True
+- **Request**
 
-  - Method: POST
-  - Route path: /api/products
-  - Body:
+  - **Method**: POST
+  - **Route path**: /api/products
+  - **Body**:
     ```json
     {
         "name": "ProductName"
@@ -35,14 +35,14 @@ Users should be able to create a Product.
     }
     ```
 
-- Successful Response
-  - Status Code: 201
-- Error Response: Body Validation Errors
-  - Status Code: 400
-  - Body:
+- **Successful Response**
+  - **Status Code**: 201
+- \***\*Error Response: Body Validation Errorse**
+  - **Status Code**: 400
+  - **Body**:
     ```json
     {
-        "message": "Bad Request",
+        "message": "Bad **Request**",
         "errors": {
             "name": "Name is required"
             "userId": "User is required"
@@ -57,13 +57,13 @@ Users should be able to create a Product.
 
 Users should be able to update their Product(s).
 
-- Require Authentication: True
-- Require proper Authentication: Product must belong to the user
-- Request
+- **Require authentication**: True
+- **Require proper Authentication: Product must belong to the user**
+- **Request**
 
-  - Method: Put
-  - Route Path: /api/products/:productId
-  - Body:
+  - **Method**: Put
+  - **Route path**: /api/products/:productId
+  - **Body**:
     ```json
     {
         "name": "ProductName"
@@ -74,14 +74,14 @@ Users should be able to update their Product(s).
     }
     ```
 
-- Successful Response
-  - Status Code: 200
-- Error Response: Body Validation Errors
-  - Status Code: 400
-  - Body:
+- **Successful Response**
+  - **Status Code**: 200
+- \***\*Error Response: Body Validation Errorse**
+  - **Status Code**: 400
+  - **Body**:
     ```json
     {
-        "message": "Bad Request",
+        "message": "Bad **Request**",
         "errors": {
             "name": "Name is required"
             "userId": "User is required"
@@ -91,9 +91,9 @@ Users should be able to update their Product(s).
         }
     }
     ```
-- Error Response: Couldn't find a product by specified id
-  - Status Code: 404
-  - Body:
+- \***\*Error Response: Couldn't find a product by specified id**
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Product couldn't be found"
@@ -104,25 +104,25 @@ Users should be able to update their Product(s).
 
 Users should be able to delete their Product(s).
 
-- Require Authentication: True
-- Require proper Authentication: Product must belong to the user
-- Request
+- **Require authentication**: True
+- **Require proper Authentication: Product must belong to the user**
+- **Request**
 
-  - Method: DELETE
-  - Route Path: /api/products/:productId
-  - Body: None
+  - **Method**: DELETE
+  - **Route path**: /api/products/:productId
+  - **Body**: None
 
-- Successful Response
-  - Status Code: 200
-  - Body:
+- **Successful Response**
+  - **Status Code**: 200
+  - **Body**:
     ```json
     {
       "message": "Successfully deleted product"
     }
     ```
-- Error Response: Couldn't find a product by specified id
-  - Status Code: 404
-  - Body:
+- \***\*Error Response: Couldn't find a product by specified id**
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Product couldn't be found"
@@ -135,17 +135,17 @@ Users should be able to delete their Product(s).
 
 Users should be able to view all reviews on a Product.
 
-- Require Authentication: False
-- Request
-  - Method: GET
-  - Route Path: /api/products/:productId/reviews
-  - Body: None
-- Successful Response
-  - Status Code: 200
-- Error Response: Couldn't find a product by specified id
+- **Require authentication**: False
+- **Request**
+  - **Method**: GET
+  - **Route path**: /api/products/:productId/reviews
+  - **Body**: None
+- **Successful Response**
+  - **Status Code**: 200
+- \***\*Error Response: Couldn't find a product by specified id**
 
-  - Status Code: 404
-  - Body:
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Product couldn't be found"
@@ -156,47 +156,47 @@ Users should be able to view all reviews on a Product.
 
 Users should be able to create a review for a Product.
 
-- Require Authentication: True
-- Request
+- **Require authentication**: True
+- **Request**
 
-  - Method: POST
-  - Route Path: /api/products/:productId/reviews
-  - Body:
+  - **Method**: POST
+  - **Route path**: /api/products/:productId/reviews
+  - **Body**:
     ```json
     {
       "review": "Random comment"
     }
     ```
 
-- Successful Response
-  - Status Code: 201
-- Error Response: Body validation errors
+- **Successful Response**
+  - **Status Code**: 201
+- \***\*Error Response: Body Validation Errorse**
 
-  - Status Code: 400
-  - Body:
+  - **Status Code**: 400
+  - **Body**:
     ```json
     {
-      "message": "Bad Request",
+      "message": "Bad **Request**",
       "errors": {
         "review": "Review is required"
       }
     }
     ```
 
-- Error Response: Couldn't find a product by specified id
+- \***\*Error Response: Couldn't find a product by specified id**
 
-  - Status Code: 404
-  - Body:
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Product couldn't be found"
     }
     ```
 
-- Error Response: Review from the current user already Exists for the Product
+- \***\*Error Response: Review from the current user already Exists for the Product**
 
-  - Status Code: 500
-  - Body:
+  - **Status Code**: 500
+  - **Body**:
     ```json
     {
       "message": "User already has a review for this product"
@@ -207,37 +207,37 @@ Users should be able to create a review for a Product.
 
 Users should be able to update their review for a Product.
 
-- Require Authentication: True
-- Request
+- **Require authentication**: True
+- **Request**
 
-  - Method: Put
-  - Route Path: /api/reviews/:reviewId
-  - Body:
+  - **Method**: Put
+  - **Route path**: /api/reviews/:reviewId
+  - **Body**:
     ```json
     {
       "review": "Random updated comment"
     }
     ```
 
-- Successful Response
-  - Status Code: 200
-- Error Response: Body validation errors
+- **Successful Response**
+  - **Status Code**: 200
+- \***\*Error Response: Body Validation Errors**
 
-  - Status Code: 400
-  - Body:
+  - **Status Code**: 400
+  - **Body**:
     ```json
     {
-      "message": "Bad Request",
+      "message": "Bad **Request**",
       "errors": {
         "review": "Review is required"
       }
     }
     ```
 
-- Error Response: Couldn't find a product by specified id
+- \***\*Error Response**: Couldn't find a product by specified id\*\*
 
-  - Status Code: 404
-  - Body:
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Product couldn't be found"
@@ -248,25 +248,25 @@ Users should be able to update their review for a Product.
 
 Users should be able to delete their review from a Product.
 
-- Require Authentication: True
-- Request
-  - Method: DELETE
-  - Route Path: /api/reviews/:reviewId
-  - Body: None
-- Successful Response
+- **Require authentication**: True
+- **Request**
+  - **Method**: DELETE
+  - **Route path**: /api/reviews/:reviewId
+  - **Body**: None
+- **Successful Response**
 
-  - Status Code: 200
-  - Body:
+  - **Status Code**: 200
+  - **Body**:
     ```json
     {
       "message": "Successfully deleted review"
     }
     ```
 
-- Error Response: Couldn't find a product by specified id
+- \***\*Error Response: Couldn't find a product by specified id**
 
-  - Status Code: 404
-  - Body:
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Product couldn't be found"
@@ -279,17 +279,17 @@ Users should be able to delete their review from a Product.
 
 Users should be able to view all products added to their cart.
 
-- Require Authentication: True
-- Request
-  - Method: GET
-  - Route Path: /api/cart
-  - Body: None
-- Successful Response
-  - Status Code: 200
-- Error Response: Can't find the cart
+- **Require authentication**: True
+- **Request**
+  - **Method**: GET
+  - **Route path**: /api/cart
+  - **Body**: None
+- **Successful Response**
+  - **Status Code**: 200
+- \***\*Error Response**: Can't find the cart\*\*
 
-  - Status Code: 404
-  - Body:
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Shopping Cart not found"
@@ -300,12 +300,12 @@ Users should be able to view all products added to their cart.
 
 Users should be able to add products to their shopping cart.
 
-- Require Authentication: True
-- Request
+- **Require authentication**: True
+- **Request**
 
-  - Method: POST
-  - Route Path: /api/cart
-  - Body:
+  - **Method**: POST
+  - **Route path**: /api/cart
+  - **Body**:
     ```json
     {
       "productId": 1
@@ -313,10 +313,10 @@ Users should be able to add products to their shopping cart.
     }
     ```
 
-- Successful Response
+- **Successful Response**
 
-  - Status Code: 200
-  - Body:
+  - **Status Code**: 200
+  - **Body**:
     ```json
     {
       "message": "Product added to the cart"
@@ -334,10 +334,10 @@ Users should be able to add products to their shopping cart.
     }
     ```
 
-- Error Response: Body Validation Errors
+- \***\*Error Response: Body Validation Errors**
 
-  - Status Code: 400
-  - Body:
+  - **Status Code**: 400
+  - **Body**:
     ```json
     {
       "message": "Shopping Cart not found"
@@ -348,25 +348,25 @@ Users should be able to add products to their shopping cart.
 
 Users should be able to remove products from their shopping cart.
 
-- Require Authentication: True
-- Request
-  - Method: DELETE
-  - Route Path: /api/cart/:productId
-  - Body: None
-- Successful Response
+- **Require authentication**: True
+- **Request**
+  - **Method**: DELETE
+  - **Route path**: /api/cart/:productId
+  - **Body**: None
+- **Successful Response**
 
-  - Status Code: 200
-  - Body:
+  - **Status Code**: 200
+  - **Body**:
     ```json
     {
       "message": "Product removed from Cart"
     }
     ```
 
-- Error Response: Can't find product
+- \***\*Error Response: Can't find product**
 
-  - Status Code: 404
-  - Body:
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Can't find product in cart"
@@ -377,25 +377,25 @@ Users should be able to remove products from their shopping cart.
 
 Users should be able to perform a "transaction" to complete their purchase.
 
-- Require Authentication: True
-- Request
-  - Method: POST
-  - Route Path: /api/cart/checkout
-  - Body: None
-- Successful Response
+- **Require authentication**: True
+- **Request**
+  - **Method**: POST
+  - **Route path**: /api/cart/checkout
+  - **Body**: None
+- **Successful Response**
 
-  - Status Code: 200
-  - Body:
+  - **Status Code**: 200
+  - **Body**:
     ```json
     {
       "message": "Transaction successful"
     }
     ```
 
-- Error Response
+- **Error Response**
 
-  - Status Code: 404
-  - Body:
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Shopping Cart couldn't be found"
@@ -408,14 +408,14 @@ Users should be able to perform a "transaction" to complete their purchase.
 
 Users should be able to view all of their wishlisted products.
 
-- Require Authentication: True
-- Request
-  - Method: GET
-  - Route Path: /api/wishlist
-  - Body: None
-- Successful Response
-  - Status Code: 200
-  - Body:
+- **Require authentication**: True
+- **Request**
+  - **Method**: GET
+  - **Route path**: /api/wishlist
+  - **Body**: None
+- **Successful Response**
+  - **Status Code**: 200
+  - **Body**:
 
 ```json
 {
@@ -440,22 +440,22 @@ Users should be able to view all of their wishlisted products.
 
 Users should be able to wishlisted products.
 
-- Require Authentication: True
-- Request
+- **Require authentication**: True
+- **Request**
 
-  - Method: POST
-  - Route Path: /api/wishlist
-  - Body:
+  - **Method**: POST
+  - **Route path**: /api/wishlist
+  - **Body**:
     ```json
     {
       "productId": 1
     }
     ```
 
-- Successful Response
+- **Successful Response**
 
-  - Status Code: 200
-  - Body:
+  - **Status Code**: 200
+  - **Body**:
     ```json
     {
       "message": "Product added to the wishlist"
@@ -470,9 +470,9 @@ Users should be able to wishlisted products.
     }
     ```
 
-- Error Response: Product already exists in wishlist
-  - Status Code: 400
-  - Body:
+- \***\*Error Response: Product already exists in wishlist**
+  - **Status Code**: 400
+  - **Body**:
     ```json
     {
       "message": "Product is already in the wishlist"
@@ -483,24 +483,24 @@ Users should be able to wishlisted products.
 
 Users should be able to delete products from their Wishlist.
 
-- Request Authentication: True
-- Request
-  - Method: DELETE
-  - Route Path: /api/wishlist/:productId
-  - Body: None
-- Successful Response
+- **Request** Authentication: True
+- **Request**
+  - **Method**: DELETE
+  - **Route path**: /api/wishlist/:productId
+  - **Body**: None
+- **Successful Response**
 
-  - Status Code: 200
-  - Body:
+  - **Status Code**: 200
+  - **Body**:
     ```json
     {
       "message": "Product remove from the wishlist"
     }
     ```
 
-- Error Response
-  - Status Code: 404
-  - Body:
+- **Error Response**
+  - **Status Code**: 404
+  - **Body**:
     ```json
     {
       "message": "Product not found in wishlist"
