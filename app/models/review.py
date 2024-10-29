@@ -16,7 +16,7 @@ class Review(db.Model):
 
     # Define relationships
     product = db.relationship('Product', backref='reviews')
-    user = db.relationship('User', backref='reviews')
+    # user = db.relationship('User', backref='reviews')
 
     def to_dict(self):
         return {
