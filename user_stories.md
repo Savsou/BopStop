@@ -8,8 +8,6 @@
 
 **Zech**
 
-**![][image1]**
-
 **<h1 align="center" >MVP</h1>**
 
 # **User**
