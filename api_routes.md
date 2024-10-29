@@ -24,6 +24,7 @@ Users should be able to view all Products.
           "name": "ProductName",
           "userId": 1,
           "type": "CD",
+          "genre": "Rock",
           "price": 3,
           "description": "Description Here",
           "imageUrl": "image.url"
@@ -48,6 +49,7 @@ Users should be able to create a Product.
       "name": "ProductName2",
       "userId": 2,
       "type": "CD",
+      "genre": "Rock",
       "price": 4,
       "description": "Description here too",
       "imageUrl": "image.url"
@@ -65,6 +67,7 @@ Users should be able to create a Product.
         "name": "ProductName2",
         "userId": 2,
         "type": "CD",
+        "genre": "Rock",
         "price": 4,
         "description": "Description here too",
         "imageUrl": "image.url"
@@ -81,6 +84,7 @@ Users should be able to create a Product.
       "errors": {
         "name": "Name is required",
         "userId": "User is required",
+        "type": "Type is required",
         "price": "Price must be a positive number",
         "description": "Description is required",
         "imageUrl": "Image is required"
@@ -103,6 +107,8 @@ Users should be able to update their Product(s).
     {
       "name": "ProductName",
       "userId": 1,
+      "type": "CD",
+      "genre": "Rock",
       "price": 2,
       "description": "Updated description here",
       "imageUrl": "image.url"
@@ -119,6 +125,8 @@ Users should be able to update their Product(s).
         "productId": 1,
         "name": "ProductName",
         "userId": 1,
+        "type": "CD",
+        "genre": "Rock",
         "price": 2,
         "description": "Updated description here",
         "imageUrl": "image.url"
@@ -135,6 +143,7 @@ Users should be able to update their Product(s).
       "errors": {
         "name": "Name is required",
         "userId": "User is required",
+        "type": "type is required",
         "price": "Price must be a positive number",
         "description": "Description is required",
         "imageUrl": "Image is required"

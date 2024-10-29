@@ -26,6 +26,7 @@
 | name        | string    | not null, unique      |
 | userId      | integer   | not null, foreign key |
 | type        | string    | not null              |
+| genre       | string    |                       |
 | price       | decimal   | not null              |
 | description | string    | not null              |
 | imageUrl    | string    | not null              |
