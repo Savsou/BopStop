@@ -23,6 +23,10 @@ class Product(db.Model):
     # wishlists = db.relationship('Wishlist', secondary=wishlists_products, backref='products')
     # carts = db.relationship('Cart', secondary=carts_products, backref='products')
 
+    @property
+    def get_userId(self):
+        return self.userId
+
     def to_dict(self):
         return {
             'productId': self.id,
