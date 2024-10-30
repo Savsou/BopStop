@@ -13,6 +13,7 @@ def products():
 def product(productId):
   product = Product.query.get(productId)
   return product.to_dict()
+#add product not found logic
 
   #routes below are not tested, required to login
 
@@ -33,22 +34,36 @@ def createProduct():
   """
   Creates a new Product
   """
-  form = newProductForm()
-  form['csrf_token'].data = request.cookies['csrf_token']
-  if form.validate_on_submit():
-    newProduct = Product(
-      name=form.data['name'],
-      type=form.data['type'],
-      genre=form.data['genre'],
-      price=form.data['price'],
-      description=form.data['description'],
-      imageUrl=form.data['imageUrl']
-    )
-    db.session.add(newProduct)
-    db.session.commit()
-    #redirect to GET product by id
-    return newProduct.to_dict(), 201
-  return form.errors, 400
+  # Below is for when we have a front end form we are getting data from
+  # form = newProductForm()
+  # form['csrf_token'].data = request.cookies['csrf_token']
+  # if form.validate_on_submit():
+  #   newProduct = Product(
+  #     userId=form.data['userId'],
+  #     name=form.data['name'],
+  #     type=form.data['type'],
+  #     genre=form.data['genre'],
+  #     price=form.data['price'],
+  #     description=form.data['description'],
+  #     imageUrl=form.data['imageUrl']
+  #   )
+
+  # this is for testing only, switch back to code above once frontend form exists
+  data = request.get_json()
+  newProduct = Product(
+        userId=data['userId'],
+        name=data['name'],
+        type=data['type'],
+        genre=data['genre'],
+        price=data['price'],
+        description=data['description'],
+        imageUrl=data['imageUrl']
+      )
+  db.session.add(newProduct)
+  db.session.commit()
+  #redirect to GET product by id
+  return newProduct.to_dict(), 201
+  # return form.errors, 400
 
 @product_routes.route('/<int:productId>', methods=["PUT"])
 @login_required
@@ -56,23 +71,27 @@ def updateProduct(productId):
   """
   Update a User's Product
   """
-  form = editProductForm()
-  form['csrf_token'].data = request.cookies['csrf_token']
+  # Below is for when we have a front end form we are getting data from
+  # form = editProductForm()
+  # form['csrf_token'].data = request.cookies['csrf_token']
   product = Product.query.get(productId)
+
+  data = request.get_json()
   if(product):
-    data = request.get_json()
+    if "userId" in data:
+      product.userId = data["userId"]
     if "name" in data:
-      product["name"] = data["name"]
+      product.name = data["name"]
     if "type" in data:
-      product["type"] = data["type"]
+      product.type = data["type"]
     if "genre" in data:
-      product["genre"] = data["genre"]
+      product.genre = data["genre"]
     if "price" in data:
-      product["price"] = data["price"]
+      product.price = data["price"]
     if "description" in data:
-      product["description"] = data["description"]
+      product.description = data["description"]
     if "imageUrl" in data:
-      product["imageUrl"] = data["imageUrl"]
+      product.imageUrl = data["imageUrl"]
 
     try:
       db.session.commit()

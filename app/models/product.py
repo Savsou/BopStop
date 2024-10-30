@@ -19,7 +19,7 @@ class Product(db.Model):
     createdAt = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updatedAt = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
-    # reviews = db.relationship('Review', backref='product', cascade='all, delete-orphan')
+    reviews = db.relationship('Review', backref='product', cascade='all, delete-orphan')
     # wishlists = db.relationship('Wishlist', secondary=wishlists_products, backref='products')
     # carts = db.relationship('Cart', secondary=carts_products, backref='products')
 
