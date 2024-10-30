@@ -43,50 +43,65 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
+      
+      <p className="modal-title">Sign Up</p>
       {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
+      <form className="modal-content" onSubmit={handleSubmit}>
+      <div className="form-group">
         <label>
           Email
+          </label>
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
+        
+          {errors.email && <p>{errors.email}</p>}
+        </div>
+        <div className="form-group">
         <label>
           Username
+          </label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
+        
         {errors.username && <p>{errors.username}</p>}
+      </div>
+      <div className="form-group">
         <label>
           Password
+          </label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
+        
+          {errors.password && <p>{errors.password}</p>}
+        </div>
+        <div className="form-group">
         <label>
           Confirm Password
+          </label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
+        
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+      </div>
+      <div className="form-group">
+          <button type="submit">Sign Up</button>
+          </div>
       </form>
     </>
   );
