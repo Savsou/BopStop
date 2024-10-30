@@ -9,12 +9,12 @@ class Cart(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False, unique=True)
     subtotal = db.Column(db.Numeric, nullable=False)
     createdAt = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updatedAt = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
-    products = db.relationship('Product', secondary=carts_products, backref='carts')
+    products = db.relationship('Product', secondary=carts_products, backref='carts_list')
 
     def to_dict(self):
         return {
