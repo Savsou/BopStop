@@ -34,6 +34,35 @@ Users should be able to view all Products.
     }
     ```
 
+### Get details of a Product by id
+
+Return details of a product specified by its id.
+
+- **Require Authentication**: False
+- **Request**
+
+  - **Method**: GET
+  - **Route path**: /api/products/:productId
+  - **Body**: None
+
+- **Successful Response**
+  - **Status Code**: 200
+  - **Body**:
+    ```json
+    {
+      "productId": 1,
+      "name": "ProductName",
+      "userId": 1,
+      "type": "CD",
+      "genre": "Rock",
+      "price": 3,
+      "description": "Description Here",
+      "imageUrl": "image.url",
+      "createdAt": "2024-10-29 18:38:09.043894",
+      "updatedAt": "2024-10-29 18:38:09.043894"
+    }
+    ```
+
 ### Create a Product
 
 Users should be able to create a Product.

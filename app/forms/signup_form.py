@@ -1,8 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField
-from wtforms.validators import DataRequired, Email, ValidationError
+from wtforms.validators import DataRequired, Email, ValidationError, EqualTo
 from app.models import User
-
 
 def user_exists(form, field):
     # Checking if user exists
@@ -21,7 +20,14 @@ def username_exists(form, field):
 
 
 class SignUpForm(FlaskForm):
+    # artistName/bandName = StringField(
+    #     'Artist/Band Name', validators=[DataRequired()]
+    # )
     username = StringField(
         'username', validators=[DataRequired(), username_exists])
     email = StringField('email', validators=[DataRequired(), user_exists])
     password = StringField('password', validators=[DataRequired()])
+    confirm_password = StringField(
+        'Confirm Password',
+        validators=[DataRequired(), EqualTo('password', message='Password must match')]
+    )

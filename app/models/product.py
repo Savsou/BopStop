@@ -19,23 +19,23 @@ class Product(db.Model):
     createdAt = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updatedAt = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
-    reviews = db.relationship('Review', backref='product', cascade='all, delete-orphan')
-    wishlists = db.relationship('Wishlist', secondary=wishlists_products, backref='products')
-    carts = db.relationship('Cart', secondary=carts_products, backref='products')
+    # reviews = db.relationship('Review', backref='product', cascade='all, delete-orphan')
+    # wishlists = db.relationship('Wishlist', secondary=wishlists_products, backref='products')
+    # carts = db.relationship('Cart', secondary=carts_products, backref='products')
 
     def to_dict(self):
         return {
-            'id': self.id,
+            'productId': self.id,
             'name': self.name,
             'userId': self.userId,
             'type': self.type,
             'genre': self.genre if self.genre else "",
-            'price': str(self.price),  # Convert Decimal to string for JSON
+            'price': str(round(self.price,2)),  # Convert Decimal to string for JSON
             'description': self.description,
             'imageUrl': self.imageUrl,
-            'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
-            'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
-            'reviews': [review.to_dict() for review in self.reviews],
-            'wishlists': [wishlist.id for wishlist in self.wishlists],
-            'carts': [cart.id for cart in self.carts],
+            # 'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
+            # 'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
+            # 'reviews': [review.to_dict() for review in self.reviews],
+            # 'wishlists': [wishlist.id for wishlist in self.wishlists],
+            # 'carts': [cart.id for cart in self.carts],
         }
