@@ -27,26 +27,26 @@ ul {
 
 li {
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center;     /* Centers vertically */
-  list-style: none;        /* Removes bullet points */
+  justify-content: center;
+  align-items: center;
+  list-style: none;
 }
 
 .nav-logo {
   display: flex;
-  justify-content: center; /* Center horizontally if needed */
+  justify-content: center;
   align-items: center;
   margin-right: auto;
 }
 
 .nav-logo a {
-  display: flex;           /* Flex on <a> to center the image */
-  align-items: center;     /* Center the image vertically */
-  justify-content: center; /* Center the image horizontally */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-logo img {
-  max-height: 17px;        /* Ensure image fits within the li height */
+  max-height: 21px;
 }
 
 ul li button {

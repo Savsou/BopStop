@@ -1,0 +1,123 @@
+.big-four-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  
+  .big-four-main {
+    width: 74%;
+    height: 534.375px; /* Fixed height for the main image */
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .big-four-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .big-four-stack {
+    width: 26%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .big-four-item {
+    position: relative;
+    overflow: hidden;
+    height: calc((534.375px - 4px) / 3); /* Height for each stacked image */
+  }
+  
+  .big-four-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Hover effect for images */
+.big-four-main:hover img,
+.big-four-item:hover img {
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+.big-four-main:hover::after,
+.big-four-item:hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.12); /* White mask overlay */
+  pointer-events: none; /* Ensures overlay doesn’t interfere with hover */
+}
+  
+/* Overlay for title, description, and CTA in the first image */
+.big-four-main .image-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 160px; /* Applies 160px left margin only to the first image */
+    color: white;
+    padding: 10px;
+    max-width: 90%;
+  }
+  
+  /* Overlay for title, description in stacked images */
+  .big-four-stack .image-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 10px; /* Default positioning for other images */
+    color: white;
+    padding: 10px;
+    max-width: 90%;
+  }
+  
+  .big-four-main .image-title {
+    font-size: 32px; /* Title font size for the first image */
+    font-weight: 700;
+    margin: 0 0 5px;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4); /* Text shadow for title */
+  }
+  
+  .big-four-stack .image-title {
+    font-size: 15px; /* Title font size for the other three stacked images */
+    font-weight: 700;
+    margin: 0 0 5px;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4); /* Text shadow for title */
+  }
+  
+  .image-description {
+    font-size: 14px;
+    margin: 0;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4); /* Text shadow for description */
+  }
+  
+  /* CTA Button for the first image */
+  .big-four-main .cta-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    color: white; /* Text color */
+    text-decoration: none;
+    font-size: 12px;
+    background-color: transparent; /* No background color */
+    border: 1px solid white; /* White frame */
+    border-radius: 4px; /* Optional: Rounded corners */
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4); /* Text shadow for CTA button */
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .bandcamp-stats {
+    margin: 36px 0 32px; /* Space above the text */
+    font-size: 18px; /* Set font size to 18px */
+    color: #333;
+    text-align: center; /* Center align the text */
+  }
+  
+  .bold-text {
+    font-weight: bold; /* Makes the specified text bold */
+  }
+  
+  

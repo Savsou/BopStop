@@ -30,7 +30,7 @@
 }
 
 .modal-title {
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(255, 255, 255);
   color: #333;
   font-size: 18px;
   text-align: center;
@@ -87,6 +87,13 @@
   border: 1px solid rgb(204, 204, 204);
   outline-color: rgb(51, 51, 51);
   background-color: rgb(255, 255, 255);
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.form-group input:focus{
+  outline: none;
+  box-shadow: none;
 }
 
 .form-group button{
@@ -97,7 +104,7 @@
   font-size: 16px;
   font-weight: 700px;
   text-align: center;
-  width: 300px;
+  width: 294.79px;
   height: 36px;
 }
 
