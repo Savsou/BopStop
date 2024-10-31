@@ -11,8 +11,7 @@ class User(db.Model, UserMixin):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String, nullable=False)
-    lastName = db.Column(db.String, nullable=False)
+    artistName = db.Column(db.String, nullable=False)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
@@ -24,8 +23,8 @@ class User(db.Model, UserMixin):
 
     products = db.relationship('Product', backref='user', cascade='all, delete-orphan')
     reviews = db.relationship('Review', backref='user', cascade='all, delete-orphan')
-    wishlists = db.relationship('Wishlist', backref='user', cascade='all, delete-orphan')
-    carts = db.relationship('Cart', backref='user', cascade='all, delete-orphan')
+    wishlist = db.relationship('Wishlist', backref='user', uselist=False, cascade='all, delete-orphan')
+    cart = db.relationship('Cart', backref='user', uselist=False, cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -41,8 +40,7 @@ class User(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
-            'firstName': self.firstName,
-            'lastName': self.lastName,
+            'artistName': self.artistName,
             'username': self.username,
             'email': self.email,
             'bio': self.bio if self.bio else "",
@@ -50,8 +48,8 @@ class User(db.Model, UserMixin):
             'bannerImageUrl': self.bannerImageUrl if self.bannerImageUrl else "",
             'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
             'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
-            'products': [product.to_dict() for product in self.products],
-            'reviews': [review.to_dict() for review in self.reviews],
-            'wishlists': [wishlist.id for wishlist in self.wishlists],
-            'carts': [cart.id for cart in self.carts]
+            # 'products': [product.to_dict() for product in self.products],
+            # 'reviews': [review.to_dict() for review in self.reviews],
+            # 'wishlists': self.wishlist.to_dict() if self.wishlist else None,
+            # 'carts': self.cart.to_dict() if self.cart else None
         }

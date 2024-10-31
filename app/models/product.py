@@ -20,8 +20,8 @@ class Product(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
     reviews = db.relationship('Review', backref='product', cascade='all, delete-orphan')
-    # wishlists = db.relationship('Wishlist', secondary=wishlists_products, backref='products')
-    # carts = db.relationship('Cart', secondary=carts_products, backref='products')
+    wishlists = db.relationship('Wishlist', secondary=wishlists_products, backref='wishlists_list')
+    carts = db.relationship('Cart', secondary=carts_products, backref='carts_list')
 
     @property
     def get_userId(self):
@@ -41,8 +41,8 @@ class Product(db.Model):
             'price': str(round(self.price,2)),  # Convert Decimal to string for JSON
             'description': self.description,
             'imageUrl': self.imageUrl,
-            # 'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
-            # 'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
+            'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
+            'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
             # 'reviews': [review.to_dict() for review in self.reviews],
             # 'wishlists': [wishlist.id for wishlist in self.wishlists],
             # 'carts': [cart.id for cart in self.carts],

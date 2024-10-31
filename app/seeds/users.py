@@ -5,8 +5,7 @@ from sqlalchemy.sql import text
 def seed_users():
     users_data = [
         {
-            'firstName': 'Adele',
-            'lastName': 'Adkins',
+            'artistName': 'Adele',
             'username': 'adele_adkins',
             'email': 'adele@example.com',
             'password': 'hashedpassword1',
@@ -15,8 +14,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/adele_adkins.jpg',
         },
         {
-            'firstName': 'Taylor',
-            'lastName': 'Swift',
+            'artistName': 'Taylor',
             'username': 'taylor_swift',
             'email': 'taylor@example.com',
             'password': 'hashedpassword2',
@@ -25,8 +23,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/taylor_swift_.pg',
         },
         {
-            'firstName': 'Ed',
-            'lastName': 'Sheeran',
+            'artistName': 'Ed',
             'username': 'ed_sheeran',
             'email': 'ed@example.com',
             'password': 'hashedpassword3',
@@ -35,8 +32,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/ed_sheeran_.jpg',
         },
         {
-            'firstName': 'Beyonce',
-            'lastName': 'Knowles',
+            'artistName': 'Beyonce',
             'username': 'beyonce_knowles',
             'email': 'beyonce@example.com',
             'password': 'hashedpassword4',
@@ -45,8 +41,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/beyonce_knowles_.jpg',
         },
         {
-            'firstName': 'Katy',
-            'lastName': 'Perry',
+            'artistName': 'Katy',
             'username': 'katy_perry',
             'email': 'katy@example.com',
             'password': 'hashedpassword5',
@@ -55,8 +50,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/katy_perry_.jpg',
         },
         {
-            'firstName': 'Bruno',
-            'lastName': 'Mars',
+            'artistName': 'Bruno',
             'username': 'bruno_mars',
             'email': 'bruno@example.com',
             'password': 'hashedpassword6',
@@ -65,8 +59,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/bruno_mars_.jpg',
         },
         {
-            'firstName': 'Billie',
-            'lastName': 'Eilish',
+            'artistName': 'Billie',
             'username': 'billie_eilish',
             'email': 'billie@example.com',
             'password': 'hashedpassword7',
@@ -75,8 +68,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/billie_eilish_.jpg',
         },
         {
-            'firstName': 'Lady',
-            'lastName': 'Gaga',
+            'artistName': 'Lady',
             'username': 'lady_gaga',
             'email': 'gaga@example.com',
             'password': 'hashedpassword8',
@@ -85,8 +77,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/lady_gaga_.jpg',
         },
         {
-            'firstName': 'Kendrick',
-            'lastName': 'Lamar',
+            'artistName': 'Kendrick',
             'username': 'kendricklamer',
             'email': 'kendricklamer@example.com',
             'password': 'hashedpassword9',
@@ -95,8 +86,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/kendrick_lamar_.jpg',
         },
         {
-            'firstName': 'Rihanna',
-            'lastName': 'Fenty',
+            'artistName': 'Rihanna',
             'username': 'rihanna',
             'email': 'rihanna@example.com',
             'password': 'hashedpassword10',
@@ -105,8 +95,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/rihanna_.jpg',
         },
         {
-            'firstName': 'Justin',
-            'lastName': 'Bieber',
+            'artistName': 'Justin',
             'username': 'justin_bieber',
             'email': 'justin@example.com',
             'password': 'hashedpassword11',
@@ -115,8 +104,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/justin_bieber_.jpg',
         },
         {
-            'firstName': 'Dua',
-            'lastName': 'Lipa',
+            'artistName': 'Dua',
             'username': 'dua_lipa',
             'email': 'dua@example.com',
             'password': 'hashedpassword12',
@@ -125,8 +113,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/dua_lipa_.jpg',
         },
         {
-            'firstName': 'Shawn',
-            'lastName': 'Mendes',
+            'artistName': 'Shawn',
             'username': 'shawn_mendes',
             'email': 'shawn@example.com',
             'password': 'hashedpassword13',
@@ -135,8 +122,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/shawn_mendes_.jpg',
         },
         {
-            'firstName': 'Sia',
-            'lastName': 'Furlow',
+            'artistName': 'Sia',
             'username': 'sia_furlow',
             'email': 'sia@example.com',
             'password': 'hashedpassword14',
@@ -145,8 +131,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/sia_.jpg',
         },
         {
-            'firstName': 'The',
-            'lastName': 'Weeknd',
+            'artistName': 'The',
             'username': 'the_weeknd',
             'email': 'weeknd@example.com',
             'password': 'hashedpassword15',
@@ -155,8 +140,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/the_weeknd_.jpg',
         },
         {
-            'firstName': 'Post',
-            'lastName': 'Malone',
+            'artistName': 'Post',
             'username': 'post_malone',
             'email': 'post@example.com',
             'password': 'hashedpassword16',
@@ -165,8 +149,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/post_malone_.jpg',
         },
         {
-            'firstName': 'Ariana',
-            'lastName': 'Grande',
+            'artistName': 'Ariana',
             'username': 'ariana_grande',
             'email': 'ariana@example.com',
             'password': 'hashedpassword17',
@@ -175,8 +158,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/ariana_grande_.jpg',
         },
         {
-            'firstName': 'Travis',
-            'lastName': 'Scott',
+            'artistName': 'Travis',
             'username': 'travis_scott',
             'email': 'travis@example.com',
             'password': 'hashedpassword18',
@@ -185,8 +167,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/travis_scott_.jpg',
         },
         {
-            'firstName': 'Imagine',
-            'lastName': 'Dragons',
+            'artistName': 'Imagine',
             'username': 'imagine_dragons',
             'email': 'imagine@example.com',
             'password': 'hashedpassword19',
@@ -195,8 +176,7 @@ def seed_users():
             'bannerImageUrl': '.../seed-images/users/imagine_dragons_.jpg',
         },
         {
-            'firstName': 'Coldplay',
-            'lastName': 'Band',
+            'artistName': 'Coldplay',
             'username': 'coldplay',
             'email': 'coldplay@example.com',
             'password': 'hashedpassword20',
