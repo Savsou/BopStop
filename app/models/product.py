@@ -27,6 +27,10 @@ class Product(db.Model):
     def get_userId(self):
         return self.userId
 
+    @property
+    def get_reviews(self):
+        return [review.to_dict() for review in self.reviews]
+
     def to_dict(self):
         return {
             'productId': self.id,

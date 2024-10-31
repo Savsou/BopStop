@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import Product, db
+from app.models import Product, Review, db
 from app.forms import EditProductForm
 from app.forms import NewProductForm
 
@@ -128,3 +128,22 @@ def updateProduct(productId):
     #redirect to GET product by id
     return newProduct.to_dict(), 201
   return form.errors, 400
+
+@product_routes.route('/<int:productId>/reviews')
+def productReviews(productId):
+  product = Product.query.get(productId)
+  return {"reviews": product.get_reviews}
+
+@product_routes.route('/<int:productId>/reviews', methods=["POST"])
+@login_required
+def createReview(productId):
+  product = Product.query.get(productId)
+  data = request.get_json()
+  newReview = Review(
+    userId=current_user.id,
+    review=data['review'],
+    productId=productId,
+    price=data['price']
+  )
+  db.session.add(newReview)
+  db.session.commit()

@@ -14,6 +14,7 @@ def editReview(reviewId):
   review = Review.query.get(reviewId)
   if(review):
     #edit the review
+    return "edit this"
   else:
     return {'message': 'Review not found!'}, 404
 
