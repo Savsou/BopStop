@@ -14,12 +14,16 @@ class Review(db.Model):
     createdAt = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updatedAt = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
+    @property
+    def get_userId(self):
+        return self.userId
+
     def to_dict(self):
         return {
             'id': self.id,
             'review': self.review,
             'productId': self.productId,
             'userId': self.userId,
-            'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
-            'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
+            # 'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
+            # 'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
         }

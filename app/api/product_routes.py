@@ -7,28 +7,28 @@ from app.forms import NewProductForm
 
 product_routes = Blueprint('products', __name__)
 
+#Get all products
 @product_routes.route('/')
 def products():
   products = Product.query.all()
   return {"products": [product.to_dict() for product in products]}
-
+#Get details of a Product by id
 @product_routes.route('/<int:productId>')
 def product(productId):
   product = Product.query.get(productId)
   if(product):
     return product.to_dict()
-#add product not found logic
   else:
     return {"message": "Product not found!"}, 404
 
-#new route to get current user products
+#Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
 def userProducts():
   user = current_user.to_dict()
   return user["products"]
 
-#routes below are not tested, required to login
 
+# Delete an existing product.
 @product_routes.route('/<int:productId>', methods=["DELETE"])
 @login_required
 def deleteProduct(productId):
@@ -40,6 +40,7 @@ def deleteProduct(productId):
   else:
     return {"message": "Product not found!"}, 404
 
+# Create a Product
 @product_routes.route('/', methods=["POST"])
 @login_required
 def createProduct():
@@ -63,7 +64,7 @@ def createProduct():
   # this is for testing only, switch back to code above once frontend form exists
   data = request.get_json()
   newProduct = Product(
-    userId=data['userId'],
+    userId=current_user.id,
     name=data['name'],
     type=data['type'],
     genre=data['genre'],
@@ -77,6 +78,7 @@ def createProduct():
   return newProduct.to_dict(), 201
   # return form.errors, 400
 
+# Update and Return existing Product
 @product_routes.route('/<int:productId>', methods=["PUT"])
 @login_required
 def updateProduct(productId):
@@ -129,21 +131,33 @@ def updateProduct(productId):
     return newProduct.to_dict(), 201
   return form.errors, 400
 
+# REVIEWS Get all reviews by product's id
 @product_routes.route('/<int:productId>/reviews')
 def productReviews(productId):
   product = Product.query.get(productId)
-  return {"reviews": product.get_reviews}
+  if product:
+    return {"reviews": product.get_reviews}
+  else:
+    return {'message': 'Product could not be found!'}, 404
 
+# REVIEWS Create and return a review for a product by id
+  """
+  add validations:
+    user cant review their own products
+    user can only leave ONE review per product
+  """
 @product_routes.route('/<int:productId>/reviews', methods=["POST"])
 @login_required
 def createReview(productId):
   product = Product.query.get(productId)
+  if product is None:
+    return {'message': 'Product could not be found!'}, 404
   data = request.get_json()
   newReview = Review(
     userId=current_user.id,
     review=data['review'],
     productId=productId,
-    price=data['price']
   )
   db.session.add(newReview)
   db.session.commit()
+  return {"review": newReview.to_dict()}
