@@ -7,6 +7,7 @@ function SignupFormPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
+  const [artistName, setArtistName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,9 +28,11 @@ function SignupFormPage() {
 
     const serverResponse = await dispatch(
       thunkSignup({
+        artistName,
         email,
         username,
         password,
+        confirm_password: confirmPassword
       })
     );
 
@@ -45,6 +48,16 @@ function SignupFormPage() {
       <h1>Sign Up</h1>
       {errors.server && <p>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
+        <label>
+          Artist Name
+          <input
+            type="text"
+            value={artistName}
+            onChange={(e) => setArtistName(e.target.value)}
+            required
+          />
+        </label>
+        {errors.email && <p>{errors.email}</p>}
         <label>
           Email
           <input

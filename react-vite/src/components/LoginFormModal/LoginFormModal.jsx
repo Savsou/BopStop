@@ -9,7 +9,7 @@ import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
@@ -19,7 +19,7 @@ function LoginFormModal() {
 
     const serverResponse = await dispatch(
       thunkLogin({
-        email,
+        email_or_username: usernameOrEmail,
         password,
       })
     );
@@ -41,12 +41,12 @@ function LoginFormModal() {
             </label>
           <input
             type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={usernameOrEmail}
+            onChange={(e) => setUsernameOrEmail(e.target.value)}
             required
           />
-        
-          {errors.email && <p>{errors.email}</p>}
+
+          {errors.email_or_username && <p>{errors.email_or_username}</p>}
         </div>
         <div className="form-group">
         <label>
@@ -58,7 +58,7 @@ function LoginFormModal() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        
+
         {errors.password && <p>{errors.password}</p>}
         </div>
         <div className="form-group">

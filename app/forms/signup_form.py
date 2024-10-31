@@ -20,10 +20,7 @@ def username_exists(form, field):
 
 
 class SignUpForm(FlaskForm):
-    # artistName/bandName = StringField(
-    #     'Artist/Band Name', validators=[DataRequired()]
-    # )
-    artistName = StringField('Artist/Band Name', validators=[DataRequired()])
+    artistName = StringField('artistName', validators=[DataRequired()])
     username = StringField(
         'username', validators=[DataRequired(), username_exists])
     email = StringField('email', validators=[DataRequired(), user_exists])
