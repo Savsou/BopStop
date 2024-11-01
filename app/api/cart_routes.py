@@ -16,11 +16,11 @@ def cartProducts():
 #Add product to cart
 @cart_routes.route('/', methods=['POST'])
 @login_required
-def add_to_cart():
+def addToCart():
   data = request.get_json()
   product_id = data.get('productId')
 
-  cart = Cart.query.filter(Cart.userId == current_user.id).first()
+  cart = current_user.cart
   product = Product.query.get(product_id)
 
   if cart and product:
@@ -31,4 +31,24 @@ def add_to_cart():
 
     return {'message': "Product has been added to cart", 'subtotal': str(cart.subtotal)}, 200
   else:
-    return {"message": "Cart or Product not found"}, 404
+    return {"message": "Product not found"}, 404
+
+#Delete product from shopping cart
+@cart_routes.route('/<int:productId>', methods:["DELETE"])
+@login_required
+def deleteFromCart(productId):
+  products = current_user.cart.products
+  for product in products:
+    if product.id == productId:
+      products.remove(product)
+      return {"message": "Product removed from Cart"}
+    else:
+      return {"message": "Can't find product in Cart"}
+
+@cart_routes.route('/checkout', methods=["POST"])
+@login_required
+def transaction():
+  cart = current_user.cart
+  #Do transaction stuff
+  total = cart.subtotal #+ tax
+  {"message": "Transaction successful"}
