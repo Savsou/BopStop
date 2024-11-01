@@ -3,11 +3,11 @@ from sqlalchemy.sql import text
 
 def seed_carts():
     carts_data = [
-        {'userId': 1, 'subtotal': 59.99},
-        {'userId': 2, 'subtotal': 85.50},
-        {'userId': 3, 'subtotal': 30.75},
-        {'userId': 4, 'subtotal': 200.00},
-        {'userId': 5, 'subtotal': 67.50},
+        {'userId': 1, 'subtotal': 0.00},
+        {'userId': 2, 'subtotal': 0.00},
+        {'userId': 3, 'subtotal': 0.00},
+        {'userId': 4, 'subtotal': 0.00},
+        {'userId': 5, 'subtotal': 0.00},
     ]
 
     db.session.bulk_insert_mappings(Cart, carts_data)
@@ -30,6 +30,11 @@ def seed_carts():
         db.session.execute(
             carts_products.insert().values(**association)
         )
+
+    carts = Cart.query.all()
+    for cart in carts:
+        cart.update_subtotal()
+
     db.session.commit()
 
 
