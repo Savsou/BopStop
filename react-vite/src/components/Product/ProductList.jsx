@@ -42,8 +42,8 @@ function ProductList() {
                 </div>
             </div>
             <div className="bandcamp-stats">
-                Fans have paid artists <span className="bold-text">$1.39 billion</span> using Bandcamp, and
-                <span className="bold-text">$193 million</span> in the last year.
+                Fans have paid artists <span className="bold-text">$1.39 billion</span> using Bandcamp, and 
+                <span className="bold-text"> $193 million</span> in the last year.
             </div>
         </div>
     );
