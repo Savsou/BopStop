@@ -51,4 +51,5 @@ def transaction():
   cart = current_user.cart
   #Do transaction stuff
   total = cart.subtotal #+ tax
-  {"message": "Transaction successful"}
+  cart.empty_cart()
+  return {"message": "Transaction successful"}
