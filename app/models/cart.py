@@ -16,9 +16,22 @@ class Cart(db.Model):
 
     products = db.relationship('Product', secondary=carts_products, backref='carts_list')
 
+    def get_quantity(self, product_id):
+        result = db.session.query(carts_products.c.quantity).filter(
+            carts_products.c.cart_id == self.id,
+            carts_products.c.product_id == product_id
+        ).first()
+        if result:
+            return result.quantity
+        return 0
+
     def update_subtotal(self):
         subtotal = sum(product.price for product in self.products)
         self.subtotal = subtotal
+        db.session.commit()
+
+    def empty_cart(self):
+        self.products.clear()
         db.session.commit()
 
     def to_dict(self):
