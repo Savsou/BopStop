@@ -10,7 +10,7 @@ class Cart(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False, unique=True)
-    subtotal = db.Column(db.Numeric, nullable=False)
+    subtotal = db.Column(db.Numeric)
     createdAt = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updatedAt = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 

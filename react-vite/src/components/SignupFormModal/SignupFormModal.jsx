@@ -9,6 +9,7 @@ import "./SignupForm.css";
 
 function SignupFormModal() {
   const dispatch = useDispatch();
+  const [artistName, setArtistName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,9 +29,11 @@ function SignupFormModal() {
 
     const serverResponse = await dispatch(
       thunkSignup({
+        artistName,
         email,
         username,
         password,
+        confirm_password: confirmPassword
       })
     );
 
@@ -43,10 +46,23 @@ function SignupFormModal() {
 
   return (
     <>
-      
+
       <p className="modal-title">Sign Up</p>
       {errors.server && <p>{errors.server}</p>}
       <form className="modal-content" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label>
+        Artist Name
+          </label>
+          <input
+            type="text"
+            value={artistName}
+            onChange={(e) => setArtistName(e.target.value)}
+            required
+          />
+
+          {errors.artistName && <p>{errors.artistName}</p>}
+        </div>
       <div className="form-group">
         <label>
           Email
@@ -57,7 +73,7 @@ function SignupFormModal() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        
+
           {errors.email && <p>{errors.email}</p>}
         </div>
         <div className="form-group">
@@ -70,7 +86,7 @@ function SignupFormModal() {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        
+
         {errors.username && <p>{errors.username}</p>}
       </div>
       <div className="form-group">
@@ -83,7 +99,7 @@ function SignupFormModal() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        
+
           {errors.password && <p>{errors.password}</p>}
         </div>
         <div className="form-group">
@@ -96,7 +112,7 @@ function SignupFormModal() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        
+
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
       </div>
       <div className="form-group">
