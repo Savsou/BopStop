@@ -747,7 +747,7 @@ Users should be able to remove products from their shopping cart.
   - **Body**:
     ```json
     {
-      "message": "Can't find product in cart"
+      "message": "Can't find product in Cart"
     }
     ```
 
