@@ -29,17 +29,16 @@ def login():
     if form.validate_on_submit():
         #check for email or username in the singular field
         email_or_username = form.data['email_or_username']
-
-        if not email_or_username:
-            return {'error': "Username or email is required."}, 400
+        password = form.data['password']
 
         user = User.query.filter((User.email == email_or_username) | (User.username == email_or_username)).first()
 
         # Add the user to the session, we are logged in!
-
-        if user:
+        if user and user.check_password(password):
             login_user(user)
             return user.to_dict()
+
+        return {'message': "Login failed. Please check your credentials and try again."}, 401
 
     return form.errors, 401
 
@@ -80,7 +79,6 @@ def sign_up():
         login_user(user)
         return user.to_dict()
 
-    print("Signup errors:", form.errors)
     return form.errors, 401
 
 

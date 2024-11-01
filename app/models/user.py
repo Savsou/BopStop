@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
             'bannerImageUrl': self.bannerImageUrl if self.bannerImageUrl else "",
             'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
             'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
-            # 'products': [product.to_dict() for product in self.products],
+            'products': [product.to_dict() for product in self.products],
             # 'reviews': [review.to_dict() for review in self.reviews],
             # 'wishlists': self.wishlist.to_dict() if self.wishlist else None,
             # 'carts': self.cart.to_dict() if self.cart else None

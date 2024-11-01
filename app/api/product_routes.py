@@ -23,6 +23,7 @@ def product(productId):
 
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
+@login_required
 def userProducts():
   user = current_user.to_dict()
   return user["products"]
