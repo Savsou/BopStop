@@ -21,7 +21,9 @@ function Navigation() {
         </li>
         {user ? (
           <li>
-            <ProfileButton />
+            <ProfileButton
+              buttonClass="profile-button"
+            />
           </li>
         ) : (
           <>
