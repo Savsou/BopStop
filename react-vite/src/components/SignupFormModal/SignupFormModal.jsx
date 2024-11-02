@@ -58,7 +58,7 @@ function SignupFormModal() {
             type="text"
             value={artistName}
             onChange={(e) => setArtistName(e.target.value)}
-            required
+            // required
           />
 
           {errors.artistName && <p>{errors.artistName}</p>}
@@ -71,7 +71,7 @@ function SignupFormModal() {
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            // required
           />
 
           {errors.email && <p>{errors.email}</p>}
@@ -84,7 +84,7 @@ function SignupFormModal() {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
+            // required
           />
 
         {errors.username && <p>{errors.username}</p>}
@@ -97,7 +97,7 @@ function SignupFormModal() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            // required
           />
 
           {errors.password && <p>{errors.password}</p>}
@@ -110,7 +110,7 @@ function SignupFormModal() {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            required
+            // required
           />
 
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
