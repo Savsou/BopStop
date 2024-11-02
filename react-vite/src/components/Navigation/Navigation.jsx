@@ -5,6 +5,7 @@ import ProfileButton from "./ProfileButton";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import AddButton from "./AddButton"
 import logo from "../../../src/logo.png";
 import "./Navigation.css";
 
@@ -20,11 +21,17 @@ function Navigation() {
           </NavLink>
         </li>
         {user ? (
+          <>
+            <li>
+              <AddButton
+              />
+            </li>
           <li>
             <ProfileButton
               buttonClass="profile-button"
             />
-          </li>
+            </li>
+            </>
         ) : (
           <>
             <li>
