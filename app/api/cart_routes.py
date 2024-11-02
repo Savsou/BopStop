@@ -8,15 +8,19 @@ cart_routes = Blueprint('cart', __name__)
 #Get all products in cart
 @cart_routes.route('/')
 @login_required
-def cartProducts():
+def cart_products():
   cart = Cart.query.filter(Cart.userId == current_user.id)
+  # cart= current_user.cart
   print(cart.to_dict()) #for later testing
   return {"cart": cart.to_dict()}
 
+
 #Add product to cart
+  #only does one product at a time because product does not
+  #as an attribute
 @cart_routes.route('/', methods=['POST'])
 @login_required
-def addToCart():
+def add_to_cart():
   data = request.get_json()
   product_id = data.get('productId')
 
@@ -36,11 +40,12 @@ def addToCart():
 #Delete product from shopping cart
 @cart_routes.route('/<int:productId>', methods:["DELETE"])
 @login_required
-def deleteFromCart(productId):
+def delete_from_cart(productId):
   products = current_user.cart.products
   for product in products:
     if product.id == productId:
       products.remove(product)
+      db.session.commit()
       return {"message": "Product removed from Cart"}
     else:
       return {"message": "Can't find product in Cart"}
@@ -51,5 +56,7 @@ def transaction():
   cart = current_user.cart
   #Do transaction stuff
   total = cart.subtotal #+ tax
+  #Class method that empties cart and commits the
+  #change in model
   cart.empty_cart()
   return {"message": "Transaction successful"}

@@ -10,7 +10,7 @@ review_routes = Blueprint('reviews', __name__)
 # Update and return an existing review
 @review_routes.route('/<int:reviewId>', methods=['PUT'])
 @login_required
-def editReview(reviewId):
+def edit_review(reviewId):
   review = Review.query.get(reviewId)
   if review is None:
     return {'message': 'Review could not be found!'}, 404
@@ -29,7 +29,7 @@ def editReview(reviewId):
 # Delete an existing Review
 @review_routes.route('/<int:reviewId>', methods=['DELETE'])
 @login_required
-def deleteReview(reviewId):
+def delete_review(reviewId):
   review = Review.query.get(reviewId)
   if review is None:
     return {'message': 'Review could not be found!'}, 404

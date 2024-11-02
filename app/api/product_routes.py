@@ -24,7 +24,7 @@ def product(productId):
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
 @login_required
-def userProducts():
+def user_products():
   user = current_user.to_dict()
   return user["products"]
 
@@ -32,7 +32,7 @@ def userProducts():
 # Delete an existing product.
 @product_routes.route('/<int:productId>', methods=["DELETE"])
 @login_required
-def deleteProduct(productId):
+def delete_product(productId):
   product = Product.query.get(productId)
   if(product):
     db.session.delete(product)
@@ -44,7 +44,7 @@ def deleteProduct(productId):
 # Create a Product
 @product_routes.route('/', methods=["POST"])
 @login_required
-def createProduct():
+def create_product():
   """
   Creates a new Product
   """
@@ -82,7 +82,7 @@ def createProduct():
 # Update and Return existing Product
 @product_routes.route('/<int:productId>', methods=["PUT"])
 @login_required
-def updateProduct(productId):
+def update_product(productId):
   """
   Update a User's Product
   """
@@ -134,7 +134,7 @@ def updateProduct(productId):
 
 # REVIEWS Get all reviews by product's id
 @product_routes.route('/<int:productId>/reviews')
-def productReviews(productId):
+def product_reviews(productId):
   product = Product.query.get(productId)
   if product:
     return {"reviews": product.get_reviews}
@@ -149,7 +149,7 @@ def productReviews(productId):
   """
 @product_routes.route('/<int:productId>/reviews', methods=["POST"])
 @login_required
-def createReview(productId):
+def create_review(productId):
   product = Product.query.get(productId)
   if product is None:
     return {'message': 'Product could not be found!'}, 404
