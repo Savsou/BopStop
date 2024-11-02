@@ -1,6 +1,7 @@
 from .association import carts_products
 from datetime import datetime
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from decimal import Decimal
 
 class Cart(db.Model):
     __tablename__ = 'carts'
@@ -26,8 +27,14 @@ class Cart(db.Model):
         return 0
 
     def update_subtotal(self):
-        subtotal = sum(product.price for product in self.products)
-        self.subtotal = subtotal
+        subtotal = Decimal(0.00)
+        for product in self.products:
+            # Retrieve quantity from the carts_products join table
+            cart_product = db.session.query(carts_products).filter_by(cartId=self.id, productId=product.id).first()
+            quantity = cart_product.quantity if cart_product else 1  # Default to 1 if not found
+            subtotal += product.price * quantity
+
+        self.subtotal = Decimal(round(subtotal, 2))
         db.session.commit()
 
     def empty_cart(self):

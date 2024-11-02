@@ -6,6 +6,7 @@ carts_products = db.Table(
     'carts_products',
     db.Column('cartId', db.Integer, db.ForeignKey(add_prefix_for_prod('carts.id')), primary_key=True),
     db.Column('productId', db.Integer, db.ForeignKey(add_prefix_for_prod('products.id')), primary_key=True),
+    db.Column('quantity', db.Integer, default=1, nullable=False),
     db.Column('createdAt', db.DateTime, default=datetime.now, nullable=False),
 )
 
