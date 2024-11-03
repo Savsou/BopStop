@@ -9,7 +9,6 @@ cart_routes = Blueprint('cart', __name__)
 @login_required
 def cart_products():
   cart= current_user.cart
-  return {"cart": cart.to_dict()}
 
   # idea for getting all products with their quantity.
   # cart_details = []
@@ -30,6 +29,9 @@ def cart_products():
   #       'cartDetails': cart_details,
   #       'subtotal': cart.subtotal
   #   }, 200
+
+  return {"cart": cart.to_dict()}
+
 
 
 #Add product to cart
@@ -58,7 +60,6 @@ def add_to_cart():
         values(quantity=quantity + cart.get_quantity(product_id))
       )
     else:
-      # cart.products.append(product) THIS WAS REDUNDANT AND UNECESSARY, created UNIQUE constraint failure
 
       db.session.execute(
         carts_products.insert().values(cartId=cart.id, productId=product.id, quantity=quantity)
