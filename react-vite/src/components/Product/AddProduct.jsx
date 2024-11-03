@@ -9,9 +9,33 @@ function AddProduct() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState("");
+  const [nameError, setNameError] = useState("");
+
+  // Function to check if the product name is unique
+  const checkUniqueName = async () => {
+    try {
+      const response = await fetch(`/api/products?name=${name}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.exists) {
+          setNameError("This product name is already taken.");
+          return false;
+        } else {
+          setNameError("");
+          return true;
+        }
+      }
+    } catch (error) {
+      console.error("Error checking name uniqueness:", error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate unique product name
+    const isUnique = await checkUniqueName();
+    if (!isUnique) return;
 
     const newProduct = {
       name,
@@ -32,9 +56,7 @@ function AddProduct() {
       });
 
       if (response.ok) {
-        const data = await response.json();
         setMessage("Product added successfully!");
-        // Clear the form or redirect as needed
         setName("");
         setType("");
         setGenre("");
@@ -62,30 +84,68 @@ function AddProduct() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onBlur={checkUniqueName} // Check uniqueness on blur
             required
             className="input"
           />
+          {nameError && <p className="error">{nameError}</p>}
         </label>
+
         <label className="label">
           Type:
-          <input
-            type="text"
+          <select
             value={type}
             onChange={(e) => setType(e.target.value)}
             required
             className="input"
-          />
+          >
+            <option value="">Select...</option>
+            <option value="music">--- Music ---</option>
+            <option value="cd">Compact Disc (CD)</option>
+            <option value="cassette">Cassette</option>
+            <option value="vinyl_lp">Vinyl LP</option>
+            <option value="double_vinyl_lp">2 x Vinyl LP</option>
+            <option value="vinyl_7">7" Vinyl</option>
+            <option value="vinyl_box_set">Vinyl Box Set</option>
+            <option value="other_vinyl">Other Vinyl</option>
+            <option value="apparel">--- Apparel ---</option>
+            <option value="t_shirt">T-Shirt/Shirt</option>
+            <option value="sweater_hoodie">Sweater/Hoodie</option>
+            <option value="hat">Hat</option>
+            <option value="other_apparel">Other Apparel</option>
+            <option value="miscellaneous">--- Miscellaneous ---</option>
+            <option value="dvd">DVD</option>
+            <option value="usb_flash_drive">USB Flash Drive</option>
+            <option value="sheet_music">Sheet Music</option>
+            <option value="poster_print">Poster/Print</option>
+            <option value="ticket">Ticket</option>
+            <option value="book_magazine">Book/Magazine</option>
+            <option value="button_pin_patch">Button/Pin/Patch</option>
+            <option value="bag">Bag</option>
+            <option value="other">Other</option>
+          </select>
         </label>
+
         <label className="label">
           Genre:
-          <input
-            type="text"
+          <select
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
-            required
             className="input"
-          />
+          >
+            <option value="">Select...</option>
+            <option value="electronic">Electronic</option>
+            <option value="metal">Metal</option>
+            <option value="rock">Rock</option>
+            <option value="alternative">Alternative</option>
+            <option value="hip_hop_rap">Hip-Hop/Rap</option>
+            <option value="experimental">Experimental</option>
+            <option value="punk">Punk</option>
+            <option value="pop">Pop</option>
+            <option value="ambient">Ambient</option>
+          </select>
         </label>
+
         <label className="label">
           Price:
           <input
@@ -93,10 +153,12 @@ function AddProduct() {
             step="0.01"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            min="0.01"
             required
             className="input"
           />
         </label>
+
         <label className="label">
           Description:
           <textarea
@@ -106,16 +168,18 @@ function AddProduct() {
             className="input textarea"
           />
         </label>
+
         <label className="label">
           Image URL:
           <input
-            type="text"
+            type="url"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
             required
             className="input"
           />
         </label>
+        
         <button type="submit" className="button">
           Add Product
         </button>

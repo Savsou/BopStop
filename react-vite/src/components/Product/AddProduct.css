@@ -40,7 +40,7 @@
   }
   
   .button {
-    background-color: #6046fe;
+    background-color: #1da0c3;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -52,6 +52,6 @@
   }
   
   .button:hover {
-    background-color: #1da0c3;
+    background-color: #6046fe;
   }
   
