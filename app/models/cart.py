@@ -19,8 +19,8 @@ class Cart(db.Model):
 
     def get_quantity(self, product_id):
         result = db.session.query(carts_products.c.quantity).filter(
-            carts_products.c.cart_id == self.id,
-            carts_products.c.product_id == product_id
+            carts_products.c.cartId == self.id,
+            carts_products.c.productId == product_id
         ).first()
         if result:
             return result.quantity
@@ -40,13 +40,14 @@ class Cart(db.Model):
     def empty_cart(self):
         self.products.clear()
         db.session.commit()
+        self.update_subtotal()
 
     def to_dict(self):
         return {
             'id': self.id,
             'userId': self.userId,
             'subtotal': str(self.subtotal),
-            'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
-            'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
+            # 'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
+            # 'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
             'products': [product.to_dict() for product in self.products]
         }
