@@ -55,7 +55,7 @@ Users should be able to logout if they are currently logged in
 - **Require authentication**: True
 - **Request**
 
-  - **Method**: POST
+  - **Method**: GET
   - **Route path**: /api/auth/logout
   - **Body**: None
 
@@ -73,7 +73,7 @@ Users should be able to logout if they are currently logged in
 
 Users can create a new account by signing up.
 
-- **Require authentication**: false
+- **Require authentication**: False
 - **Request**
 
   - **Method**: POST
@@ -231,6 +231,7 @@ Return details of a product specified by its id.
   - **Body**: None
 
 - **Successful Response**
+
   - **Status Code**: 200
   - **Body**:
     ```json
@@ -245,6 +246,15 @@ Return details of a product specified by its id.
       "imageUrl": "image.url",
       "createdAt": "2024-10-29 18:38:09.043894",
       "updatedAt": "2024-10-29 18:38:09.043894"
+    }
+    ```
+
+- **Error Response**
+  - **Status Code**: 404
+  - **Body**:
+    ```json
+    {
+      "message": "Product not found!"
     }
     ```
 
@@ -413,7 +423,7 @@ Users should be able to update their Product(s).
   - **Body**:
     ```json
     {
-      "message": "Product couldn't be found"
+      "message": "Product could not be found!"
     }
     ```
 
@@ -434,7 +444,7 @@ Users should be able to delete their Product(s).
   - **Body**:
     ```json
     {
-      "message": "Successfully deleted product"
+      "message": "Product successfully deleted"
     }
     ```
 - **Error Response: Couldn't find a product by specified id**
@@ -442,7 +452,7 @@ Users should be able to delete their Product(s).
   - **Body**:
     ```json
     {
-      "message": "Product couldn't be found"
+      "message": "Product not be found!"
     }
     ```
 
@@ -481,7 +491,7 @@ Users should be able to view all reviews on a Product.
   - **Body**:
     ```json
     {
-      "message": "Product couldn't be found"
+      "message": "Product could not be found!"
     }
     ```
 
@@ -535,7 +545,7 @@ Users should be able to create a review for a Product.
   - **Body**:
     ```json
     {
-      "message": "Product couldn't be found"
+      "message": "Product could not be found"
     }
     ```
 
@@ -597,9 +607,20 @@ Users should be able to update their review for a Product.
 
   - **Status Code**: 404
   - **Body**:
+
     ```json
     {
-      "message": "Product couldn't be found"
+      "message": "Product could not be found!"
+    }
+    ```
+
+  - **Error Response: Couldn't find a product by specified id**
+
+  - **Status Code**: 403
+  - **Body**:
+    ```json
+    {
+      "message": "Requires proper authorization"
     }
     ```
 
@@ -618,7 +639,7 @@ Users should be able to delete their review from a Product.
   - **Body**:
     ```json
     {
-      "message": "Successfully deleted review"
+      "message": "Review successfully deleted"
     }
     ```
 
@@ -664,13 +685,13 @@ Users should be able to view all products added to their cart.
     }
     ```
 
-- **Error Response: Can't find the cart**
+- **Error Response: User not logged in**
 
-  - **Status Code**: 404
+  - **Status Code**: 401
   - **Body**:
     ```json
     {
-      "message": "Shopping Cart not found"
+      "message": "Unauthorized"
     }
     ```
 
@@ -697,7 +718,7 @@ Users should be able to add products to their shopping cart.
   - **Body**:
     ```json
     {
-      "message": "Product added to the cart",
+      "message": "Product has been added to cart",
       "cart": {
         "id": 1
         "products": [
@@ -718,7 +739,7 @@ Users should be able to add products to their shopping cart.
   - **Body**:
     ```json
     {
-      "message": "Shopping Cart not found"
+      "message": "Product not found"
     }
     ```
 
@@ -766,7 +787,7 @@ Users should be able to perform a "transaction" to complete their purchase.
   - **Body**:
     ```json
     {
-      "message": "Transaction successful"
+      "message": "Your transaction of 19.98 was successful"
     }
     ```
 
@@ -776,7 +797,7 @@ Users should be able to perform a "transaction" to complete their purchase.
   - **Body**:
     ```json
     {
-      "message": "Shopping Cart couldn't be found"
+      "message": "Your cart is empty"
     }
     ```
 

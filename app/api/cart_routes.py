@@ -13,22 +13,22 @@ def cart_products():
   # idea for getting all products with their quantity.
   # cart_details = []
 
-  #   # Iterate over the products in the cart
-  #   for product in cart.products:
-  #       cart_product = db.session.query(carts_products).filter_by(cartId=cart.id, productId=product.id).first()
+  # # Iterate over the products in the cart
+  # for product in cart.products:
+  #     cart_product = db.session.query(carts_products).filter_by(cartId=cart.id, productId=product.id).first()
 
-  #       if cart_product:
-  #           cart_details.append({
-  #               'productId': product.id,
-  #               'productName': product.name,
-  #               'quantity': cart_product.quantity,
-  #               'price': product.price,
-  #           })
+  #     if cart_product:
+  #         cart_details.append({
+  #             'productId': product.id,
+  #             'productName': product.name,
+  #             'quantity': cart_product.quantity,
+  #             'price': product.price,
+  #         })
 
-  #   return {
-  #       'cartDetails': cart_details,
-  #       'subtotal': cart.subtotal
-  #   }, 200
+  # return {
+  #     'cartDetails': cart_details,
+  #     'subtotal': cart.subtotal
+  # }, 200
 
   return {"cart": cart.to_dict()}
 
