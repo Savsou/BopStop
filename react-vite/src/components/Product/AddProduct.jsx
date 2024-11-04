@@ -9,33 +9,9 @@ function AddProduct() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState("");
-  const [nameError, setNameError] = useState("");
-
-  // Function to check if the product name is unique
-  const checkUniqueName = async () => {
-    try {
-      const response = await fetch(`/api/products?name=${name}`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.exists) {
-          setNameError("This product name is already taken.");
-          return false;
-        } else {
-          setNameError("");
-          return true;
-        }
-      }
-    } catch (error) {
-      console.error("Error checking name uniqueness:", error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate unique product name
-    const isUnique = await checkUniqueName();
-    if (!isUnique) return;
 
     const newProduct = {
       name,
@@ -84,11 +60,9 @@ function AddProduct() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            onBlur={checkUniqueName} // Check uniqueness on blur
             required
             className="input"
           />
-          {nameError && <p className="error">{nameError}</p>}
         </label>
 
         <label className="label">
