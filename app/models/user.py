@@ -49,7 +49,7 @@ class User(db.Model, UserMixin):
             'createdAt': self.createdAt.strftime('%Y-%m-%d %H:%M:%S'),
             'updatedAt': self.updatedAt.strftime('%Y-%m-%d %H:%M:%S'),
             'products': [product.to_dict() for product in self.products],
-            # 'reviews': [review.to_dict() for review in self.reviews],
-            # 'wishlists': self.wishlist.to_dict() if self.wishlist else None,
-            # 'carts': self.cart.to_dict() if self.cart else None
+            'reviews': [review.to_dict() for review in self.reviews],
+            'wishlists': self.wishlist.to_dict() if self.wishlist else None,
+            'carts': self.cart.to_dict() if self.cart else None
         }
