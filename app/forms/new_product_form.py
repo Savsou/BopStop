@@ -5,7 +5,7 @@ from app.models import Product
 
 
 class NewProductForm(FlaskForm):
-  name = StringField('name', validators=[DataRequired()])
+  name = StringField('name', validators=[DataRequired(message='Please enter a name stating what the item is.')])
   type = SelectField(
         'type',
         choices=[
@@ -36,7 +36,7 @@ class NewProductForm(FlaskForm):
             ('bag', 'Bag'),
             ('other', 'Other'),
         ],
-        validators=[DataRequired()]
+        validators=[DataRequired(message="Please select a type for this item.")]
     )
   genre = SelectField(
         'genre',
@@ -53,6 +53,6 @@ class NewProductForm(FlaskForm):
             ('ambient', 'Ambient'),
         ]
     )
-  price = DecimalField('price', validators=[DataRequired(), NumberRange(min=0.01, message='Price must be a positive number!')])
-  decription = StringField('description', validators=[DataRequired()])
-  imageUrl = URLField('imageUrl', validators=[DataRequired(), URL()])
+  price = DecimalField('price', validators=[DataRequired(message="Please enter a price."), NumberRange(min=0.01, message='Price must be a positive number!')])
+  description = StringField('description', validators=[DataRequired(message="Please provide a description for this item.")])
+  imageUrl = URLField('imageUrl', validators=[DataRequired(message="Please provide an image of this item."), URL()])
