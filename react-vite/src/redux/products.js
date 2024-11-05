@@ -18,7 +18,7 @@ export const thunkAddProduct = (product) => async dispatch => {
     if (response.ok) {
         const newProduct = await response.json();
         dispatch(createProduct(newProduct));
-        return newProduct
+        // return newProduct
     } else if (response.status < 500) {
         const errorMessages = await response.json();
         return errorMessages
