@@ -3,6 +3,8 @@ from sqlalchemy.sql import text
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
+    base_url = 'https://bopstop-image-bucket.s3.us-east-1.amazonaws.com'
+
     users_data = [
         {
             'artistName': 'Adele',
@@ -10,8 +12,8 @@ def seed_users():
             'email': 'adele@example.com',
             'password': 'hashedpassword1',
             'bio': 'Hello, I am Adele!',
-            'profileImageUrl': '.../seed-images/users/adele_adkins.jpg',
-            'bannerImageUrl': '.../seed-images/users/adele_adkins.jpg',
+            'profileImageUrl': f'{base_url}/adele_adkins.jpg',
+            'bannerImageUrl': f'{base_url}/adele_adkins.jpg',
         },
         {
             'artistName': 'Taylor',
@@ -19,8 +21,8 @@ def seed_users():
             'email': 'taylor@example.com',
             'password': 'hashedpassword2',
             'bio': 'Welcome to my world!',
-            'profileImageUrl': '.../seed-images/users/taylor_swift_.pg',
-            'bannerImageUrl': '.../seed-images/users/taylor_swift_.pg',
+            'profileImageUrl': f'{base_url}/taylor_swift_.jpg',
+            'bannerImageUrl': f'{base_url}/taylor_swift_.jpg',
         },
         {
             'artistName': 'Ed',
@@ -28,8 +30,8 @@ def seed_users():
             'email': 'ed@example.com',
             'password': 'hashedpassword3',
             'bio': 'Music is my life!',
-            'profileImageUrl': '.../seed-images/users/ed_sheeran_.jpg',
-            'bannerImageUrl': '.../seed-images/users/ed_sheeran_.jpg',
+            'profileImageUrl': f'{base_url}/ed_sheeran_.jpg',
+            'bannerImageUrl': f'{base_url}/ed_sheeran_.jpg',
         },
         {
             'artistName': 'Beyonce',
@@ -37,8 +39,8 @@ def seed_users():
             'email': 'beyonce@example.com',
             'password': 'hashedpassword4',
             'bio': 'Queen B in the house!',
-            'profileImageUrl': '.../seed-images/users/beyonce_knowles_.jpg',
-            'bannerImageUrl': '.../seed-images/users/beyonce_knowles_.jpg',
+            'profileImageUrl': f'{base_url}/beyonce_knowles_.jpg',
+            'bannerImageUrl': f'{base_url}/beyonce_knowles_.jpg',
         },
         {
             'artistName': 'Katy',
@@ -46,8 +48,8 @@ def seed_users():
             'email': 'katy@example.com',
             'password': 'hashedpassword5',
             'bio': "I'm just a Katycat!",
-            'profileImageUrl': '.../seed-images/users/katy_perry_.jpg',
-            'bannerImageUrl': '.../seed-images/users/katy_perry_.jpg',
+            'profileImageUrl': f'{base_url}/katy_perry_.jpg',
+            'bannerImageUrl': f'{base_url}/katy_perry_.jpg',
         },
         {
             'artistName': 'Bruno',
@@ -55,8 +57,8 @@ def seed_users():
             'email': 'bruno@example.com',
             'password': 'hashedpassword6',
             'bio': 'Just the way you are!',
-            'profileImageUrl': '.../seed-images/users/bruno_mars_.jpg',
-            'bannerImageUrl': '.../seed-images/users/bruno_mars_.jpg',
+            'profileImageUrl': f'{base_url}/bruno_mars_.jpg',
+            'bannerImageUrl': f'{base_url}/bruno_mars_.jpg',
         },
         {
             'artistName': 'Billie',
@@ -64,8 +66,8 @@ def seed_users():
             'email': 'billie@example.com',
             'password': 'hashedpassword7',
             'bio': 'I love my fans!',
-            'profileImageUrl': '.../seed-images/users/billie_eilish_.jpg',
-            'bannerImageUrl': '.../seed-images/users/billie_eilish_.jpg',
+            'profileImageUrl': f'{base_url}/billie_eilish_.jpg',
+            'bannerImageUrl': f'{base_url}/billie_eilish_.jpg',
         },
         {
             'artistName': 'Lady',
@@ -73,8 +75,8 @@ def seed_users():
             'email': 'gaga@example.com',
             'password': 'hashedpassword8',
             'bio': 'Born this way!',
-            'profileImageUrl': '.../seed-images/users/lady_gaga_.jpg',
-            'bannerImageUrl': '.../seed-images/users/lady_gaga_.jpg',
+            'profileImageUrl': f'{base_url}/lady_gaga_.jpg',
+            'bannerImageUrl': f'{base_url}/lady_gaga_.jpg',
         },
         {
             'artistName': 'Kendrick',
@@ -82,8 +84,8 @@ def seed_users():
             'email': 'kendricklamer@example.com',
             'password': 'hashedpassword9',
             'bio': 'Not like us',
-            'profileImageUrl': '.../seed-images/users/kendrick_lamar_.jpg',
-            'bannerImageUrl': '.../seed-images/users/kendrick_lamar_.jpg',
+            'profileImageUrl': f'{base_url}/kendrick_lamar_.jpg',
+            'bannerImageUrl': f'{base_url}/kendrick_lamar_.jpg',
         },
         {
             'artistName': 'Rihanna',
@@ -91,8 +93,8 @@ def seed_users():
             'email': 'rihanna@example.com',
             'password': 'hashedpassword10',
             'bio': 'Shine bright like a diamond!',
-            'profileImageUrl': '.../seed-images/users/rihanna_.jpg',
-            'bannerImageUrl': '.../seed-images/users/rihanna_.jpg',
+            'profileImageUrl': f'{base_url}/rihanna_.jpg',
+            'bannerImageUrl': f'{base_url}/rihanna_.jpg',
         },
         {
             'artistName': 'Justin',
@@ -100,8 +102,8 @@ def seed_users():
             'email': 'justin@example.com',
             'password': 'hashedpassword11',
             'bio': 'Never say never!',
-            'profileImageUrl': '.../seed-images/users/justin_bieber_.jpg',
-            'bannerImageUrl': '.../seed-images/users/justin_bieber_.jpg',
+            'profileImageUrl': f'{base_url}/justin_bieber_.jpg',
+            'bannerImageUrl': f'{base_url}/justin_bieber_.jpg',
         },
         {
             'artistName': 'Dua',
@@ -109,8 +111,8 @@ def seed_users():
             'email': 'dua@example.com',
             'password': 'hashedpassword12',
             'bio': 'Future Nostalgia!',
-            'profileImageUrl': '.../seed-images/users/dua_lipa_.jpg',
-            'bannerImageUrl': '.../seed-images/users/dua_lipa_.jpg',
+            'profileImageUrl': f'{base_url}/dua_lipa_.jpg',
+            'bannerImageUrl': f'{base_url}/dua_lipa_.jpg',
         },
         {
             'artistName': 'Shawn',
@@ -118,8 +120,8 @@ def seed_users():
             'email': 'shawn@example.com',
             'password': 'hashedpassword13',
             'bio': 'In my blood!',
-            'profileImageUrl': '.../seed-images/users/shawn_mendes_.jpg',
-            'bannerImageUrl': '.../seed-images/users/shawn_mendes_.jpg',
+            'profileImageUrl': f'{base_url}/shawn_mendes_.jpg',
+            'bannerImageUrl': f'{base_url}/shawn_mendes_.jpg',
         },
         {
             'artistName': 'Sia',
@@ -127,8 +129,8 @@ def seed_users():
             'email': 'sia@example.com',
             'password': 'hashedpassword14',
             'bio': 'Elastic heart!',
-            'profileImageUrl': '.../seed-images/users/sia_.jpg',
-            'bannerImageUrl': '.../seed-images/users/sia_.jpg',
+            'profileImageUrl': f'{base_url}/sia_.jpg',
+            'bannerImageUrl': f'{base_url}/sia_.jpg',
         },
         {
             'artistName': 'The',
@@ -136,8 +138,8 @@ def seed_users():
             'email': 'weeknd@example.com',
             'password': 'hashedpassword15',
             'bio': "Can't feel my face!",
-            'profileImageUrl': '.../seed-images/users/the_weeknd_.jpg',
-            'bannerImageUrl': '.../seed-images/users/the_weeknd_.jpg',
+            'profileImageUrl': f'{base_url}/the_weeknd_.jpg',
+            'bannerImageUrl': f'{base_url}/the_weeknd_.jpg',
         },
         {
             'artistName': 'Post',
@@ -145,8 +147,8 @@ def seed_users():
             'email': 'post@example.com',
             'password': 'hashedpassword16',
             'bio': 'Rockstar vibes!',
-            'profileImageUrl': '.../seed-images/users/post_malone_.jpg',
-            'bannerImageUrl': '.../seed-images/users/post_malone_.jpg',
+            'profileImageUrl': f'{base_url}/post_malone_.jpg',
+            'bannerImageUrl': f'{base_url}/post_malone_.jpg',
         },
         {
             'artistName': 'Ariana',
@@ -154,8 +156,8 @@ def seed_users():
             'email': 'ariana@example.com',
             'password': 'hashedpassword17',
             'bio': 'Thank you, next!',
-            'profileImageUrl': '.../seed-images/users/ariana_grande_.jpg',
-            'bannerImageUrl': '.../seed-images/users/ariana_grande_.jpg',
+            'profileImageUrl': f'{base_url}/ariana_grande_.jpg',
+            'bannerImageUrl': f'{base_url}/ariana_grande_.jpg',
         },
         {
             'artistName': 'Travis',
@@ -163,8 +165,8 @@ def seed_users():
             'email': 'travis@example.com',
             'password': 'hashedpassword18',
             'bio': 'Astroworld vibes!',
-            'profileImageUrl': '.../seed-images/users/travis_scott_.jpg',
-            'bannerImageUrl': '.../seed-images/users/travis_scott_.jpg',
+            'profileImageUrl': f'{base_url}/travis_scott_.jpg',
+            'bannerImageUrl': f'{base_url}/travis_scott_.jpg',
         },
         {
             'artistName': 'Imagine',
@@ -172,8 +174,8 @@ def seed_users():
             'email': 'imagine@example.com',
             'password': 'hashedpassword19',
             'bio': 'Believer life!',
-            'profileImageUrl': '.../seed-images/users/imagine_dragons_.jpg',
-            'bannerImageUrl': '.../seed-images/users/imagine_dragons_.jpg',
+            'profileImageUrl': f'{base_url}/imagine_dragons_.jpg',
+            'bannerImageUrl': f'{base_url}/imagine_dragons_.jpg',
         },
         {
             'artistName': 'Coldplay',
@@ -181,8 +183,8 @@ def seed_users():
             'email': 'coldplay@example.com',
             'password': 'hashedpassword20',
             'bio': 'Viva La Vida!',
-            'profileImageUrl': '.../seed-images/users/coldplay_.jpg',
-            'bannerImageUrl': '.../seed-images/users/coldplay_.jpg',
+            'profileImageUrl': f'{base_url}/coldplay_.jpg',
+            'bannerImageUrl': f'{base_url}/coldplay_.jpg',
         }
     ]
 

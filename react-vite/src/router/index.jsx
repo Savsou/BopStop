@@ -4,6 +4,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import AddProduct from "../components/Product/AddProduct";
 import ArtistDetail from "../components/Artist/ArtistDetail";
+import EditUser from '../components/UserProfile/EditUser';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: "profile/edit",
+        element: <EditUser />,
       },
       {
         path: "artist/:artistId",
