@@ -56,35 +56,37 @@ def create_product():
   Creates a new Product
   """
   # Below is for when we have a front end form we are getting data from
-  # form = newProductForm()
-  # form['csrf_token'].data = request.cookies['csrf_token']
-  # if form.validate_on_submit():
-  #   newProduct = Product(
-  #     userId=form.data['userId'],
-  #     name=form.data['name'],
-  #     type=form.data['type'],
-  #     genre=form.data['genre'],
-  #     price=form.data['price'],
-  #     description=form.data['description'],
-  #     imageUrl=form.data['imageUrl']
-  #   )
+  form = NewProductForm()
+  form['csrf_token'].data = request.cookies['csrf_token']
+  if form.validate_on_submit():
+    newProduct = Product(
+      userId=current_user.id,
+      name=form.data['name'],
+      type=form.data['type'],
+      genre=form.data['genre'],
+      price=form.data['price'],
+      description=form.data['description'],
+      imageUrl=form.data['imageUrl']
+    )
+    db.session.add(newProduct)
+    db.session.commit()
+    return newProduct.to_dict(), 201
+  else:
+    return form.errors, 400
 
   # this is for testing only, switch back to code above once frontend form exists
-  data = request.get_json()
-  newProduct = Product(
-    userId=current_user.id,
-    name=data['name'],
-    type=data['type'],
-    genre=data['genre'],
-    price=data['price'],
-    description=data['description'],
-    imageUrl=data['imageUrl'])
-  db.session.add(newProduct)
-  db.session.commit()
-  #redirect to GET product by id
-
-  return newProduct.to_dict(), 201
-  # return form.errors, 400
+  # data = request.get_json()
+  # newProduct = Product(
+  #   userId=current_user.id,
+  #   name=data['name'],
+  #   type=data['type'],
+  #   genre=data['genre'],
+  #   price=data['price'],
+  #   description=data['description'],
+  #   imageUrl=data['imageUrl'])
+  # db.session.add(newProduct)
+  # db.session.commit()
+  # return newProduct.to_dict(), 201
 
 # Update and Return existing Product
 @product_routes.route('/<int:productId>', methods=["PUT"])
