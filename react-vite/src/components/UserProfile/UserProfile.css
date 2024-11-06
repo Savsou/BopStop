@@ -1,0 +1,74 @@
+.profile-page {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .banner {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+  }
+  
+  .profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin-bottom: -60px;
+  }
+  
+  .user-info {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .artist-name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .username, .email, .bio {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .user-products, .user-reviews {
+    margin-top: 30px;
+  }
+  
+  .products-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .product-card {
+    width: calc(33.33% - 20px);
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .product-name {
+    font-size: 18px;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .product-genre, .product-price, .product-description {
+    font-size: 14px;
+    color: #777;
+  }
+  
