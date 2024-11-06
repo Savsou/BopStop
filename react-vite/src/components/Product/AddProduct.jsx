@@ -1,58 +1,92 @@
 import React, { useState } from "react";
+import { thunkAddProduct } from "../../redux/products";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import "./AddProduct.css";
 
 function AddProduct() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [genre, setGenre] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (sessionUser) {
+      setErrors({});
 
-    const newProduct = {
-      name,
-      type,
-      genre,
-      price,
-      description,
-      imageUrl,
-    };
+      const newProduct = {
+        name,
+        type,
+        genre,
+        price,
+        description,
+        imageUrl,
+      };
 
-    try {
-      const response = await fetch("/api/products/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
-      });
+      const serverResponse = await dispatch(
+        thunkAddProduct(newProduct)
+      )
 
-      if (response.ok) {
-        setMessage("Product added successfully!");
-        setName("");
-        setType("");
-        setGenre("");
-        setPrice("");
-        setDescription("");
-        setImageUrl("");
+      if (serverResponse) {
+        setErrors(serverResponse);
       } else {
-        const error = await response.json();
-        setMessage(error.message || "Failed to add product.");
+        navigate("/");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setMessage("An error occurred.");
     }
+
+    // Tiff's work without redux thunk
+    // const newProduct = {
+    //   name,
+    //   type,
+    //   genre,
+    //   price,
+    //   description,
+    //   imageUrl,
+    // };
+
+    // try {
+    //   const response = await fetch("/api/products/", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(newProduct),
+    //   });
+
+    //   if (response.ok) {
+    //     setMessage("Product added successfully!");
+    //     setName("");
+    //     setType("");
+    //     setGenre("");
+    //     setPrice("");
+    //     setDescription("");
+    //     setImageUrl("");
+    //   } else {
+    //     const error = await response.json();
+    //     if (error?.errors) {
+    //       setErrors(error.errors);
+    //     }
+    //     setMessage(error.message || "Failed to add product.");
+    //   }
+    // } catch (error) {
+    //   console.error("Error:", error);
+    //   setMessage("An error occurred.");
+    // }
   };
 
   return (
     <div className="container">
       <h2 className="header">Add a New Product</h2>
-      {message && <p>{message}</p>}
+      {/* {message && <p>{message}</p>} */}
       <form onSubmit={handleSubmit} className="form">
         <label className="label">
           Name:
@@ -60,17 +94,17 @@ function AddProduct() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            required
+            // required
             className="input"
           />
         </label>
-
+        {errors.name && <p>{errors.name}</p>}
         <label className="label">
           Type:
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            required
+            // required
             className="input"
           >
             <option value="">Select...</option>
@@ -99,7 +133,7 @@ function AddProduct() {
             <option value="other">Other</option>
           </select>
         </label>
-
+        {errors.type && <p>{errors.type}</p>}
         <label className="label">
           Genre:
           <select
@@ -119,7 +153,7 @@ function AddProduct() {
             <option value="ambient">Ambient</option>
           </select>
         </label>
-
+        {errors.genre && <p>{errors.genre}</p>}
         <label className="label">
           Price:
           <input
@@ -128,32 +162,32 @@ function AddProduct() {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             min="0.01"
-            required
+            // required
             className="input"
           />
         </label>
-
+        {errors.price && <p>{errors.price}</p>}
         <label className="label">
           Description:
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            required
+            // required
             className="input textarea"
           />
         </label>
-
+        {errors.description && <p>{errors.description}</p>}
         <label className="label">
           Image URL:
           <input
             type="url"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
-            required
+            // required
             className="input"
           />
         </label>
-        
+        {errors.imageUrl && <p>{errors.imageUrl}</p>}
         <button type="submit" className="button">
           Add Product
         </button>
