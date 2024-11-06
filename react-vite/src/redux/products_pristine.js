@@ -1,3 +1,4 @@
+import { csrfFetch } from "./csrf.js";
 const CREATE_PRODUCT = 'products/create_product'
 
 //action creators
@@ -9,7 +10,7 @@ export const createProduct = product => ({
 
 //thunk action creators
 export const thunkAddProduct = (product) => async dispatch => {
-    const response = await fetch("/api/products/", {
+    const response = await csrfFetch("/api/products/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product)
@@ -18,7 +19,6 @@ export const thunkAddProduct = (product) => async dispatch => {
     if (response.ok) {
         const newProduct = await response.json();
         dispatch(createProduct(newProduct));
-        // return newProduct
     } else if (response.status < 500) {
         const errorMessages = await response.json();
         return errorMessages
@@ -26,6 +26,28 @@ export const thunkAddProduct = (product) => async dispatch => {
         return { server: "Something went wrong. Please try again" }
     }
 };
+
+export const thunkEditProduct = (product) => async dispatch => {
+    const editRes = await csrfFetch(`/api/products/${product.id}`,
+        {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(product)
+        }
+    )
+    if (editRes.ok) {
+        const editProduct = await editRes.json()
+        const getRes = await csrfFetch(`/api/products/${product.id}`);//is this just a GET?
+        const updatedProduct = await getRes.json();
+        dispatch(loadProductById(updatedProduct))
+        return editProduct; //might not need this
+    } else if (res.status < 500) {
+        const errorMessages = await res.json();
+        return errorMessages
+    } else {
+        return { server: "Something went wrong. Please try again" }
+    }
+}
 
 //reducer
 const initialState = {
@@ -39,7 +61,8 @@ function productsReducer(state = initialState, action) {
             return {
                 ...state,
                 newProduct: {
-                    [productId]: action.product}
+                    [productId]: action.product
+                }
             };
         default:
             return state;
