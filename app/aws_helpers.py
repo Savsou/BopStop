@@ -52,8 +52,10 @@ def remove_file_from_s3(image_url):
         return { "errors": str(e) }
     return True
 
+
 def update_file_on_s3(file, old_image_url=None, acl="public-read"):
-    if old_image_url:
+    # Remove old image if the profileImageUrl does not equal the bannerImageUrl
+    if old_image_url and file.filename != old_image_url:
         remove_file_from_s3(old_image_url)
 
     return upload_file_to_s3(file, acl=acl)

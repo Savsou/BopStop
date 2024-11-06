@@ -302,6 +302,50 @@ Return details of a product specified by its id.
     }
     ```
 
+### Get all Products by a user's Id
+
+Return all products by specified user's id.
+
+- **Require Authentication**: False
+- **Request**
+
+  - **Method**: GET
+  - **Route path**: /api/products/:userId
+  - **Body**: None
+
+- **Successful Response**
+
+  - **Status Code**: 200
+  - **Body**:
+    ```json
+    [
+      {
+        "productId": 1,
+        "name": "Adele - 30",
+        "userId": 1,
+        "type": "CD",
+        "genre": "",
+        "price": "14.99",
+        "description": "Adele's highly anticipated album showcasing her powerful vocals and emotional lyrics.",
+        "imageUrl": ".../seed-images/products/Adele-30(CD).jpg",
+        "createdAt": "2024-10-30 23:51:27",
+        "updatedAt": "2024-10-30 23:51:27"
+      },
+      {
+        // more listed products
+      }
+    ]
+    ```
+
+- **Error Response - User not found**
+  - **Status Code**: 404
+  - **Body**:
+    ```json
+    {
+      "message": "Artist not found"
+    }
+    ```
+
 ### Create a Product
 
 Users should be able to create a Product.

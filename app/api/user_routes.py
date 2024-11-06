@@ -55,10 +55,14 @@ def edit_current_user():
         current_user.artistName = form.data["artistName"]
         current_user.bio = form.data["bio"]
 
+        original_profile_url = current_user.profileImageUrl
+        original_banner_url = current_user.bannerImageUrl
+
         if form.profileImageUrl.data:
             profileImage = form.data["profileImageUrl"]
             profileImage.filename = get_unique_filename(profileImage.filename)
-            upload = update_file_on_s3(profileImage, old_image_url=current_user.profileImageUrl)
+            old_profile_url = original_profile_url if original_profile_url != original_banner_url else None
+            upload = update_file_on_s3(profileImage, old_image_url=old_profile_url)
 
             if "url" not in upload:
                 return {"errors": upload["errors"]}, 400
@@ -68,7 +72,9 @@ def edit_current_user():
         if form.bannerImageUrl.data:
             bannerImage = form.data["bannerImageUrl"]
             bannerImage.filename = get_unique_filename(bannerImage.filename)
-            upload = update_file_on_s3(bannerImage, old_image_url=current_user.bannerImageUrl)
+
+            old_banner_url = original_banner_url if original_banner_url != current_user.profileImageUrl else None
+            upload = update_file_on_s3(bannerImage, old_image_url=old_banner_url)
 
             if "url" not in upload:
                 return {"errors": upload["errors"]}, 400
