@@ -13,6 +13,12 @@ def products():
   products = Product.query.all()
   return {"products": [product.to_dict() for product in products]}
 
+#Get limited amount of products
+@product_routes.route('/limited')
+def limited_products():
+  products = Product.query.limit(20).all()
+  return {"products": [product.to_dict() for product in products]}
+
 #Get details of a Product by id
 @product_routes.route('/<int:productId>')
 def product(productId):
@@ -81,7 +87,6 @@ def create_product():
   # db.session.add(newProduct)
   # db.session.commit()
   # return newProduct.to_dict(), 201
-
 
 # Update and Return existing Product
 @product_routes.route('/<int:productId>', methods=["PUT"])

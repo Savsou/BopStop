@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
@@ -8,6 +9,7 @@ import "./Navigation.css";
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
@@ -31,6 +33,16 @@ function ProfileButton() {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  const handleEditProfile = () => {
+    closeMenu();
+    navigate("/profile/edit");
+  }
+
+  const handleViewProfile = () => {
+    closeMenu();
+    navigate(`/profile/${user.id}`);
+  };
+
   const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {
@@ -49,8 +61,11 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
+              <li onClick={handleViewProfile}>{user.username}</li>
+              <li onClick={handleViewProfile}>{user.email}</li>
+              <li>
+                <button onClick={handleEditProfile}>Edit Profile</button>
+              </li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
