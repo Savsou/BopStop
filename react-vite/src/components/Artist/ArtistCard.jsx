@@ -1,11 +1,11 @@
 import React from "react";
-import "./ArtistCard.css";
 import { Link } from "react-router-dom";
+import "./ArtistCard.css";
 
 function ArtistCard({ artist }) {
   return (
-    <Link to={`/artist/${artist.id}`}>
-      <div className="artist-card">
+    <div className="artist-card">
+      <Link to={`/artist/${artist.id}`}>
         <div
           className="banner"
           style={{ backgroundImage: `url(${artist.bannerImageUrl})` }}
@@ -26,8 +26,8 @@ function ArtistCard({ artist }) {
             Joined: {new Date(artist.createdAt).toLocaleDateString()}
           </p>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 

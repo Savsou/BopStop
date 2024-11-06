@@ -40,8 +40,6 @@ const ProductDetail = () => {
         <p className="product-price">Price: ${product.price}</p>
         <p className="product-description">{product.description}</p>
         <p className="product-dates">
-          <span>Created: {product.createdAt}</span>
-          <span>Last Updated: {product.updatedAt}</span>
         </p>
       </div>
     </div>

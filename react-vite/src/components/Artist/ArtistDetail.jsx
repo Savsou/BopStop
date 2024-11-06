@@ -1,6 +1,6 @@
 // ArtistDetail.jsx
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "../Product/ProductCard";
 import "./ArtistDetail.css";
 
@@ -41,9 +41,7 @@ function ArtistDetail() {
       <div className="products-list">
         {products.length > 0 ? (
           products.map((product) => (
-            <Link key={product.productId} to={`/products/${product.productId}`} className="product-link">
-              <ProductCard product={product} />
-            </Link>
+            <ProductCard key={product.productId} product={product} />
           ))
         ) : (
           <p>No products found for this artist.</p>

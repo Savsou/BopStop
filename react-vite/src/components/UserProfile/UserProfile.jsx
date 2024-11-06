@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './UserProfile.css';
 
 const ProfilePage = () => {
@@ -43,16 +44,22 @@ const ProfilePage = () => {
       {/* User Products */}
       <div className="user-products">
         <h2>Products</h2>
-        {user.products.length > 0 ? (
+        {user.products && user.products.length > 0 ? (
           <div className="products-grid">
             {user.products.map((product) => (
-              <div key={product.productId} className="product-card">
-                <img src={product.imageUrl} alt={product.name} className="product-image" />
-                <h3 className="product-name">{product.name}</h3>
-                <p className="product-genre">{product.genre}</p>
-                <p className="product-price">${product.price}</p>
-                <p className="product-description">{product.description}</p>
-              </div>
+              product && (
+                <div key={product.productId} className="product-card">
+                  <img src={product.imageUrl} alt={product.name} className="product-image" />
+                  <h3 className="product-name">{product.name}</h3>
+                  <p className="product-genre">{product.genre}</p>
+                  <p className="product-price">${product.price}</p>
+                  <p className="product-description">{product.description}</p>
+                  {/* Edit Button */}
+                  <Link to={`/products/edit/${product.productId}`} className="edit-button">
+                    Edit
+                  </Link>
+                </div>
+              )
             ))}
           </div>
         ) : (
@@ -63,7 +70,7 @@ const ProfilePage = () => {
       {/* User Reviews */}
       <div className="user-reviews">
         <h2>Reviews</h2>
-        {user.reviews.length > 0 ? (
+        {user.reviews && user.reviews.length > 0 ? (
           <ul>
             {user.reviews.map((review) => (
               <li key={review.id}>
