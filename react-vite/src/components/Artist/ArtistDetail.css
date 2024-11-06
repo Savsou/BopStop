@@ -20,4 +20,25 @@
     margin: 10px;
     text-align: center;
   }
+
+  .go-back-button {
+    align-self: flex-start;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    background-color: #1da0c3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .go-back-button:hover {
+    background-color: #6046fe;
+  }
+  
+  .product-link {
+    text-decoration: none;
+    color: inherit;
+  }
   

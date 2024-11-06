@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import './EditUser.css';
 
 const EditUser = () => {
     const [artistName, setArtistName] = useState('');
@@ -65,47 +66,51 @@ const EditUser = () => {
     };
 
     return (
-        <div>
-            <h2>Edit Profile</h2>
+        <div className="container">
+            <h2 className="header">Edit Profile</h2>
             {errors.server && <div className="error">{errors.server}</div>}
-            <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <form onSubmit={handleSubmit} encType="multipart/form-data" className="form">
                 <div>
-                    <label>Artist Name:</label>
+                    <label className="label">Artist Name:</label>
                     <input
                         type="text"
                         value={artistName}
                         onChange={(e) => setArtistName(e.target.value)}
                         required
+                        className="input"
                     />
                     {errors.artistName && <p className="error">{errors.artistName}</p>}
                 </div>
                 <div>
-                    <label>Bio:</label>
+                    <label className="label">Bio:</label>
                     <textarea
                         value={bio}
                         onChange={(e) => setBio(e.target.value)}
+                        className="textarea"
                     />
                     {errors.bio && <p className="error">{errors.bio}</p>}
                 </div>
                 <div>
-                    <label>Profile Image:</label>
+                    <label className="label">Profile Image:</label>
                     <input
                         type="file"
                         accept="image/*"
                         onChange={(e) => setProfileImage(e.target.files[0])}
+                        className="file-input"
                     />
                     {errors.profileImageUrl && <p className="error">{errors.profileImageUrl}</p>}
                 </div>
                 <div>
-                    <label>Banner Image:</label>
+                    <label className="label">Banner Image:</label>
                     <input
                         type="file"
                         accept="image/*"
                         onChange={(e) => setBannerImage(e.target.files[0])}
+                        className="file-input"
                     />
                     {errors.bannerImageUrl && <p className="error">{errors.bannerImageUrl}</p>}
                 </div>
-                <button type="submit">Update Profile</button>
+                <button type="submit" className="button">Update Profile</button>
             </form>
         </div>
     );

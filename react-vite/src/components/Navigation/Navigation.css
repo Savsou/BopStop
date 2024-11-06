@@ -1,7 +1,7 @@
 .profile-dropdown {
   position: absolute;
   top: 46px;
-  left: 1155px;
+  right: 0; 
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 4px 0px;
   border-color: rgb(238, 238, 238);
@@ -12,6 +12,7 @@
   flex-direction: column;
   width: 236px;
 }
+
 
 .profile-dropdown li {
   font-size: 15px;

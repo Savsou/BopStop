@@ -5,6 +5,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import AddProduct from "../components/Product/AddProduct";
 import ArtistDetail from "../components/Artist/ArtistDetail";
 import EditUser from '../components/UserProfile/EditUser';
+import ProductDetail from "../components/Product/ProductDetail";
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: "artist/:artistId",
         element: <ArtistDetail />,
+      },
+      {
+        path: "products/:productId",
+        element: <ProductDetail />,
       },
     ],
   },
