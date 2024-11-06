@@ -56,6 +56,7 @@ const EditUser = () => {
             } else {
                 const result = await response.json();
                 console.log(result.message);
+                alert(result.message);
                 setErrors({});
             }
 
