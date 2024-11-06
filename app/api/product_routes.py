@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import Product, Review, db
+from app.models import Product, Review, db, User
 from app.forms import EditProductForm
 from app.forms import NewProductForm
 
@@ -31,9 +31,17 @@ def product(productId):
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
 @login_required
-def user_products():
+def current_products():
   user = current_user.to_dict()
   return user["products"]
+
+#Get products by userId (NOT yet in API docs)
+@product_routes.route('/users/<int:userId>')
+@login_required
+def user_products(userId):
+  user = User.query.get(userId).to_dict()
+  return user["products"]
+
 
 
 # Delete an existing product.
