@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { thunkAddProduct } from "../../redux/products";
+import { thunkAddProduct } from "../../redux/products_pristine";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import "./AddProduct.css";
@@ -113,7 +113,7 @@ function AddProduct() {
             <option value="cassette">Cassette</option>
             <option value="vinyl_lp">Vinyl LP</option>
             <option value="double_vinyl_lp">2 x Vinyl LP</option>
-            <option value="vinyl_7">7" Vinyl</option>
+            <option value="vinyl_7">7&quot; Vinyl</option>
             <option value="vinyl_box_set">Vinyl Box Set</option>
             <option value="other_vinyl">Other Vinyl</option>
             <option value="apparel">--- Apparel ---</option>

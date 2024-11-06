@@ -1,16 +1,16 @@
 import { csrfFetch } from "./csrf.js";
-import { createSelector } from 'reselect';
+// import { createSelector } from 'reselect';
 
-const LOAD_ALL_PRODUCTS = 'products/LOAD_ALL_PRODUCTS';
-const LOAD_LIMITED_PRODUCTS = 'products/LOAD_LIMITED_PRODUCTS';
-const LOAD_CURRENT_USER_PRODUCTS = 'products/LOAD_CURRENT_USER_PRODUCTS';
-const LOAD_PRODUCT_BY_ID = 'products/LOAD_PRODUCT_BY_ID';
-const LOAD_PRODUCT_REVIEWS = 'products/LOAD_PRODUCT_REVIEWS';
-const CREATE_PRODUCT = 'products/CREATE_PRODUCT';
-const CREATE_PRODUCT_REVIEW = 'products/CREATE_PRODUCT_REVIEW';
-const DELETE_PRODUCT = 'products/DELETE_PRODUCT';
-// const LOAD_ALL_PRODUCTS_REQUEST = 'products/LOAD_ALL_PRODUCTS_REQUEST';
-// const LOAD_LIMITED_PRODUCTS_REQUEST = 'products/OAD_LIMITED_PRODUCTS_REQUEST';
+const LOAD_ALL_PRODUCTS = 'products/load_all_products';
+const LOAD_LIMITED_PRODUCTS = 'products/load_limited_products';
+const LOAD_CURRENT_USER_PRODUCTS = 'products/load_current_user_products';
+const LOAD_PRODUCT_BY_ID = 'products/load_product_by_id';
+const LOAD_PRODUCT_REVIEWS = 'products/load_product_reviews';
+const CREATE_PRODUCT = 'products/create_product';
+const CREATE_PRODUCT_REVIEW = 'products/create_product_review';
+const DELETE_PRODUCT = 'products/delete_product';
+// const LOAD_ALL_PRODUCTS_REQUEST = 'products/load_all_products_request';
+// const LOAD_LIMITED_PRODUCTS_REQUEST = 'products/load_limited_products_request';
 
 //action creators
 
@@ -84,7 +84,7 @@ export const deleteProduct = productId => (
 
 //thunk action creators
 
-export const getAllProducts = () => async dispatch => {
+export const thunkGetAllProducts = () => async dispatch => {
     // dispatch(loadAllProductsReq())
 
     const res = await csrfFetch('/api/products');
@@ -95,7 +95,7 @@ export const getAllProducts = () => async dispatch => {
     }
 }
 
-export const getLimitedProducts = () => async dispatch => {
+export const thunkGetLimitedProducts = () => async dispatch => {
    // dispatch(loadLimitedProductsReq())
 
   const res = await csrfFetch('/api/products/limited');
@@ -106,7 +106,7 @@ export const getLimitedProducts = () => async dispatch => {
   }
 }
 
-export const getCurrentUserProducts = () => async dispatch => {
+export const thunkGetCurrentUserProducts = () => async dispatch => {
   const res = await csrfFetch('/api/products/current');
   if(res.ok){
     const products = res.json()
@@ -115,7 +115,7 @@ export const getCurrentUserProducts = () => async dispatch => {
   }
 }
 
-export const getProductById = productId => async dispatch => {
+export const thunkGetProductById = productId => async dispatch => {
   const res = await csrfFetch(`/api/products/${productId}`);
   if(res.ok){
     const product = res.json()
@@ -124,7 +124,7 @@ export const getProductById = productId => async dispatch => {
   }
 }
 
-export const getProductReviews = productId => async dispatch => {
+export const thunkGetProductReviews = productId => async dispatch => {
   const res = await csrfFetch(`/api/products/${productId}/reviews`);
   if(res.ok){
     const  reviews = res.json()
@@ -133,7 +133,7 @@ export const getProductReviews = productId => async dispatch => {
   }
 }
 
-export const addAProduct = product => async dispatch => {
+export const thunkAddAProduct = product => async dispatch => {
   const res = await csrfFetch('/api/products', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -146,7 +146,7 @@ export const addAProduct = product => async dispatch => {
   }
 }
 
-export const addAProductReview = (productId, review) => async dispatch => {
+export const thunkAddAProductReview = (productId, review) => async dispatch => {
   const res = await csrfFetch(`/api/prodducts/${productId}/reviews`,{
     method:'POST',
     headers: {'Content-Type': 'application/json'},
@@ -159,7 +159,7 @@ export const addAProductReview = (productId, review) => async dispatch => {
   }
 }
 
-export const removeProduct = productId => async dispatch => {
+export const thunkRemoveProduct = productId => async dispatch => {
   const res = await csrfFetch(`/api/products/${productId}`,
     {
       method:'DELETE',
@@ -170,7 +170,7 @@ export const removeProduct = productId => async dispatch => {
   if(res.ok){
     const deleted = await res.json();
     if(deleted.errors) return deleted.errors
-    dispatch(deleteSpot(productId))
+    dispatch(deleteProduct(productId))
   }
 }
 
