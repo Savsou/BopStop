@@ -61,8 +61,9 @@ def edit_current_user():
         original_banner_url = current_user.bannerImageUrl
 
         if 'profileImageUrl' in request.files:
-            profileImage = profileImage = form.profileImageUrl.data
+            profileImage = form.profileImageUrl.data
             profileImage.filename = get_unique_filename(profileImage.filename)
+
             old_profile_url = original_profile_url if original_profile_url != original_banner_url else None
             upload = update_file_on_s3(profileImage, old_image_url=old_profile_url)
 
@@ -72,7 +73,7 @@ def edit_current_user():
             current_user.profileImageUrl = upload["url"]
 
         if 'bannerImageUrl' in request.files:
-            bannerImage = form.data["bannerImageUrl"]
+            bannerImage = form.bannerImageUrl.data
             bannerImage.filename = get_unique_filename(bannerImage.filename)
 
             old_banner_url = original_banner_url if original_banner_url != current_user.profileImageUrl else None
@@ -80,6 +81,8 @@ def edit_current_user():
 
             if "url" not in upload:
                 return {"errors": upload["errors"]}, 400
+
+            current_user.bannerImageUrl = upload["url"]
 
         db.session.commit()
 
