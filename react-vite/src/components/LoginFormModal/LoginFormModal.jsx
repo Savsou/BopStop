@@ -2,27 +2,70 @@ import { useState } from "react";
 import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import '../../../src/index.css';
+import '../../context/Modal.css';
+import '../../context/FormModal.css';
 import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({}); // Reset errors before each submission
+
+    const newErrors = {};
+
+    if (!usernameOrEmail) {
+      newErrors.usernameOrEmail = "Please enter your username/email.";
+    }
+
+    if (!password) {
+      newErrors.password = "Please enter your password.";
+    }
+
+    // If there are errors, update state and return early
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     const serverResponse = await dispatch(
       thunkLogin({
-        email,
+        email_or_username: usernameOrEmail,
         password,
       })
     );
 
     if (serverResponse) {
-      setErrors(serverResponse);
+      setErrors({
+        general: "Login failed. Please check your credentials and try again."
+      });
+    } else {
+      closeModal();
+    }
+  };
+
+  const demoUserLogin = async (e) => {
+    e.preventDefault();
+
+    setErrors({}); // Reset errors before demo login
+
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email_or_username: "beyonce_knowles",
+        password: "hashedpassword4"
+      })
+    );
+
+    if (serverResponse) {
+      setErrors({
+        general: "Login failed. Please check your credentials and try again."
+      });
     } else {
       closeModal();
     }
@@ -30,29 +73,38 @@ function LoginFormModal() {
 
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
+      <p className="modal-title">Log In</p>
+      <form className="modal-content" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Username / Email</label>
           <input
             type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            value={usernameOrEmail}
+            onChange={(e) => setUsernameOrEmail(e.target.value)}
+            // required
           />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
+          {errors.usernameOrEmail && <p className="error-message">{errors.usernameOrEmail}</p>}
+        </div>
+
+        <div className="form-group">
+          <label>Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            // required
           />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+          {errors.password && <p className="error-message">{errors.password}</p>}
+        </div>
+
+          {errors.general && <p className="error-message">{errors.general}</p>}
+
+        <div className="form-group">
+          <button type="submit">Log In</button>
+        </div>
+        <div className="form-group">
+          <button type="button" onClick={demoUserLogin}>Demo Login</button>
+        </div>
       </form>
     </>
   );

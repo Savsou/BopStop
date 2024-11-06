@@ -1,21 +1,195 @@
 from app.models import db, User, environment, SCHEMA
 from sqlalchemy.sql import text
 
-
 # Adds a demo user, you can add other users here if you want
 def seed_users():
-    demo = User(
-        username='Demo', email='demo@aa.io', password='password')
-    marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
-    bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
+    users_data = [
+        {
+            'artistName': 'Adele',
+            'username': 'adele_adkins',
+            'email': 'adele@example.com',
+            'password': 'hashedpassword1',
+            'bio': 'Hello, I am Adele!',
+            'profileImageUrl': '.../seed-images/users/adele_adkins.jpg',
+            'bannerImageUrl': '.../seed-images/users/adele_adkins.jpg',
+        },
+        {
+            'artistName': 'Taylor',
+            'username': 'taylor_swift',
+            'email': 'taylor@example.com',
+            'password': 'hashedpassword2',
+            'bio': 'Welcome to my world!',
+            'profileImageUrl': '.../seed-images/users/taylor_swift_.pg',
+            'bannerImageUrl': '.../seed-images/users/taylor_swift_.pg',
+        },
+        {
+            'artistName': 'Ed',
+            'username': 'ed_sheeran',
+            'email': 'ed@example.com',
+            'password': 'hashedpassword3',
+            'bio': 'Music is my life!',
+            'profileImageUrl': '.../seed-images/users/ed_sheeran_.jpg',
+            'bannerImageUrl': '.../seed-images/users/ed_sheeran_.jpg',
+        },
+        {
+            'artistName': 'Beyonce',
+            'username': 'beyonce_knowles',
+            'email': 'beyonce@example.com',
+            'password': 'hashedpassword4',
+            'bio': 'Queen B in the house!',
+            'profileImageUrl': '.../seed-images/users/beyonce_knowles_.jpg',
+            'bannerImageUrl': '.../seed-images/users/beyonce_knowles_.jpg',
+        },
+        {
+            'artistName': 'Katy',
+            'username': 'katy_perry',
+            'email': 'katy@example.com',
+            'password': 'hashedpassword5',
+            'bio': "I'm just a Katycat!",
+            'profileImageUrl': '.../seed-images/users/katy_perry_.jpg',
+            'bannerImageUrl': '.../seed-images/users/katy_perry_.jpg',
+        },
+        {
+            'artistName': 'Bruno',
+            'username': 'bruno_mars',
+            'email': 'bruno@example.com',
+            'password': 'hashedpassword6',
+            'bio': 'Just the way you are!',
+            'profileImageUrl': '.../seed-images/users/bruno_mars_.jpg',
+            'bannerImageUrl': '.../seed-images/users/bruno_mars_.jpg',
+        },
+        {
+            'artistName': 'Billie',
+            'username': 'billie_eilish',
+            'email': 'billie@example.com',
+            'password': 'hashedpassword7',
+            'bio': 'I love my fans!',
+            'profileImageUrl': '.../seed-images/users/billie_eilish_.jpg',
+            'bannerImageUrl': '.../seed-images/users/billie_eilish_.jpg',
+        },
+        {
+            'artistName': 'Lady',
+            'username': 'lady_gaga',
+            'email': 'gaga@example.com',
+            'password': 'hashedpassword8',
+            'bio': 'Born this way!',
+            'profileImageUrl': '.../seed-images/users/lady_gaga_.jpg',
+            'bannerImageUrl': '.../seed-images/users/lady_gaga_.jpg',
+        },
+        {
+            'artistName': 'Kendrick',
+            'username': 'kendricklamer',
+            'email': 'kendricklamer@example.com',
+            'password': 'hashedpassword9',
+            'bio': 'Not like us',
+            'profileImageUrl': '.../seed-images/users/kendrick_lamar_.jpg',
+            'bannerImageUrl': '.../seed-images/users/kendrick_lamar_.jpg',
+        },
+        {
+            'artistName': 'Rihanna',
+            'username': 'rihanna',
+            'email': 'rihanna@example.com',
+            'password': 'hashedpassword10',
+            'bio': 'Shine bright like a diamond!',
+            'profileImageUrl': '.../seed-images/users/rihanna_.jpg',
+            'bannerImageUrl': '.../seed-images/users/rihanna_.jpg',
+        },
+        {
+            'artistName': 'Justin',
+            'username': 'justin_bieber',
+            'email': 'justin@example.com',
+            'password': 'hashedpassword11',
+            'bio': 'Never say never!',
+            'profileImageUrl': '.../seed-images/users/justin_bieber_.jpg',
+            'bannerImageUrl': '.../seed-images/users/justin_bieber_.jpg',
+        },
+        {
+            'artistName': 'Dua',
+            'username': 'dua_lipa',
+            'email': 'dua@example.com',
+            'password': 'hashedpassword12',
+            'bio': 'Future Nostalgia!',
+            'profileImageUrl': '.../seed-images/users/dua_lipa_.jpg',
+            'bannerImageUrl': '.../seed-images/users/dua_lipa_.jpg',
+        },
+        {
+            'artistName': 'Shawn',
+            'username': 'shawn_mendes',
+            'email': 'shawn@example.com',
+            'password': 'hashedpassword13',
+            'bio': 'In my blood!',
+            'profileImageUrl': '.../seed-images/users/shawn_mendes_.jpg',
+            'bannerImageUrl': '.../seed-images/users/shawn_mendes_.jpg',
+        },
+        {
+            'artistName': 'Sia',
+            'username': 'sia_furlow',
+            'email': 'sia@example.com',
+            'password': 'hashedpassword14',
+            'bio': 'Elastic heart!',
+            'profileImageUrl': '.../seed-images/users/sia_.jpg',
+            'bannerImageUrl': '.../seed-images/users/sia_.jpg',
+        },
+        {
+            'artistName': 'The',
+            'username': 'the_weeknd',
+            'email': 'weeknd@example.com',
+            'password': 'hashedpassword15',
+            'bio': "Can't feel my face!",
+            'profileImageUrl': '.../seed-images/users/the_weeknd_.jpg',
+            'bannerImageUrl': '.../seed-images/users/the_weeknd_.jpg',
+        },
+        {
+            'artistName': 'Post',
+            'username': 'post_malone',
+            'email': 'post@example.com',
+            'password': 'hashedpassword16',
+            'bio': 'Rockstar vibes!',
+            'profileImageUrl': '.../seed-images/users/post_malone_.jpg',
+            'bannerImageUrl': '.../seed-images/users/post_malone_.jpg',
+        },
+        {
+            'artistName': 'Ariana',
+            'username': 'ariana_grande',
+            'email': 'ariana@example.com',
+            'password': 'hashedpassword17',
+            'bio': 'Thank you, next!',
+            'profileImageUrl': '.../seed-images/users/ariana_grande_.jpg',
+            'bannerImageUrl': '.../seed-images/users/ariana_grande_.jpg',
+        },
+        {
+            'artistName': 'Travis',
+            'username': 'travis_scott',
+            'email': 'travis@example.com',
+            'password': 'hashedpassword18',
+            'bio': 'Astroworld vibes!',
+            'profileImageUrl': '.../seed-images/users/travis_scott_.jpg',
+            'bannerImageUrl': '.../seed-images/users/travis_scott_.jpg',
+        },
+        {
+            'artistName': 'Imagine',
+            'username': 'imagine_dragons',
+            'email': 'imagine@example.com',
+            'password': 'hashedpassword19',
+            'bio': 'Believer life!',
+            'profileImageUrl': '.../seed-images/users/imagine_dragons_.jpg',
+            'bannerImageUrl': '.../seed-images/users/imagine_dragons_.jpg',
+        },
+        {
+            'artistName': 'Coldplay',
+            'username': 'coldplay',
+            'email': 'coldplay@example.com',
+            'password': 'hashedpassword20',
+            'bio': 'Viva La Vida!',
+            'profileImageUrl': '.../seed-images/users/coldplay_.jpg',
+            'bannerImageUrl': '.../seed-images/users/coldplay_.jpg',
+        }
+    ]
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    #bulk_insert_mappings do not let our passsword hashing happen because it bypasses the model instantiation. Our @password.setter needs to happen on each user.
+    users = [User(**data) for data in users_data]
+    db.session.add_all(users)
     db.session.commit()
-
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
 # have a built in function to do this. With postgres in production TRUNCATE
@@ -25,8 +199,8 @@ def seed_users():
 # it will reset the primary keys for you as well.
 def undo_users():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(f'TRUNCATE TABLE {SCHEMA}.users RESTART IDENTITY CASCADE;')
     else:
-        db.session.execute(text("DELETE FROM users"))
+        db.session.execute(text('DELETE FROM users'))
 
     db.session.commit()
