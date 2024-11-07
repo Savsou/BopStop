@@ -104,6 +104,7 @@ export const thunkGetProductById = productId => async dispatch => {
     const res = await csrfFetch(`/api/products/${productId}`);
     if (res.ok) {
         const product = await res.json()
+        // console.log(`Testing thunkGetProductById: ${JSON.stringify(product)}`)
         if (product.errors) return product.errors
         dispatch(loadProductById(product))
     }
@@ -180,7 +181,7 @@ function productsReducer(state = initialState, action) {
         //     ...state,
         //     loading: true
         //   }
-        case LOAD_ALL_PRODUCTS:{
+        case LOAD_ALL_PRODUCTS: {
             const allProducts = {};
             action.products.forEach(product => allProducts[product.productId] = product)//we are referencing the product.to_dict() function
             return {
@@ -189,7 +190,7 @@ function productsReducer(state = initialState, action) {
                 allProducts,
             };
         }
-        case LOAD_LIMITED_PRODUCTS:{
+        case LOAD_LIMITED_PRODUCTS: {
             const ltdProducts = {};
             action.products.forEach(product => ltdProducts[product.productId] = product)
             return {
@@ -198,7 +199,7 @@ function productsReducer(state = initialState, action) {
                 ltdProducts,
             };
         }
-        case LOAD_CURRENT_USER_PRODUCTS:{
+        case LOAD_CURRENT_USER_PRODUCTS: {
             const currentUserProducts = {};
             action.products.forEach(product => currentUserProducts[product.productId] = product)
             return {
@@ -206,6 +207,16 @@ function productsReducer(state = initialState, action) {
                 loading: false,
                 currentUserProducts,
             };
+        }
+        case LOAD_PRODUCT_BY_ID: {
+            const product = action.product
+            return {
+              ...state,
+              allProducts: {
+                ...state.allProducts,
+                [product.productId]: product
+            }
+          };
         }
         case CREATE_PRODUCT: {
             const productId = action.product.id;

@@ -114,12 +114,13 @@ def update_product(productId):
   form['csrf_token'].data = request.cookies['csrf_token']
 
   if form.validate_on_submit():
-    product.name = form.data['name'],
-    product.type=form.data['type'],
-    product.genre=form.data['genre'],
-    product.price=form.data['price'],
-    product.description=form.data['description'],
-    product.imageUrl=form.data['imageUrl']
+
+    product.name = form.name.data,
+    product.type=form.type.data,
+    product.genre=form.genre.data,
+    product.price=form.price.data,
+    product.description=form.description.data,
+    product.imageUrl=form.imageUrl.data
 
     db.session.commit()
 

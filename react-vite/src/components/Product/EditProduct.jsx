@@ -9,6 +9,7 @@ function EditProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
+  const currentProduct = useSelector((state) => state.products.allProducts)
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [genre, setGenre] = useState("");
@@ -17,9 +18,11 @@ function EditProduct() {
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState({});
 
+
   useEffect(() => {
     const fetchProduct = async () => {
       const productData = await dispatch(thunkGetProductById(productId));
+      console.log(currentProduct)
       console.log(`Testing thunkGetProductById: ${productData}`)
       if (productData) {
         setName(productData.name);
