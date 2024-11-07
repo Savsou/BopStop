@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import Product, Review, db
+from app.models import Product, Review, db, User
 from app.forms import EditProductForm
 from app.forms import NewProductForm
 
@@ -31,9 +31,17 @@ def product(productId):
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
 @login_required
-def user_products():
+def current_products():
   user = current_user.to_dict()
-  return user["products"]
+  return {"products": user["products"]}
+
+#Get products by userId (NOT yet in API docs)
+@product_routes.route('/users/<int:userId>')
+@login_required
+def user_products(userId):
+  user = User.query.get(userId).to_dict()
+  return {"products": user["products"]}
+
 
 
 # Delete an existing product.
@@ -96,50 +104,69 @@ def update_product(productId):
   Update a User's Product
   """
   # Below is for when we have a front end form we are getting data from
-  # form = editProductForm()
-  # form['csrf_token'].data = request.cookies['csrf_token']
   product = Product.query.get(productId)
-  data = request.get_json()
-  if(product):
-    if(product.get_userId != current_user.id):
-      return {'message': 'Requires proper authorization!'}, 403
-    if "name" in data:
-      product.name = data["name"]
-    if "type" in data:
-      product.type = data["type"]
-    if "genre" in data:
-      product.genre = data["genre"]
-    if "price" in data:
-      product.price = data["price"]
-    if "description" in data:
-      product.description = data["description"]
-    if "imageUrl" in data:
-      product.imageUrl = data["imageUrl"]
-    try:
-      db.session.commit()
-      return {'product': product.to_dict()}
-    except Exception as e:
-      db.session.rollback()
-      return {'message': 'Error updating Product', 'error': str(e)}, 400
-  else:
+
+  if product is None:
     return {'message': 'Product could not be found!'}, 404
 
+  form = EditProductForm()
+
+  form['csrf_token'].data = request.cookies['csrf_token']
 
   if form.validate_on_submit():
+    product.name = form.data['name'],
+    product.type=form.data['type'],
+    product.genre=form.data['genre'],
+    product.price=form.data['price'],
+    product.description=form.data['description'],
+    product.imageUrl=form.data['imageUrl']
 
-    # newProduct = Product(
-    #   name=form.data['name'],
-    #   type=form.data['type'],
-    #   genre=form.data['genre'],
-    #   price=form.data['price'],
-    #   description=form.data['description'],
-    #   imageUrl=form.data['imageUrl']
-    # )
-    db.session.add(newProduct)
     db.session.commit()
-    #redirect to GET product by id
-    return newProduct.to_dict(), 201
-  return form.errors, 400
+
+    updated_product = {
+      "id": productId,
+      "name": product.name,
+      "type": product.type,
+      "genre": product.genre,
+      "price": product.price,
+      "description": product.description,
+      "imageUrl": product.imgUrl
+    }
+
+    return updated_product.to_dict(), 200
+
+  if form.errors:
+          return form.errors, 400
+
+  #just in case in other errors
+  return {"errors": "Invalid requests"}, 400
+
+  # product = Product.query.get(productId)
+  # data = request.get_json()
+  # if(product):
+  #   if(product.get_userId != current_user.id):
+  #     return {'message': 'Requires proper authorization!'}, 403
+  #   if "name" in data:
+  #     product.name = data["name"]
+  #   if "type" in data:
+  #     product.type = data["type"]
+  #   if "genre" in data:
+  #     product.genre = data["genre"]
+  #   if "price" in data:
+  #     product.price = data["price"]
+  #   if "description" in data:
+  #     product.description = data["description"]
+  #   if "imageUrl" in data:
+  #     product.imageUrl = data["imageUrl"]
+  #   try:
+  #     db.session.commit()
+  #     return {'product': product.to_dict()}
+  #   except Exception as e:
+  #     db.session.rollback()
+  #     return {'message': 'Error updating Product', 'error': str(e)}, 400
+  # else:
+  #   return {'message': 'Product could not be found!'}, 404
+
 
 # REVIEWS Get all reviews by product's id
 @product_routes.route('/<int:productId>/reviews')

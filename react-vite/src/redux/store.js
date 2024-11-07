@@ -6,9 +6,11 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
+import productsReducer from "./products_pristine";//eventually let's change this name back
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  products: productsReducer
 });
 
 let enhancer;

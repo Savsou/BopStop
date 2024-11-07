@@ -9,6 +9,8 @@ import UserProfile from '../components/UserProfile/UserProfile';
 import ProductDetail from "../components/Product/ProductDetail";
 import Layout from './Layout';
 
+import ReduxTest from '../components/Product/ReduxTest';//redux test component
+
 export const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -45,6 +47,10 @@ export const router = createBrowserRouter([
         path: "/profile/:userId",
         element: <UserProfile />,
       },
+      {
+        path: "redux/test",
+        element: <ReduxTest />
+      }
     ],
   },
 ]);
