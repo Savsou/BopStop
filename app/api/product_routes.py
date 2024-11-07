@@ -23,10 +23,10 @@ def limited_products():
 @product_routes.route('/<int:productId>')
 def product(productId):
   product = Product.query.get(productId)
-  if(product):
-    return product.to_dict()
-  else:
+  if(product is None):
     return {"message": "Product not found!"}, 404
+  else:
+    return {"product": product.to_dict()}
 
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
@@ -97,7 +97,7 @@ def create_product():
   # return newProduct.to_dict(), 201
 
 # Update and Return existing Product
-@product_routes.route('/<int:productId>', methods=["PUT"])
+@product_routes.route('edit/<int:productId>', methods=["PUT"])
 @login_required
 def update_product(productId):
   """

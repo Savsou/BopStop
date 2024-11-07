@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { thunkEditProduct } from "../../redux/products_pristine";
+import { thunkEditProduct, thunkGetProductById } from "../../redux/products_pristine";
 import "./EditProduct.css";
 
 function EditProduct() {
@@ -20,6 +20,7 @@ function EditProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       const productData = await dispatch(thunkGetProductById(productId));
+      console.log(`Testing thunkGetProductById: ${productData}`)
       if (productData) {
         setName(productData.name);
         setType(productData.type);
@@ -27,8 +28,8 @@ function EditProduct() {
         setPrice(productData.price);
         setDescription(productData.description);
         setImageUrl(productData.imageUrl);
-      } else {
-        navigate("/not-found");
+      // } else {
+      //   // navigate("/not-found");
       }
     };
 
