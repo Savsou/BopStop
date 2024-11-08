@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { thunkEditProduct } from "../../redux/products_pristine";
+import { thunkEditProduct, thunkGetProductById } from "../../redux/products_pristine";
 import "./EditProduct.css";
 
 function EditProduct() {
@@ -9,6 +9,7 @@ function EditProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
+  const currentProduct = useSelector((state) => state.products.currentProduct)
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [genre, setGenre] = useState("");
@@ -17,9 +18,12 @@ function EditProduct() {
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState({});
 
+
   useEffect(() => {
     const fetchProduct = async () => {
       const productData = await dispatch(thunkGetProductById(productId));
+      // console.log(`Testing currentProduct from state: ${JSON.stringify(currentProduct)}`)
+      // console.log(`Testing thunkGetProductById: ${JSON.stringify(productData)}`)
       if (productData) {
         setName(productData.name);
         setType(productData.type);
@@ -41,6 +45,7 @@ function EditProduct() {
       setErrors({});
 
       const updatedProduct = {
+        id: productId,
         name,
         type,
         genre,
@@ -49,14 +54,22 @@ function EditProduct() {
         imageUrl,
       };
 
-      const serverResponse = await dispatch(
-        thunkEditProduct(productId, updatedProduct)
-      );
+      // console.log(`Testing updated product data: ${JSON.stringify(updatedProduct)}`)
 
-      if (serverResponse) {
-        setErrors(serverResponse);
-      } else {
-        navigate(`/products/${productId}`);
+      try {
+        const serverResponse = await dispatch(
+          thunkEditProduct(updatedProduct)
+        );
+
+        if (serverResponse) {
+          setErrors(serverResponse);
+        } else {
+          // navigate(`/products/${productId}`);
+          alert("Product updated successfuly")
+        }
+      } catch (error) {
+        setErrors({ server: error.message });
+        console.error("thunkEditProduct not working:", error);
       }
     }
   };

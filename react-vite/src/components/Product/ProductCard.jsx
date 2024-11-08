@@ -1,22 +1,29 @@
-// ProductCard.jsx
-import React from "react";
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
 
 function ProductCard({ product }) {
   return (
     <div className="product-card">
-      <Link to={`/products/${product.productId}`}>
-        <img src={product.imageUrl} alt={product.name} className="product-image" />
-      <div className="product-info">
-        <h3 className="product-name">{product.name}</h3>
-        <p className="product-genre">{product.genre}</p>
-        <p className="product-price">${product.price}</p>
-        <p className="product-description">{product.description}</p>
+      <Link to={`/products/${product.productId}`} className="product-card-link">
+        <img src={product.imageUrl} alt={product.name} className="card-product-image" />
+        <div className="card-product-info">
+          <h3 className="card-product-name">{product.name}</h3>
+          <p className="card-product-artist">by {product.artistName}</p>
+          <p className="card-product-price">Sold for ${product.price}</p>
+          <p className="card-product-created-time">
+            {calculateDaysAgo(product.createdAt)} days ago
+          </p>
         </div>
-        </Link>
+      </Link>
     </div>
   );
+}
+
+function calculateDaysAgo(date) {
+  const createdDate = new Date(date);
+  const now = new Date();
+  const diffInTime = now - createdDate;
+  return Math.floor(diffInTime / (1000 * 3600 * 24));
 }
 
 export default ProductCard;

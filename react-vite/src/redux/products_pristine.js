@@ -104,8 +104,10 @@ export const thunkGetProductById = productId => async dispatch => {
     const res = await csrfFetch(`/api/products/${productId}`);
     if (res.ok) {
         const product = await res.json()
+        // console.log(`Testing thunkGetProductById: ${JSON.stringify(product)}`)
         if (product.errors) return product.errors
         dispatch(loadProductById(product))
+        return product
     }
 }
 
@@ -130,24 +132,35 @@ export const thunkAddProduct = (product) => async dispatch => {
 };
 
 export const thunkEditProduct = (product) => async dispatch => {
-    const editRes = await csrfFetch(`/api/products/${product.id}`,
-        {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(product)
+    try {
+        console.log(`Testing product payload before fetch: ${JSON.stringify(product)}`)
+
+        const editRes = await fetch(`/api/products/edit/${product.id}`,
+            {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product)
+            }
+        )
+        if (editRes.ok) {
+            const editProduct = await editRes.json()
+            console.log(`Testing thunkEditProduct data from dispatch: ${JSON.stringify(editProduct)}`)
+
+            // const getRes = await csrfFetch(`/api/products/${product.id}`);//is this just a GET?
+            // const updatedProduct = await getRes.json();
+            dispatch(loadProductById(editProduct))
+            // return editProduct; //might not need this
+        } else if (editRes.status < 500) {
+            const errorMessages = await editRes.json();
+            console.error("Validation Errors:", errorMessages);
+            return errorMessages
+        } else {
+            console.error("Server Error");
+            return { server: "Something went wrong. Please try again" }
         }
-    )
-    if (editRes.ok) {
-        const editProduct = await editRes.json()
-        const getRes = await csrfFetch(`/api/products/${product.id}`);//is this just a GET?
-        const updatedProduct = await getRes.json();
-        dispatch(loadProductById(updatedProduct))
-        return editProduct; //might not need this
-    } else if (editRes.status < 500) {
-        const errorMessages = await editRes.json();
-        return errorMessages
-    } else {
-        return { server: "Something went wrong. Please try again" }
+    } catch (error) {
+        console.error("Error in thunkEditProduct:", error);
+        return { error: "Something went wrong. Please try again." };
     }
 }
 
@@ -171,6 +184,7 @@ const initialState = {
     ltdProducts: {},
     allProducts: {},
     currentUserProducts: {},
+    currentProduct: null,//might get rid of this later
     loading: false,
 };
 
@@ -182,7 +196,7 @@ function productsReducer(state = initialState, action) {
         //     ...state,
         //     loading: true
         //   }
-        case LOAD_ALL_PRODUCTS:{
+        case LOAD_ALL_PRODUCTS: {
             const allProducts = {};
             action.products.forEach(product => allProducts[product.productId] = product)//we are referencing the product.to_dict() function
             return {
@@ -191,7 +205,7 @@ function productsReducer(state = initialState, action) {
                 allProducts,
             };
         }
-        case LOAD_LIMITED_PRODUCTS:{
+        case LOAD_LIMITED_PRODUCTS: {
             const ltdProducts = {};
             action.products.forEach(product => ltdProducts[product.productId] = product)
             return {
@@ -200,13 +214,24 @@ function productsReducer(state = initialState, action) {
                 ltdProducts,
             };
         }
-        case LOAD_CURRENT_USER_PRODUCTS:{
+        case LOAD_CURRENT_USER_PRODUCTS: {
             const currentUserProducts = {};
             action.products.forEach(product => currentUserProducts[product.productId] = product)
             return {
                 ...state,
                 loading: false,
                 currentUserProducts,
+            };
+        }
+        case LOAD_PRODUCT_BY_ID: {
+            const product = action.product
+            return {
+                ...state,
+                allProducts: {
+                    ...state.allProducts,
+                    [product.productId]: product
+                },
+                currentProduct: product//might get rid of this later
             };
         }
         case CREATE_PRODUCT: {

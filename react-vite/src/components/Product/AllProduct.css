@@ -1,0 +1,20 @@
+/* AllProducts.css */
+
+.all-products-section {
+    background-color: #eef2f3;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .all-products-section h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .all-products-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+  }
+  

@@ -24,10 +24,10 @@ def limited_products():
 @product_routes.route('/<int:productId>')
 def product(productId):
   product = Product.query.get(productId)
-  if(product):
-    return product.to_dict()
-  else:
+  if(product is None):
     return {"message": "Product not found!"}, 404
+  else:
+    return product.to_dict()
 
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
@@ -112,7 +112,7 @@ def create_product():
   # return newProduct.to_dict(), 201
 
 # Update and Return existing Product
-@product_routes.route('/<int:productId>', methods=["PUT"])
+@product_routes.route('edit/<int:productId>', methods=["PUT"])
 @login_required
 def update_product(productId):
   """
@@ -124,17 +124,19 @@ def update_product(productId):
   if product is None:
     return {'message': 'Product could not be found!'}, 404
 
-  form = EditProductForm()
+  if(product.get_userId != current_user.id):
+    return {'message': 'Requires proper authorization!'}, 403
 
+  form = EditProductForm()
   form['csrf_token'].data = request.cookies['csrf_token']
 
   if form.validate_on_submit():
-    product.name = form.data['name'],
-    product.type=form.data['type'],
-    product.genre=form.data['genre'],
-    product.price=form.data['price'],
-    product.description=form.data['description'],
-    product.imageUrl=form.data['imageUrl']
+    product.name = form.name.data
+    product.type=form.type.data
+    product.genre=form.genre.data
+    product.price=form.price.data
+    product.description=form.description.data
+    product.imageUrl=form.imageUrl.data
 
     db.session.commit()
 
@@ -145,10 +147,11 @@ def update_product(productId):
       "genre": product.genre,
       "price": product.price,
       "description": product.description,
-      "imageUrl": product.imgUrl
+      "imageUrl": product.imageUrl
     }
 
-    return updated_product.to_dict(), 200
+    return updated_product, 200
+    # return {"message": "Product updated successfully.", "product": updated_product.to_dict()}, 200
 
   if form.errors:
           return form.errors, 400

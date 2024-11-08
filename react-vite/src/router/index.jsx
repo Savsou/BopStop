@@ -10,6 +10,7 @@ import ProductDetail from "../components/Product/ProductDetail";
 import Layout from './Layout';
 
 import ReduxTest from '../components/Product/ReduxTest';//redux test component
+import EditProduct from '../components/Product/EditProduct';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: "product/new",
         element: <AddProduct />,
+      },
+      {
+        path: "products/edit/:productId",
+        element: <EditProduct />,
       },
       {
         path: "login",

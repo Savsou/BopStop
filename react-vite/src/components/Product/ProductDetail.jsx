@@ -5,6 +5,7 @@ import './ProductDetail.css';
 const ProductDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -22,7 +23,21 @@ const ProductDetail = () => {
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`/api/products/${productId}/reviews`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch reviews");
+        }
+        const data = await response.json();
+        setReviews(data.reviews || []);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
     fetchProduct();
+    fetchReviews();
   }, [productId]);
 
   if (error) return <p>{error}</p>;
@@ -39,8 +54,22 @@ const ProductDetail = () => {
         {product.genre && <p className="product-genre">Genre: {product.genre}</p>}
         <p className="product-price">Price: ${product.price}</p>
         <p className="product-description">{product.description}</p>
-        <p className="product-dates">
-        </p>
+      </div>
+
+      {/* Reviews Section */}
+      <div className="reviews-section">
+        <h3>Customer Reviews</h3>
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <div key={review.id} className="review">
+              <p><strong>{review.user?.username || 'Anonymous'}</strong></p>
+              <p>{review.review}</p>
+              <p className="review-date">{new Date(review.createdAt).toLocaleDateString()}</p>
+            </div>
+          ))
+        ) : (
+          <p>No reviews available for this product.</p>
+        )}
       </div>
     </div>
   );
