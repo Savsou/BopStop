@@ -1,24 +1,42 @@
 // CombinedProductDisplay.jsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { thunkGetLimitedProducts, selectLtdProductsArry } from "../../redux/products_pristine";
+import { useDispatch, useSelector } from "react-redux";
 import "./LimitedProduct.css";
 
 function LimitedProduct() {
-  const [limitedProducts, setLimitedProducts] = useState([]);
+  const dispatch = useDispatch();
+  const limitedProducts = useSelector(selectLtdProductsArry)
+  // const [limitedProducts, setLimitedProducts] = useState([]);
 
   useEffect(() => {
-    fetch("/api/products/limited")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch limited products");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setLimitedProducts(data.products || []);
-      })
-      .catch((error) => console.error("Error fetching limited products:", error));
-  }, []);
+    dispatch(thunkGetLimitedProducts());
+  }, [dispatch]);
+
+  if (!limitedProducts) {
+    return (
+      <h1>Loading first 20 products...</h1>
+    )
+  }
+
+  // console.log(`Testing limitedProduct from state: ${JSON.stringify(limitedProducts)}`)
+
+
+  // Tiff's OG fetch:
+  // useEffect(() => {
+  //   fetch("/api/products/limited")
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error("Failed to fetch limited products");
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setLimitedProducts(data.products || []);
+  //     })
+  //     .catch((error) => console.error("Error fetching limited products:", error));
+  // }, []);
 
   return (
     <div className="limited-product-row">

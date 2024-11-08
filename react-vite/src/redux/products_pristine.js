@@ -1,5 +1,5 @@
 import { csrfFetch } from "./csrf.js";
-// import { createSelector } from 'reselect';
+import { createSelector } from 'reselect';
 
 const LOAD_ALL_PRODUCTS = 'products/load_all_products';
 const LOAD_LIMITED_PRODUCTS = 'products/load_limited_products';
@@ -178,6 +178,13 @@ export const thunkRemoveProduct = productId => async dispatch => {
         dispatch(deleteProduct(productId))
     }
 }
+
+//selectors
+export const selectProduct = state => state.products;
+
+export const selectAllProductsArry = createSelector(selectProduct, products => Object.values(products.allProducts));
+export const selectLtdProductsArry = createSelector(selectProduct, products => Object.values(products.ltdProducts));
+
 
 //reducer
 const initialState = {

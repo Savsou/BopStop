@@ -1,24 +1,42 @@
 // CombinedProductDisplay.jsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { thunkGetAllProducts, selectAllProductsArry } from "../../redux/products_pristine";
+import { useDispatch, useSelector } from "react-redux";
 import "./AllProduct.css";
 
 function AllProduct() {
-  const [allProduct, setAllProduct] = useState([]);
+  const dispatch = useDispatch();
+  const allProduct = useSelector(selectAllProductsArry)
+  // const [allProduct, setAllProduct] = useState([]);
 
   useEffect(() => {
-    fetch("/api/products/")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch all products");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setAllProduct(data.products || []);
-      })
-      .catch((error) => console.error("Error fetching all products:", error));
-  }, []);
+    dispatch(thunkGetAllProducts());
+  }, [dispatch]);
+
+  if (!allProduct) {
+    return (
+      <h1>Loading all products...</h1>
+    )
+  }
+
+  // console.log(`Testing allProduct from state: ${JSON.stringify(allProduct)}`)
+
+  // Tiff's OG fetch:
+  // useEffect(() => {
+  //   fetch("/api/products/")
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error("Failed to fetch all products");
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setAllProduct(data.products || []);
+  //     })
+  //     .catch((error) => console.error("Error fetching all products:", error));
+  // }, []);
+
 
     return (
     <div className="all-product-row">
