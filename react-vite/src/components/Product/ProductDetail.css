@@ -62,4 +62,22 @@
     background-color: #6046fe;
   }
   
+  /*reviews*/
+  .reviews-section {
+    margin-top: 20px;
+  }
+  
+  .review {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  .review p {
+    margin: 4px 0;
+  }
+  
+  .review-date {
+    color: #777;
+    font-size: 0.85em;
+  }
   
