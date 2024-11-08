@@ -8,7 +8,7 @@ function ProductCard({ product }) {
         <img src={product.imageUrl} alt={product.name} className="card-product-image" />
         <div className="card-product-info">
           <h3 className="card-product-name">{product.name}</h3>
-          <p className="card-product-artist">by {product.artistName}</p>
+          <p className="card-product-artist">by {product.userId}</p>
           <p className="card-product-price">Sold for ${product.price}</p>
           <p className="card-product-created-time">
             {calculateDaysAgo(product.createdAt)} days ago
