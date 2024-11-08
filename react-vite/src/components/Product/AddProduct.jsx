@@ -13,7 +13,7 @@ function AddProduct() {
   const [genre, setGenre] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
   // const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
 
@@ -23,22 +23,42 @@ function AddProduct() {
     if (sessionUser) {
       setErrors({});
 
-      const newProduct = {
-        name,
-        type,
-        genre,
-        price,
-        description,
-        imageUrl,
-      };
+      // const newProduct = {
+      //   name,
+      //   type,
+      //   genre,
+      //   price,
+      //   description,
+      //   imageUrl: image,
+      // };
 
-      const serverResponse = await dispatch(
-        thunkAddProduct(newProduct)
-      )
+      const formData = new FormData()
+      formData.append("name", name);
+      formData.append("type", type);
+      formData.append("genre", genre);
+      formData.append("price", price);
+      formData.append("description", description);
+      formData.append("imageUrl", imageUrl);
+
+      for (const pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+
+      // const serverResponse = await dispatch(
+      //   thunkAddProduct(newProduct)
+      // )
+
+      const serverResponse = await dispatch(thunkAddProduct(formData))
 
       if (serverResponse) {
         setErrors(serverResponse);
       } else {
+        setName("");
+        setType("");
+        setGenre("");
+        setPrice("");
+        setDescription("");
+        setImage(null);
         navigate("/");
       }
     }
@@ -87,7 +107,7 @@ function AddProduct() {
     <div className="container">
       <h2 className="header">Add a New Product</h2>
       {/* {message && <p>{message}</p>} */}
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="form">
         <label className="label">
           Name:
           <input
@@ -180,9 +200,9 @@ function AddProduct() {
         <label className="label">
           Image URL:
           <input
-            type="url"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageUrl(e.target.files[0])}
             // required
             className="input"
           />

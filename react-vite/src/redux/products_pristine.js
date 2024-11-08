@@ -109,11 +109,13 @@ export const thunkGetProductById = productId => async dispatch => {
     }
 }
 
+
 export const thunkAddProduct = (product) => async dispatch => {
-    const response = await csrfFetch("/api/products/", {
+    const response = await fetch("/api/products/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(product)
+        // headers: { "Content-Type": "application/json" },
+        // body: JSON.stringify(product)
+        body: product
     });
 
     if (response.ok) {
