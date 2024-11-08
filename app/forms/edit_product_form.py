@@ -54,5 +54,5 @@ class EditProductForm(FlaskForm):
         ]
     )
   price = DecimalField('price', validators=[DataRequired(), NumberRange(min=0.01, message='Price must be a positive number!')])
-  decription = StringField('description', validators=[DataRequired()])
+  description = StringField('description', validators=[DataRequired()])
   imageUrl = URLField('imageUrl', validators=[DataRequired(), URL()])

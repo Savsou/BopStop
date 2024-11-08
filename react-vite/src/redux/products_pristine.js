@@ -133,7 +133,7 @@ export const thunkEditProduct = (product) => async dispatch => {
     try {
         console.log(`Testing product payload before fetch: ${JSON.stringify(product)}`)
 
-        const editRes = await csrfFetch(`/api/products/edit/${product.id}`,
+        const editRes = await fetch(`/api/products/edit/${product.id}`,
             {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -147,7 +147,7 @@ export const thunkEditProduct = (product) => async dispatch => {
             // const getRes = await csrfFetch(`/api/products/${product.id}`);//is this just a GET?
             // const updatedProduct = await getRes.json();
             dispatch(loadProductById(editProduct))
-            return editProduct; //might not need this
+            // return editProduct; //might not need this
         } else if (editRes.status < 500) {
             const errorMessages = await editRes.json();
             console.error("Validation Errors:", errorMessages);
@@ -182,7 +182,7 @@ const initialState = {
     ltdProducts: {},
     allProducts: {},
     currentUserProducts: {},
-    currentProduct: null,
+    currentProduct: null,//might get rid of this later
     loading: false,
 };
 
@@ -227,9 +227,9 @@ function productsReducer(state = initialState, action) {
                 ...state,
                 allProducts: {
                     ...state.allProducts,
-                    [product.productId]: action.product
+                    [product.productId]: product
                 },
-                currentProduct: product
+                currentProduct: product//might get rid of this later
             };
         }
         case CREATE_PRODUCT: {

@@ -135,7 +135,7 @@ def update_product(productId):
       "imageUrl": product.imageUrl
     }
 
-    return updated_product.to_dict(), 200
+    return updated_product, 200
     # return {"message": "Product updated successfully.", "product": updated_product.to_dict()}, 200
 
   if form.errors:
