@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from app.models import Product, Review, db, User
 from app.forms import EditProductForm
 from app.forms import NewProductForm
+from app.aws_helpers import upload_file_to_s3, get_unique_filename
 
 
 product_routes = Blueprint('products', __name__)
@@ -65,21 +66,35 @@ def create_product():
   """
   # Below is for when we have a front end form we are getting data from
   form = NewProductForm()
-  form['csrf_token'].data = request.cookies['csrf_token']
+
+  form["csrf_token"].data = request.cookies.get("csrf_token")
+
   if form.validate_on_submit():
+
+    image = form.imageUrl.data
+    image.filename = get_unique_filename(image.filename)
+    upload = upload_file_to_s3(image)
+
+    if "url" not in upload:
+      return {"error": upload["errors"]}, 400
+
+    url = upload["url"]
+
     newProduct = Product(
       userId=current_user.id,
-      name=form.data['name'],
-      type=form.data['type'],
-      genre=form.data['genre'],
-      price=form.data['price'],
-      description=form.data['description'],
-      imageUrl=form.data['imageUrl']
+      name=form.name.data,
+      type=form.type.data,
+      genre=form.genre.data,
+      price=form.price.data,
+      description=form.description.data,
+      imageUrl=url
     )
+
     db.session.add(newProduct)
     db.session.commit()
     return newProduct.to_dict(), 201
-  else:
+
+  if form.errors:
     return form.errors, 400
 
   # this is for testing only, switch back to code above once frontend form exists

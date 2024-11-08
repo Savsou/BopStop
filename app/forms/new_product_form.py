@@ -2,6 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, DecimalField, SelectField, URLField
 from wtforms.validators import DataRequired, ValidationError, NumberRange, URL
 from app.models import Product
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from app.aws_helpers import ALLOWED_EXTENSIONS
 
 
 class NewProductForm(FlaskForm):
@@ -55,4 +57,5 @@ class NewProductForm(FlaskForm):
     )
   price = DecimalField('price', validators=[DataRequired(message="Please enter a price."), NumberRange(min=0.01, message='Price must be a positive number!')])
   description = StringField('description', validators=[DataRequired(message="Please provide a description for this item.")])
-  imageUrl = URLField('imageUrl', validators=[DataRequired(message="Please provide an image of this item."), URL()])
+  # imageUrl = URLField('imageUrl', validators=[DataRequired(message="Please provide an image of this item."), URL()])
+  imageUrl = FileField('imageUrl', validators=[FileRequired(), FileAllowed(list(ALLOWED_EXTENSIONS))])

@@ -39,3 +39,10 @@ def delete_review(reviewId):
     db.session.delete(review)
     db.session.commit()
     return {"message": "Review successfully deleted"}
+
+# Get current User's Reviews
+@review_routes.route('/current')
+@login_required
+def user_reviews():
+  user = current_user.to_dict()
+  return user["reviews"]
