@@ -133,7 +133,7 @@ export const thunkEditProduct = (product) => async dispatch => {
     try {
         console.log(`Testing product payload before fetch: ${JSON.stringify(product)}`)
 
-        const editRes = await fetch(`/api/products/edit/${product.id}`,
+        const editRes = await csrfFetch(`/api/products/edit/${product.id}`,
             {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
