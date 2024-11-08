@@ -107,6 +107,7 @@ export const thunkGetProductById = productId => async dispatch => {
         // console.log(`Testing thunkGetProductById: ${JSON.stringify(product)}`)
         if (product.errors) return product.errors
         dispatch(loadProductById(product))
+        return product
     }
 }
 
@@ -129,24 +130,35 @@ export const thunkAddProduct = (product) => async dispatch => {
 };
 
 export const thunkEditProduct = (product) => async dispatch => {
-    const editRes = await csrfFetch(`/api/products/${product.id}`,
-        {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(product)
+    try {
+        console.log(`Testing product payload before fetch: ${JSON.stringify(product)}`)
+
+        const editRes = await csrfFetch(`/api/products/edit/${product.id}`,
+            {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product)
+            }
+        )
+        if (editRes.ok) {
+            const editProduct = await editRes.json()
+            console.log(`Testing thunkEditProduct data from dispatch: ${JSON.stringify(editProduct)}`)
+
+            // const getRes = await csrfFetch(`/api/products/${product.id}`);//is this just a GET?
+            // const updatedProduct = await getRes.json();
+            dispatch(loadProductById(editProduct))
+            return editProduct; //might not need this
+        } else if (editRes.status < 500) {
+            const errorMessages = await editRes.json();
+            console.error("Validation Errors:", errorMessages);
+            return errorMessages
+        } else {
+            console.error("Server Error");
+            return { server: "Something went wrong. Please try again" }
         }
-    )
-    if (editRes.ok) {
-        const editProduct = await editRes.json()
-        const getRes = await csrfFetch(`/api/products/${product.id}`);//is this just a GET?
-        const updatedProduct = await getRes.json();
-        dispatch(loadProductById(updatedProduct))
-        return editProduct; //might not need this
-    } else if (editRes.status < 500) {
-        const errorMessages = await editRes.json();
-        return errorMessages
-    } else {
-        return { server: "Something went wrong. Please try again" }
+    } catch (error) {
+        console.error("Error in thunkEditProduct:", error);
+        return { error: "Something went wrong. Please try again." };
     }
 }
 
@@ -170,6 +182,7 @@ const initialState = {
     ltdProducts: {},
     allProducts: {},
     currentUserProducts: {},
+    currentProduct: null,
     loading: false,
 };
 
@@ -211,12 +224,13 @@ function productsReducer(state = initialState, action) {
         case LOAD_PRODUCT_BY_ID: {
             const product = action.product
             return {
-              ...state,
-              allProducts: {
-                ...state.allProducts,
-                [product.productId]: product
-            }
-          };
+                ...state,
+                allProducts: {
+                    ...state.allProducts,
+                    [product.productId]: action.product
+                },
+                currentProduct: product
+            };
         }
         case CREATE_PRODUCT: {
             const productId = action.product.id;

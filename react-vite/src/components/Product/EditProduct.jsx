@@ -9,7 +9,7 @@ function EditProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-  const currentProduct = useSelector((state) => state.products.allProducts)
+  const currentProduct = useSelector((state) => state.products.currentProduct)
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [genre, setGenre] = useState("");
@@ -22,8 +22,8 @@ function EditProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       const productData = await dispatch(thunkGetProductById(productId));
-      console.log(currentProduct)
-      console.log(`Testing thunkGetProductById: ${productData}`)
+      // console.log(`Testing currentProduct from state: ${JSON.stringify(currentProduct)}`)
+      // console.log(`Testing thunkGetProductById: ${JSON.stringify(productData)}`)
       if (productData) {
         setName(productData.name);
         setType(productData.type);
@@ -31,8 +31,8 @@ function EditProduct() {
         setPrice(productData.price);
         setDescription(productData.description);
         setImageUrl(productData.imageUrl);
-      // } else {
-      //   // navigate("/not-found");
+      } else {
+        navigate("/not-found");
       }
     };
 
@@ -45,6 +45,7 @@ function EditProduct() {
       setErrors({});
 
       const updatedProduct = {
+        id: productId,
         name,
         type,
         genre,
@@ -53,14 +54,22 @@ function EditProduct() {
         imageUrl,
       };
 
-      const serverResponse = await dispatch(
-        thunkEditProduct(productId, updatedProduct)
-      );
+      // console.log(`Testing updated product data: ${JSON.stringify(updatedProduct)}`)
 
-      if (serverResponse) {
-        setErrors(serverResponse);
-      } else {
-        navigate(`/products/${productId}`);
+      try {
+        const serverResponse = await dispatch(
+          thunkEditProduct(updatedProduct)
+        );
+
+        if (serverResponse) {
+          setErrors(serverResponse);
+        } else {
+          // navigate(`/products/${productId}`);
+          alert("Product updated successfuly")
+        }
+      } catch (error) {
+        setErrors({ server: error.message });
+        console.error("thunkEditProduct not working:", error);
       }
     }
   };

@@ -26,7 +26,7 @@ def product(productId):
   if(product is None):
     return {"message": "Product not found!"}, 404
   else:
-    return {"product": product.to_dict()}
+    return product.to_dict()
 
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
@@ -109,17 +109,18 @@ def update_product(productId):
   if product is None:
     return {'message': 'Product could not be found!'}, 404
 
-  form = EditProductForm()
+  if(product.get_userId != current_user.id):
+    return {'message': 'Requires proper authorization!'}, 403
 
+  form = EditProductForm()
   form['csrf_token'].data = request.cookies['csrf_token']
 
   if form.validate_on_submit():
-
-    product.name = form.name.data,
-    product.type=form.type.data,
-    product.genre=form.genre.data,
-    product.price=form.price.data,
-    product.description=form.description.data,
+    product.name = form.name.data
+    product.type=form.type.data
+    product.genre=form.genre.data
+    product.price=form.price.data
+    product.description=form.description.data
     product.imageUrl=form.imageUrl.data
 
     db.session.commit()
@@ -131,10 +132,11 @@ def update_product(productId):
       "genre": product.genre,
       "price": product.price,
       "description": product.description,
-      "imageUrl": product.imgUrl
+      "imageUrl": product.imageUrl
     }
 
     return updated_product.to_dict(), 200
+    # return {"message": "Product updated successfully.", "product": updated_product.to_dict()}, 200
 
   if form.errors:
           return form.errors, 400
