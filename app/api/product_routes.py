@@ -12,13 +12,19 @@ product_routes = Blueprint('products', __name__)
 @product_routes.route('/')
 def products():
   products = Product.query.all()
-  return {"products": [product.to_dict() for product in products]}
+  allProducts = [product.to_dict() for product in products]
+  for index, product in enumerate(allProducts):
+    allProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
+  return {"products": allProducts}
 
 #Get limited amount of products
 @product_routes.route('/limited')
 def limited_products():
   products = Product.query.limit(20).all()
-  return {"products": [product.to_dict() for product in products]}
+  limitedProducts = [product.to_dict() for product in products]
+  for index, product in enumerate(limitedProducts):
+    limitedProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
+  return {"products": limitedProducts}
 
 #Get details of a Product by id
 @product_routes.route('/<int:productId>')
