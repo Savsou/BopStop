@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "../Product/ProductCard";
 import "./ArtistDetail.css";
+import "../Product/ProductCard.css";
 
 function ArtistDetail() {
   const { artistId } = useParams();

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './UserProfile.css';
+import "../Product/ProductCard.css";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -53,7 +54,6 @@ const ProfilePage = () => {
                   <h3 className="product-name">{product.name}</h3>
                   <p className="product-genre">{product.genre}</p>
                   <p className="product-price">${product.price}</p>
-                  <p className="product-description">{product.description}</p>
                   {/* Edit Button */}
                   <Link to={`/products/edit/${product.productId}`} className="edit-button">
                     Edit
@@ -68,20 +68,24 @@ const ProfilePage = () => {
       </div>
 
       {/* User Reviews */}
-      <div className="user-reviews">
-        <h2>Reviews</h2>
-        {user.reviews && user.reviews.length > 0 ? (
-          <ul>
-            {user.reviews.map((review) => (
-              <li key={review.id}>
-                <p>{review.content}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No reviews available.</p>
-        )}
+      {/* User Reviews */}
+<div className="reviews-section">
+  <h2>Reviews</h2>
+  {user.reviews && user.reviews.length > 0 ? (
+    user.reviews.map((review) => (
+      <div key={review.id} className="review-item">
+        <p><strong>Product:</strong> {review.productName}</p>
+        <p><strong>Review:</strong> {review.content}</p>
+        <p className="review-date">
+          <small>Reviewed on: {new Date(review.createdAt).toLocaleDateString()}</small>
+        </p>
       </div>
+    ))
+  ) : (
+    <p>No reviews available.</p>
+  )}
+</div>
+
     </div>
   );
 };
