@@ -83,6 +83,7 @@ const ProductDetail = () => {
       if (!response.ok) throw new Error("Failed to delete review");
       setReviews((prev) => prev.filter((review) => review.id !== reviewId));
       setShowRemoveModal(false);
+      navigate(`/products/${productId}`);
     } catch (err) {
       setError(err.message);
     }

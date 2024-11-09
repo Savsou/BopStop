@@ -52,17 +52,25 @@ const ProfilePage = () => {
     try {
       const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
       if (!response.ok) {
-        throw new Error('Failed to delete product');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete product');
       }
-      setUser((prevUser) => ({
-        ...prevUser,
-        products: prevUser.products.filter((product) => product.productId !== productId),
-      }));
+      setUser((prevUser) => {
+        if (prevUser && prevUser.products) {
+          return {
+            ...prevUser,
+            products: prevUser.products.filter((product) => product.productId !== productId),
+          };
+        }
+        return prevUser; // if prevUser is null or products not found, return as is
+      });
       handleCloseModal();
     } catch (err) {
       setError(err.message);
+      console.error('Error deleting product:', err);
     }
   };
+  
 
   if (error) return <p>{error}</p>;
   if (!user) return <p>Loading...</p>;
@@ -105,7 +113,8 @@ const ProfilePage = () => {
                     <h3 className="product-name">{product.name}</h3>
                     <p className="product-genre">{product.genre}</p>
                     <p className="product-price">${product.price}</p>
-                    <p className="product-price">{product.description}</p>
+                      <p className="product-price">{product.description}</p>
+                      </Link>
                     <Link to={`/products/edit/${product.productId}`} className="edit-button">
                       Edit
                     </Link>
@@ -115,7 +124,7 @@ const ProfilePage = () => {
                     >
                       Remove
                       </button>
-                      </Link>
+                      
                   </div>
                 ))}
               </div>

@@ -4,9 +4,14 @@ import '../../context/Modal.css';
 const AddReviewModal = ({ onClose, onSubmit }) => {
   const [reviewText, setReviewText] = useState('');
 
-  const handleSubmit = () => {
-    onSubmit(reviewText);
-    setReviewText('');
+  const handleSubmit = async () => {
+    try {
+      await onSubmit(reviewText);  // Ensure `onSubmit` completes before proceeding
+      setReviewText('');  // Clear the text after successful submission
+      onClose();          // Close the modal
+    } catch (error) {
+      console.error("Failed to add review:", error);  // Log if there’s an error
+    }
   };
 
   return (

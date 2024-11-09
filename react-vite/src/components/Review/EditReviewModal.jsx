@@ -2,15 +2,22 @@ import React, { useState, useEffect } from 'react';
 import '../../context/Modal.css';
 
 const EditReviewModal = ({ review, onClose, onSubmit }) => {
-  const [reviewText, setReviewText] = useState(review.review);
+  const [reviewText, setReviewText] = useState('');
 
   useEffect(() => {
-    setReviewText(review.review);
+    // Check if review object exists and has a valid review property
+    if (review && review.review) {
+      setReviewText(review.review);
+    }
   }, [review]);
 
-  const handleEdit = () => {
-    onSubmit(reviewText);
-    setReviewText('');
+  const handleEdit = async () => {
+    try {
+      await onSubmit(reviewText);  // Ensure `onSubmit` completes before proceeding
+      onClose();                   // Close the modal only if edit is successful
+    } catch (error) {
+      console.error("Failed to edit review:", error);  // Log if there’s an error
+    }
   };
 
   return (
