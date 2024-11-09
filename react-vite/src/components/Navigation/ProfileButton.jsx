@@ -61,8 +61,8 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li onClick={handleViewProfile}>{user.username}</li>
-              <li onClick={handleViewProfile}>{user.email}</li>
+              <li onClick={handleViewProfile} className="username">{user.username}</li>
+              {/* <li onClick={handleViewProfile}>{user.email}</li> */}
               <li>
                 <button onClick={handleEditProfile}>Edit Profile</button>
               </li>
