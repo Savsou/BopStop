@@ -113,11 +113,12 @@ export const thunkGetProductById = productId => async dispatch => {
 
 
 export const thunkAddProduct = (product) => async dispatch => {
-    const response = await fetch("/api/products/", {
+    const response = await csrfFetch("/api/products/", {
         method: "POST",
         // headers: { "Content-Type": "application/json" },
-        // body: JSON.stringify(product)
-        body: product
+        // need to stringify body rather than write directly when in backend because its python going to js
+        body: JSON.stringify(product)
+        // body: product
     });
 
     if (response.ok) {
@@ -125,6 +126,7 @@ export const thunkAddProduct = (product) => async dispatch => {
         dispatch(createProduct(newProduct));
     } else if (response.status < 500) {
         const errorMessages = await response.json();
+        console.error("Validation Errors:", errorMessages);
         return errorMessages
     } else {
         return { server: "Something went wrong. Please try again" }
@@ -135,7 +137,7 @@ export const thunkEditProduct = (product) => async dispatch => {
     try {
         console.log(`Testing product payload before fetch: ${JSON.stringify(product)}`)
 
-        const editRes = await fetch(`/api/products/edit/${product.id}`,
+        const editRes = await csrfFetch(`/api/products/edit/${product.id}`,
             {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
