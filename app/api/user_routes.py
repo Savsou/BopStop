@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import User, db
-from app.aws_helpers import get_unique_filename, update_file_on_s3
+from app.aws_helpers import get_unique_filename, update_file_on_s3, remove_file_from_s3
 from app.forms import EditProfileForm
 
 user_routes = Blueprint('users', __name__)
@@ -38,9 +38,19 @@ def sessionUser():
 @user_routes.route('/me', methods=['DELETE'])
 @login_required
 def delete_current_user():
-    User.query.filter(User.id == current_user.id).delete()
+    user = User.query.get(current_user.id)
 
-    db.session.commit()
+    if user:
+        # Delete profile image and banner image if they exist
+        if user.profileImageUrl:
+            remove_file_from_s3(user.profileImageUrl)
+        if user.bannerImageUrl:
+            remove_file_from_s3(user.bannerImageUrl)
+
+        # Delete user from database
+        db.session.delete(user)
+        db.session.commit()
+
     return {"message": "User deleted successfully."}, 204
 
 

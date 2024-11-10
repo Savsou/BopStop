@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, URLField, DecimalField
-from wtforms.validators import DataRequired, Email, ValidationError, NumberRange, URL
+from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, SelectField, DecimalField, SubmitField
+from wtforms.validators import DataRequired, Email, ValidationError, NumberRange, Optional
 from app.models import Product, User
+from app.aws_helpers import ALLOWED_EXTENSIONS
 
 
 class EditProductForm(FlaskForm):
@@ -55,4 +57,5 @@ class EditProductForm(FlaskForm):
     )
   price = DecimalField('price', validators=[DataRequired(message="Please enter a price."), NumberRange(min=0.01, message='Price must be a positive number!')])
   description = StringField('description', validators=[DataRequired(message="Please provide a description for this item.")])
-  imageUrl = URLField('imageUrl', validators=[DataRequired(message="Please provide an image of this item."), URL()])
+  imageUrl = FileField('imageUrl', validators=[Optional(), FileAllowed(list(ALLOWED_EXTENSIONS))])
+  submit = SubmitField('Update Profile')
