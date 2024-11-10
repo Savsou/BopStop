@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
@@ -7,6 +8,8 @@ import './ProductDetail.css';
 
 const ProductDetail = () => {
   const { productId } = useParams();
+  // const currentProduct = useSelector((state) => state.products.currentProduct)
+  const sessionUser = useSelector((state) => state.session.user);
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
@@ -15,6 +18,10 @@ const ProductDetail = () => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState(null);
   const navigate = useNavigate();
+
+  // console.log(`Testing allProduct from state: ${JSON.stringify(currentProduct)}`)
+  console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -98,7 +105,7 @@ const ProductDetail = () => {
     setCurrentReview(review);
     setShowRemoveModal(true);
   };
-  
+
   const closeModals = () => {
     setShowAddModal(false);
     setShowEditModal(false);
@@ -112,7 +119,7 @@ const ProductDetail = () => {
   return (
     <div className="product-detail">
       <button onClick={() => navigate(-1)} className="go-back-button">Go Back</button>
-      
+
       <img src={product.imageUrl} alt={product.name} className="product-image" />
       <div className="product-info">
         <h2 className="product-name">{product.name}</h2>
@@ -143,14 +150,14 @@ const ProductDetail = () => {
 
       {/* Modals */}
       {showAddModal && (
-        <AddReviewModal 
+        <AddReviewModal
           onClose={closeModals}
           onSubmit={handleAddReview}
         />
       )}
 
       {showEditModal && currentReview && (
-        <EditReviewModal 
+        <EditReviewModal
           review={currentReview}
           onClose={closeModals}
           onSubmit={(reviewText) => handleEditReview(currentReview.id, reviewText)}
