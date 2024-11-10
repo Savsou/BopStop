@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
+import { thunkRemoveReview } from '../../redux/reviews';
+import { thunkGetProductById } from '../../redux/products_pristine';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -17,13 +19,15 @@ const ProductDetail = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // console.log(`Testing allProduct from state: ${JSON.stringify(currentProduct)}`)
+  // console.log(`Testing currentProduct from state: ${JSON.stringify(currentProduct)}`)
   console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
 
-
   useEffect(() => {
+    // dispatch(thunkGetProductById(productId));
+
     const fetchProduct = async () => {
       try {
         const response = await fetch(`/api/products/${productId}`);
@@ -85,15 +89,16 @@ const ProductDetail = () => {
   };
 
   const handleRemoveReview = async (reviewId) => {
-    try {
-      const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
-      if (!response.ok) throw new Error("Failed to delete review");
-      setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-      setShowRemoveModal(false);
-      navigate(`/products/${productId}`);
-    } catch (err) {
-      setError(err.message);
-    }
+    // try {
+    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
+    //   if (!response.ok) throw new Error("Failed to delete review");
+    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+    //   setShowRemoveModal(false);
+    //   navigate(`/products/${productId}`);
+    // } catch (err) {
+    //   setError(err.message);
+    // }
+    dispatch(thunkRemoveReview(reviewId))
   };
 
   const openAddReviewModal = () => setShowAddModal(true);
@@ -132,15 +137,29 @@ const ProductDetail = () => {
       {/* Reviews Section */}
       <div className="reviews-section">
         <h3>Customer Reviews</h3>
-        <button onClick={openAddReviewModal} className="add-review-button">Add Review</button>
+        {
+          sessionUser && product.userId !== sessionUser.id && !(reviews.find(review => review.userId === sessionUser.id)) ? (
+            <button onClick={openAddReviewModal} className="add-review-button">Add Review</button>
+          ) : (
+            <div></div>
+          )
+        }
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <div key={review.id} className="review">
-              <p><strong>{review.user?.username || 'Anonymous'}</strong></p>
+              <p><strong>{review.artistName || 'Anonymous'}</strong></p>
               <p>{review.review}</p>
               <p className="review-date">{new Date(review.createdAt).toLocaleDateString()}</p>
-              <button onClick={() => openEditReviewModal(review)} className="edit-button">Edit</button>
-              <button onClick={() => openRemoveReviewModal(review)} className="remove-button">Remove</button>
+              {
+                sessionUser && sessionUser.id === review.userId ? (
+                  <>
+                    <button onClick={() => openEditReviewModal(review)} className="edit-button">Edit</button>
+                    <button onClick={() => openRemoveReviewModal(review)} className="remove-button">Remove</button>
+                  </>
+                ) : (
+                  <div></div>
+                )
+              }
             </div>
           ))
         ) : (
