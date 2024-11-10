@@ -58,7 +58,7 @@ function AddProduct() {
         setGenre("");
         setPrice("");
         setDescription("");
-        setImage(null);
+        setImageUrl(null);
         navigate("/");
       }
     }
