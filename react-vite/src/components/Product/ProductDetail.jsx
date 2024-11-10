@@ -10,9 +10,9 @@ import './ProductDetail.css';
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  // const currentProduct = useSelector((state) => state.products.currentProduct)
+  const product = useSelector((state) => state.products.currentProduct)
   const sessionUser = useSelector((state) => state.session.user);
-  const [product, setProduct] = useState(null);
+  // const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -22,24 +22,24 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // console.log(`Testing currentProduct from state: ${JSON.stringify(currentProduct)}`)
+  console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
   console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
 
   useEffect(() => {
-    // dispatch(thunkGetProductById(productId));
 
     const fetchProduct = async () => {
-      try {
-        const response = await fetch(`/api/products/${productId}`);
-        if (!response.ok) throw new Error("Failed to fetch product details");
-        const data = await response.json();
-        setProduct(data);
-      } catch (err) {
-        setError(err.message);
-      }
+      dispatch(thunkGetProductById(productId));
+      // try {
+      //   const response = await fetch(`/api/products/${productId}`);
+      //   if (!response.ok) throw new Error("Failed to fetch product details");
+      //   const data = await response.json();
+      //   setProduct(data);
+      // } catch (err) {
+      //   setError(err.message);
+      // }
     };
 
-    const fetchReviews = async () => {
+    const fetchReviews = async () => { //i don't think we have a thunk for this yet
       try {
         const response = await fetch(`/api/products/${productId}/reviews`);
         if (!response.ok) throw new Error("Failed to fetch reviews");
@@ -83,6 +83,7 @@ const ProductDetail = () => {
         prev.map((review) => (review.id === reviewId ? updatedReview : review))
       );
       setShowEditModal(false);
+      // navigate(`/products/${productId}`);
     } catch (err) {
       setError(err.message);
     }
