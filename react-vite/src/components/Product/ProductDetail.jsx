@@ -15,7 +15,6 @@ const ProductDetail = () => {
   const { productId } = useParams();
   const product = useSelector((state) => state.products.currentProduct)
   const sessionUser = useSelector((state) => state.session.user);
-  // const product = useSelector((state) => state.products.currentProduct)
   // const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
@@ -30,9 +29,6 @@ const ProductDetail = () => {
   console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
   console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
 
-  console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
-  console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
-
   useEffect(() => {
 
     const fetchProduct = async () => {
@@ -42,6 +38,19 @@ const ProductDetail = () => {
       //   if (!response.ok) throw new Error("Failed to fetch product details");
       //   const data = await response.json();
       //   setProduct(data);
+      // } catch (err) {
+      //   setError(err.message);
+      // }
+      // try {
+      //   const response = await fetch(`/api/products/${productId}`);
+      //   if (!response.ok) throw new Error("Failed to fetch product details");
+      //   const data = await response.json();
+      //   setProduct(data);
+
+      //   // Fetch user data using product.userId
+      //   if (data.userId) {
+      //     fetchUser(data.userId);
+      //   }
       // } catch (err) {
       //   setError(err.message);
       // }
@@ -101,23 +110,12 @@ const ProductDetail = () => {
       );
       setShowEditModal(false);
       // navigate(`/products/${productId}`);
-      // navigate(`/products/${productId}`);
     } catch (err) {
       setError(err.message);
     }
   };
 
   const handleRemoveReview = async (reviewId) => {
-    // try {
-    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
-    //   if (!response.ok) throw new Error("Failed to delete review");
-    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-    //   setShowRemoveModal(false);
-    //   navigate(`/products/${productId}`);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
-    dispatch(thunkRemoveReview(reviewId))
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
     //   if (!response.ok) throw new Error("Failed to delete review");
@@ -139,7 +137,6 @@ const ProductDetail = () => {
     setCurrentReview(review);
     setShowRemoveModal(true);
   };
-
 
   const closeModals = () => {
     setShowAddModal(false);
