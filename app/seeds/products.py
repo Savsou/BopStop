@@ -6,7 +6,7 @@ def seed_products():
 
     products_data = [
         {
-            'name': 'Adele - 30',
+            'name': '30',
             'userId': 1,
             'type': 'CD',
             'price': 14.99,
@@ -14,7 +14,7 @@ def seed_products():
             'imageUrl': f'{base_url}/Adele-30(CD).jpg',
         },
         {
-            'name': 'Taylor Swift - Evermore',
+            'name': 'Evermore',
             'userId': 2,
             'type': 'Vinyl',
             'price': 24.99,
@@ -22,7 +22,7 @@ def seed_products():
             'imageUrl': f'{base_url}/TaylorSwift-Evermore(Vinyl).jpg',
         },
         {
-            'name': 'Ed Sheeran - Equals',
+            'name': 'Equals',
             'userId': 3,
             'type': 'CD',
             'price': 14.99,
@@ -30,7 +30,7 @@ def seed_products():
             'imageUrl': f'{base_url}/EdSheeran-Equals(CD).jpg',
         },
         {
-            'name': 'Beyonce - Lemonade',
+            'name': 'Lemonade',
             'userId': 4,
             'type': 'Vinyl',
             'price': 24.99,
@@ -38,7 +38,7 @@ def seed_products():
             'imageUrl': f'{base_url}/BeyonceLemonade(Vinyl).jpg',
         },
         {
-            'name': 'Katy Perry - Smile',
+            'name': 'Smile',
             'userId': 5,
             'type': 'T-Shirt',
             'price': 19.99,
@@ -46,7 +46,7 @@ def seed_products():
             'imageUrl': f'{base_url}/KatyPerry-Smile(T-Shirt).jpg',
         },
         {
-            'name': 'Bruno Mars - 24K Magic',
+            'name': '24K Magic',
             'userId': 6,
             'type': 'Vinyl',
             'price': 24.99,
@@ -54,7 +54,7 @@ def seed_products():
             'imageUrl': f'{base_url}/BrunoMars-24KMagic(Vinyl).jpg',
         },
         {
-            'name': 'Billie Eilish - Happier Than Ever',
+            'name': 'Happier Than Ever',
             'userId': 7,
             'type': 'CD',
             'price': 14.99,
@@ -62,7 +62,7 @@ def seed_products():
             'imageUrl': f'{base_url}/BillieEilish-HappierThanEver(CD).jpg',
         },
         {
-            'name': 'Lady Gaga - Chromatica',
+            'name': 'Chromatica',
             'userId': 8,
             'type': 'T-Shirt',
             'price': 19.99,
@@ -70,7 +70,7 @@ def seed_products():
             'imageUrl': f'{base_url}/LadyGaga-Chromatica(T-Shirt).jpg',
         },
         {
-            'name': 'Kendrick Lamar - Mr. Morale & The Big Steppers',
+            'name': 'Mr. Morale & The Big Steppers',
             'userId': 9,
             'type': 'CD',
             'price': 14.99,
@@ -78,7 +78,7 @@ def seed_products():
             'imageUrl': f'{base_url}/KendrickLamar-Mr.Morale&TheBigSteppers(CD).jpg',
         },
         {
-            'name': 'Rihanna - Anti',
+            'name': 'Anti',
             'userId': 10,
             'type': 'Vinyl',
             'price': 24.99,
@@ -86,7 +86,7 @@ def seed_products():
             'imageUrl': f'{base_url}/Rihanna-Anti(Vinyl).jpg',
         },
         {
-            'name': 'Justin Bieber - Justice',
+            'name': 'Justice',
             'userId': 11,
             'type': 'CD',
             'price': 14.99,
@@ -94,7 +94,7 @@ def seed_products():
             'imageUrl': f'{base_url}/JustinBieber-Justice(CD).jpg',
         },
         {
-            'name': 'Dua Lipa - Future Nostalgia',
+            'name': 'Future Nostalgia',
             'userId': 12,
             'type': 'Vinyl',
             'price': 24.99,
@@ -102,7 +102,7 @@ def seed_products():
             'imageUrl': f'{base_url}/DuaLipa-FutureNostalgia(Vinyl).jpg',
         },
         {
-            'name': 'Shawn Mendes - Wonder',
+            'name': 'Wonder',
             'userId': 13,
             'type': 'CD',
             'price': 14.99,
@@ -110,7 +110,7 @@ def seed_products():
             'imageUrl': f'{base_url}/ShawnMendes-Wonder(CD).jpg',
         },
         {
-            'name': 'Sia - Music - Songs from and Inspired by the Motion Picture',
+            'name': 'Music - Songs from and Inspired by the Motion Picture',
             'userId': 14,
             'type': 'Vinyl',
             'price': 24.99,
@@ -118,7 +118,7 @@ def seed_products():
             'imageUrl': f'{base_url}/Sia-Music-SongsfromandInspiredbytheMotionPicture(Vinyl).jpg',
         },
         {
-            'name': 'The Weeknd - After Hours',
+            'name': 'After Hours',
             'userId': 15,
             'type': 'CD',
             'price': 14.99,
@@ -126,7 +126,7 @@ def seed_products():
             'imageUrl': f'{base_url}/TheWeeknd-AfterHours(CD).jpg',
         },
         {
-            'name': "Post Malone - Hollywood's Bleeding",
+            'name': "Hollywood's Bleeding",
             'userId': 16,
             'type': 'Vinyl',
             'price': 24.99,
@@ -134,7 +134,7 @@ def seed_products():
             'imageUrl': f'{base_url}/PostMalone-HollywoodsBleeding(Vinyl).jpg',
         },
         {
-            'name': 'Ariana Grande - Positions',
+            'name': 'Positions',
             'userId': 17,
             'type': 'CD',
             'price': 14.99,
@@ -142,7 +142,7 @@ def seed_products():
             'imageUrl': f'{base_url}/ArianaGrande-Positions(CD).jpg',
         },
         {
-            'name': 'Travis Scott - UTOPIA',
+            'name': 'UTOPIA',
             'userId': 18,
             'type': 'Vinyl',
             'price': 24.99,
@@ -150,7 +150,7 @@ def seed_products():
             'imageUrl': f'{base_url}/TravisScott-UTOPIA(Vinyl).jpg',
         },
         {
-            'name': 'Imagine Dragons - Mercury - Act 1',
+            'name': 'Mercury - Act 1',
             'userId': 19,
             'type': 'CD',
             'price': 14.99,
@@ -158,7 +158,7 @@ def seed_products():
             'imageUrl': f'{base_url}/ImagineDragons-Mercury-Act1(CD).jpg',
         },
         {
-            'name': 'Coldplay - Music of the Spheres',
+            'name': 'Music of the Spheres',
             'userId': 20,
             'type': 'Vinyl',
             'price': 24.99,
