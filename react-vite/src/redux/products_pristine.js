@@ -1,4 +1,3 @@
-import { csrfFetch } from "./csrf.js";
 import { createSelector } from 'reselect';
 
 const LOAD_ALL_PRODUCTS = 'products/load_all_products';
@@ -69,7 +68,7 @@ export const deleteProduct = productId => (
 export const thunkGetAllProducts = () => async dispatch => {
     // dispatch(loadAllProductsReq())
 
-    const res = await csrfFetch('/api/products');
+    const res = await fetch('/api/products');
     if (res.ok) {
         const products = await res.json()
         console.log(`Testing thunkGetAllProducts: ${products}`)
@@ -81,7 +80,7 @@ export const thunkGetAllProducts = () => async dispatch => {
 export const thunkGetLimitedProducts = () => async dispatch => {
     // dispatch(loadLimitedProductsReq())
 
-    const res = await csrfFetch('/api/products/limited');
+    const res = await fetch('/api/products/limited');
     console.log(res)
     if (res.ok) {
         const products = await res.json()
@@ -92,7 +91,7 @@ export const thunkGetLimitedProducts = () => async dispatch => {
 }
 
 export const thunkGetCurrentUserProducts = () => async dispatch => {
-    const res = await csrfFetch('/api/products/current');
+    const res = await fetch('/api/products/current');
     if (res.ok) {
         const products = await res.json()
         if (products.errors) return products.errors
@@ -101,7 +100,7 @@ export const thunkGetCurrentUserProducts = () => async dispatch => {
 }
 
 export const thunkGetProductById = productId => async dispatch => {
-    const res = await csrfFetch(`/api/products/${productId}`);
+    const res = await fetch(`/api/products/${productId}`);
     if (res.ok) {
         const product = await res.json()
         // console.log(`Testing thunkGetProductById: ${JSON.stringify(product)}`)
@@ -150,7 +149,7 @@ export const thunkEditProduct = (product) => async dispatch => {
             const editProduct = await editRes.json()
             console.log(`Testing thunkEditProduct data from dispatch: ${JSON.stringify(editProduct)}`)
 
-            // const getRes = await csrfFetch(`/api/products/${product.id}`);//is this just a GET?
+            // const getRes = await fetch(`/api/products/${product.id}`);//is this just a GET?
             // const updatedProduct = await getRes.json();
             dispatch(loadProductById(editProduct))
             // return editProduct; //might not need this
@@ -169,7 +168,7 @@ export const thunkEditProduct = (product) => async dispatch => {
 }
 
 export const thunkRemoveProduct = productId => async dispatch => {
-    const res = await csrfFetch(`/api/products/${productId}`,
+    const res = await fetch(`/api/products/${productId}`,
         {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }

@@ -11,7 +11,6 @@ from .api.product_routes import product_routes
 from .api.review_routes import review_routes
 from .api.wishlist_routes import wishlist_routes
 from .api.cart_routes import cart_routes
-from .api.csrf_routes import csrf_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -37,7 +36,6 @@ app.register_blueprint(product_routes, url_prefix='/api/products')
 app.register_blueprint(review_routes, url_prefix='/api/reviews')
 app.register_blueprint(cart_routes, url_prefix='/api/cart')
 app.register_blueprint(wishlist_routes, url_prefix='/api/wishlist')
-app.register_blueprint(csrf_routes, url_prefix='/api/csrf')
 db.init_app(app)
 Migrate(app, db)
 
@@ -67,7 +65,7 @@ def inject_csrf_token(response):
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
         samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,
-        httponly=False)
+        httponly=True)
     return response
 
 @app.route("/api/docs")

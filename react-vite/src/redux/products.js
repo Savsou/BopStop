@@ -1,4 +1,3 @@
-import { csrfFetch } from "./csrf.js";
 // import { createSelector } from 'reselect';
 
 const LOAD_ALL_PRODUCTS = 'products/load_all_products';
@@ -87,7 +86,7 @@ export const deleteProduct = productId => (
 export const thunkGetAllProducts = () => async dispatch => {
     // dispatch(loadAllProductsReq())
 
-    const res = await csrfFetch('/api/products');
+    const res = await fetch('/api/products');
     if(res.ok){
       const products = res.json()
       if(products.errors) return products.errors
@@ -98,7 +97,7 @@ export const thunkGetAllProducts = () => async dispatch => {
 export const thunkGetLimitedProducts = () => async dispatch => {
    // dispatch(loadLimitedProductsReq())
 
-  const res = await csrfFetch('/api/products/limited');
+  const res = await fetch('/api/products/limited');
   if(res.ok){
     const products = res.json()
     if(products.errors) return products.errors
@@ -107,7 +106,7 @@ export const thunkGetLimitedProducts = () => async dispatch => {
 }
 
 export const thunkGetCurrentUserProducts = () => async dispatch => {
-  const res = await csrfFetch('/api/products/current');
+  const res = await fetch('/api/products/current');
   if(res.ok){
     const products = res.json()
     if(products.errors) return products.errors
@@ -116,7 +115,7 @@ export const thunkGetCurrentUserProducts = () => async dispatch => {
 }
 
 export const thunkGetProductById = productId => async dispatch => {
-  const res = await csrfFetch(`/api/products/${productId}`);
+  const res = await fetch(`/api/products/${productId}`);
   if(res.ok){
     const product = res.json()
     if(product.errors) return product.errors
@@ -125,7 +124,7 @@ export const thunkGetProductById = productId => async dispatch => {
 }
 
 export const thunkGetProductReviews = productId => async dispatch => {
-  const res = await csrfFetch(`/api/products/${productId}/reviews`);
+  const res = await fetch(`/api/products/${productId}/reviews`);
   if(res.ok){
     const  reviews = res.json()
     if(reviews.errors) return reviews.errors
@@ -134,7 +133,7 @@ export const thunkGetProductReviews = productId => async dispatch => {
 }
 
 export const thunkAddAProduct = product => async dispatch => {
-  const res = await csrfFetch('/api/products', {
+  const res = await fetch('/api/products', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body : JSON.stringify(product)
@@ -147,7 +146,7 @@ export const thunkAddAProduct = product => async dispatch => {
 }
 
 export const thunkAddAProductReview = (productId, review) => async dispatch => {
-  const res = await csrfFetch(`/api/prodducts/${productId}/reviews`,{
+  const res = await fetch(`/api/prodducts/${productId}/reviews`,{
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(review)
@@ -160,7 +159,7 @@ export const thunkAddAProductReview = (productId, review) => async dispatch => {
 }
 
 export const thunkRemoveProduct = productId => async dispatch => {
-  const res = await csrfFetch(`/api/products/${productId}`,
+  const res = await fetch(`/api/products/${productId}`,
     {
       method:'DELETE',
       headers: {'Content-Type': 'application/json'}

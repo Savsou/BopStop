@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider as ReduxProvider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
-import { csrfFetch } from './redux/csrf';
 import configureStore from "./redux/store";
 import { router } from "./router";
 import * as sessionActions from "./redux/session";
@@ -12,7 +11,6 @@ const store = configureStore();
 
 if (import.meta.env.MODE !== "production") {
   window.store = store;
-  window.csrfFetch = csrfFetch;
   window.sessionActions = sessionActions;
 }
 
