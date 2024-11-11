@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf.js";
+import Cookies from 'js-cookie'
 
 const LOAD_CART_ITEMS = '/api/cart/load_cart_items'
 const LOAD_A_CART_ITEM = '/api/cart/load_a_cart_item'
@@ -26,7 +27,12 @@ export const deleteCartItem = itemId => (
 )
 
 export const thunkGetCart = () => async dispatch =>{
-  const res = await fetch('/api/cart')
+  const res = await csrfFetch('/api/cart', {
+    headers:{ "csrf_token": Cookies.get('csrf_token')},
+    credentials: 'include'
+  })
+  const cart = await res.json()
+  return {"return": cart}
   if (res.ok) {
     const cart = await res.json()
     if (cart.errors) return cart.errors
