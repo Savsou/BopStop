@@ -214,12 +214,12 @@ def update_product(productId):
 @product_routes.route('/<int:productId>/reviews')
 def product_reviews(productId):
   product = Product.query.get(productId)
-  # productReviews = product.get_reviews
-  # for index, review in enumerate(productReviews):
-  #   productReviews[index]["artistName"] = User.query.get(review['userId']).to_dict()['artistName']
+  productReviews = product.get_reviews
+  for index, review in enumerate(productReviews):
+    productReviews[index]["artistName"] = User.query.get(review['userId']).to_dict()['artistName']
   if product:
-    return {'reviews': product.get_reviews}
-  #   return {"reviews": productReviews}
+    # return {'reviews': product.get_reviews}
+    return {"reviews": productReviews}
   else:
     return {'message': 'Product could not be found!'}, 404
 
