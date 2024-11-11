@@ -1,5 +1,5 @@
 import { csrfFetch } from "./csrf.js";
-// import { createSelector } from 'reselect';
+import { createSelector } from 'reselect';
 
 const LOAD_ALL_PRODUCTS = 'products/load_all_products';
 const LOAD_LIMITED_PRODUCTS = 'products/load_limited_products';
@@ -116,6 +116,7 @@ export const thunkAddProduct = (product) => async dispatch => {
     const response = await fetch("/api/products/", {
         method: "POST",
         // headers: { "Content-Type": "application/json" },
+        // need to stringify body rather than write directly when in backend because its python going to js
         // body: JSON.stringify(product)
         body: product
     });
@@ -125,6 +126,7 @@ export const thunkAddProduct = (product) => async dispatch => {
         dispatch(createProduct(newProduct));
     } else if (response.status < 500) {
         const errorMessages = await response.json();
+        console.error("Validation Errors:", errorMessages);
         return errorMessages
     } else {
         return { server: "Something went wrong. Please try again" }
@@ -134,12 +136,14 @@ export const thunkAddProduct = (product) => async dispatch => {
 export const thunkEditProduct = (product) => async dispatch => {
     try {
         console.log(`Testing product payload before fetch: ${JSON.stringify(product)}`)
+        const productId = product.get("id");
 
-        const editRes = await fetch(`/api/products/edit/${product.id}`,
+        const editRes = await fetch(`/api/products/edit/${productId}`,
             {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(product)
+                // headers: { 'Content-Type': 'application/json' },
+                // body: JSON.stringify(product)
+                body: product
             }
         )
         if (editRes.ok) {
@@ -178,6 +182,13 @@ export const thunkRemoveProduct = productId => async dispatch => {
         dispatch(deleteProduct(productId))
     }
 }
+
+//selectors
+export const selectProduct = state => state.products;
+
+export const selectAllProductsArry = createSelector(selectProduct, products => Object.values(products.allProducts));
+export const selectLtdProductsArry = createSelector(selectProduct, products => Object.values(products.ltdProducts));
+
 
 //reducer
 const initialState = {

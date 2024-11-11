@@ -138,3 +138,18 @@ body {
   margin-right: 20px;
 }
 
+li.username {
+  font-weight: bold;
+}
+
+li .nav-icon {
+  padding: 15px;
+}
+
+.nav-icon-link{
+  color: #1DA0C3
+}
+
+.nav-icon-link:hover{
+  color: #6046FE
+}

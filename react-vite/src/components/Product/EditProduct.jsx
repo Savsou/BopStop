@@ -15,7 +15,7 @@ function EditProduct() {
   const [genre, setGenre] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
   const [errors, setErrors] = useState({});
 
 
@@ -44,21 +44,31 @@ function EditProduct() {
     if (sessionUser) {
       setErrors({});
 
-      const updatedProduct = {
-        id: productId,
-        name,
-        type,
-        genre,
-        price,
-        description,
-        imageUrl,
-      };
+      // const updatedProduct = {
+      //   id: productId,
+      //   name,
+      //   type,
+      //   genre,
+      //   price,
+      //   description,
+      //   imageUrl,
+      // };
 
       // console.log(`Testing updated product data: ${JSON.stringify(updatedProduct)}`)
 
+      const formData = new FormData()
+      formData.append("id", productId)
+      formData.append("name", name)
+      formData.append("type", type)
+      formData.append("genre", genre)
+      formData.append("price", price)
+      formData.append("description", description)
+      formData.append("imageUrl", imageUrl)
+
       try {
         const serverResponse = await dispatch(
-          thunkEditProduct(updatedProduct)
+          // thunkEditProduct(updatedProduct)
+          thunkEditProduct(formData)
         );
 
         if (serverResponse) {
@@ -77,7 +87,7 @@ function EditProduct() {
   return (
     <div className="container">
       <h2 className="header">Edit Product</h2>
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="form">
         <label className="label">
           Name:
           <input
@@ -171,9 +181,9 @@ function EditProduct() {
         <label className="label">
           Image URL:
           <input
-            type="url"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageUrl(e.target.files[0])}
             className="input"
           />
         </label>

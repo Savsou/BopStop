@@ -50,9 +50,10 @@ export const thunkRemoveReview = reviewId => async dispatch => {
 
   if(res.ok){
     dispatch(deleteReview(reviewId))
-    return await res.json() //If you want the delete message for frontend
-  }else if (res.status < 500) {
+    // return await res.json() //If you want the delete message for frontend
+  } else if (res.status < 500) {
     const errorMessages = await res.json();
+    console.error("Validation Errors:", errorMessages);
     return errorMessages
   } else {
     return { "server": "Something went wrong. Please try again" }

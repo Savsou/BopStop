@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import RemoveProductModal from '../Product/RemoveProductModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import '../Product/ProductDetail.css';
 import './UserProfile.css';
-import "../Product/ProductCard.css";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,68 +29,108 @@ const ProfilePage = () => {
     fetchUser();
   }, []);
 
+  const handleOpenModal = (productId) => {
+    setProductIdToDelete(productId);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setProductIdToDelete(null);
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete product');
+      }
+      setUser((prevUser) => ({
+        ...prevUser,
+        products: prevUser.products.filter((product) => product.productId !== productId),
+      }));
+      handleCloseModal();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   if (error) return <p>{error}</p>;
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className="profile-page">
-      {/* Banner */}
-      <div className="banner" style={{ backgroundImage: `url(${user.bannerImageUrl})` }}>
-        <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" />
-      </div>
-
-      {/* User Info */}
-      <div className="user-info">
-        <h1 className="artist-name">{user.artistName}</h1>
-        <p className="username">@{user.username}</p>
-        <p className="email">{user.email}</p>
-        <p className="bio">{user.bio}</p>
-      </div>
-
-      {/* User Products */}
-      <div className="user-products">
-        <h2>Products</h2>
+    <div className="product-detail-page">
+      {/* Banner Section */}
+      {user?.profileImageUrl && (
+        <div
+          className="banner"
+          style={{ backgroundImage: `url(${user.profileImageUrl})` }}
+        />
+      )} 
+      {/* Product List */}
         {user.products && user.products.length > 0 ? (
-          <div className="products-grid">
-            {user.products.map((product) => (
-              product && (
-                <div key={product.productId} className="product-card">
-                  <img src={product.imageUrl} alt={product.name} className="product-image" />
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-genre">{product.genre}</p>
-                  <p className="product-price">${product.price}</p>
-                  {/* Edit Button */}
-                  <Link to={`/products/edit/${product.productId}`} className="edit-button">
-                    Edit
-                  </Link>
+          user.products.map((product) => (
+            <div key={product.productId} className="product-detail">
+              
+              {/* Product Column */}
+              <div className="product-column">
+                <h2 className="product-name">{product.name}</h2>
+                <p className="product-artist">by {product.artistName}</p>
+                <div className="product-info">
+                  <div className="product-info-column">
+                    <p className="product-type">{product.type}</p>
+                    {product.genre && <p className="product-genre">Genre: {product.genre}</p>}
+                    <p className="product-description">{product.description}</p>
+                    <p className="product-price">Price: ${product.price}</p>
+                    <p className="product-created-time">Released {formatDate(product.createdAt)}</p>
+                    <Link to={`/products/edit/${product.productId}`} className="product-detail-button">
+                      <FontAwesomeIcon icon={faPenToSquare} /> Edit
+                    </Link>
+                    <button 
+                      onClick={() => handleOpenModal(product.productId)} 
+                      className="product-detail-button"
+                    >
+                      <FontAwesomeIcon icon={faTrash} /> Remove
+                    </button>
+                  </div>
+                  <div className="product-image-column">
+                    <img src={product.imageUrl} alt={product.name} className="product-image" />
+                  </div>
                 </div>
-              )
-            ))}
-          </div>
+              </div>
+
+              {/* Artist Column */}
+              <div className="artist-column">
+              <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" />
+                <p className="product-artist">by {product.artistName}</p>
+                <img src={product.imageUrl} alt={product.name} className="product-image" />
+                <p className="product-name">{product.name}</p>
+                <p className="product-created-time">{formatDate(product.createdAt)}</p>
+              </div>
+            </div>
+          ))
         ) : (
           <p>No products listed.</p>
         )}
-      </div>
 
-      {/* User Reviews */}
-      {/* User Reviews */}
-<div className="reviews-section">
-  <h2>Reviews</h2>
-  {user.reviews && user.reviews.length > 0 ? (
-    user.reviews.map((review) => (
-      <div key={review.id} className="review-item">
-        <p><strong>Product:</strong> {review.productName}</p>
-        <p><strong>Review:</strong> {review.content}</p>
-        <p className="review-date">
-          <small>Reviewed on: {new Date(review.createdAt).toLocaleDateString()}</small>
-        </p>
-      </div>
-    ))
-  ) : (
-    <p>No reviews available.</p>
-  )}
-</div>
-
+      {/* Modals */}
+      {showModal && (
+        <RemoveProductModal 
+          productId={productIdToDelete} 
+          onConfirm={handleDeleteProduct} 
+          onCancel={handleCloseModal} 
+        />
+      )}
     </div>
   );
 };

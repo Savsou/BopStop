@@ -7,6 +7,8 @@ import ArtistDetail from "../components/Artist/ArtistDetail";
 import EditUser from '../components/UserProfile/EditUser';
 import UserProfile from '../components/UserProfile/UserProfile';
 import ProductDetail from "../components/Product/ProductDetail";
+import Wishlist from '../components/Wishlist/Wishlist';
+import Cart from '../components/Cart/Cart';
 import Layout from './Layout';
 
 import ReduxTest from '../components/Product/ReduxTest';//redux test component
@@ -51,6 +53,14 @@ export const router = createBrowserRouter([
       {
         path: "/profile/:userId",
         element: <UserProfile />,
+      },
+      {
+        path: "/wishlist",
+        element: <Wishlist />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
       {
         path: "redux/test",
