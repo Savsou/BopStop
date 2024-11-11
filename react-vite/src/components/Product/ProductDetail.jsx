@@ -5,7 +5,7 @@ import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
 import { thunkRemoveReview } from '../../redux/reviews';
-import { thunkGetProductById } from '../../redux/products_pristine';
+import { thunkGetProductById, thunkGetProductReviews } from '../../redux/products_pristine';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Cart from '../Cart/Cart';
@@ -26,8 +26,8 @@ const ProductDetail = () => {
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
 
-  console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
-  console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
+  // console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
+  // console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
 
   useEffect(() => {
 
@@ -57,6 +57,7 @@ const ProductDetail = () => {
     };
 
     const fetchReviews = async () => { //i don't think we have a thunk for this yet
+      // dispatch(thunkGetProductReviews(productId));
       try {
         const response = await fetch(`/api/products/${productId}/reviews`);
         if (!response.ok) throw new Error("Failed to fetch reviews");
@@ -157,7 +158,7 @@ const ProductDetail = () => {
       });
 
       if (!response.ok) throw new Error("Failed to add product to wishlist");
-      
+
       // Navigate to the wishlist page after successful addition
       navigate('/wishlist');
     } catch (err) {
@@ -173,7 +174,7 @@ const ProductDetail = () => {
     alert("Proceeding to checkout with this item.");
     // Add additional checkout functionality here
   };
-  
+
 
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
@@ -221,14 +222,14 @@ const ProductDetail = () => {
                 )
               }
                 {reviews.length > 0 ? (
-                  reviews.map((review) => (  
-                    <div className='review'>
+                  reviews.map((review) => (
+                    <div  key={review.id} className='review'>
                       <div className='review-image'>
                       {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
                       </div>
-                      <div key={review.id} className="review-info">
+                      <div className="review-info">
                         <p className='review-content'>
-                          <span className='review-name'><strong>{review.user?.username || 'Anonymous'}</strong></span>
+                          <span className='review-name'><strong>{review.artistName || 'Anonymous'}</strong></span>
                           {review.review}
                         </p>
                         {
@@ -246,9 +247,9 @@ const ProductDetail = () => {
                         ) : (
                           <div></div>
                         )
-                      }                                
+                      }
                       </div>
-                    </div>     
+                    </div>
                   ))
                 ) : (
                   <p>No reviews available for this product.</p>
@@ -260,9 +261,9 @@ const ProductDetail = () => {
         <div className="artist-column">
         {/* Conditionally render the Cart component if the product is in the cart */}
       {isInCart && (
-        <Cart 
-          cartItems={[product]} 
-          handleCheckout={handleCheckout} 
+        <Cart
+          cartItems={[product]}
+          handleCheckout={handleCheckout}
         />
       )}
           {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
@@ -271,7 +272,7 @@ const ProductDetail = () => {
           <p className="product-name">{product.name}</p>
           <p className="product-created-time">{formatDate(product.createdAt)}</p>
         </div>
-      </div>  
+      </div>
 
       {/* Modals */}
       {showAddModal && (

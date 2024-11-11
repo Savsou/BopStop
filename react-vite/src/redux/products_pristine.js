@@ -5,6 +5,8 @@ const LOAD_ALL_PRODUCTS = 'products/load_all_products';
 const LOAD_LIMITED_PRODUCTS = 'products/load_limited_products';
 const LOAD_CURRENT_USER_PRODUCTS = 'products/load_current_user_products';
 const LOAD_PRODUCT_BY_ID = 'products/load_product_by_id';
+const LOAD_PRODUCT_REVIEWS = 'products/load_product_reviews';
+const CREATE_PRODUCT_REVIEW = 'products/create_product_review';
 const CREATE_PRODUCT = 'products/create_product';
 const DELETE_PRODUCT = 'products/delete_product';
 // const LOAD_ALL_PRODUCTS_REQUEST = 'products/load_all_products_request';
@@ -48,6 +50,20 @@ export const loadProductById = product => (
     {
         type: LOAD_PRODUCT_BY_ID,
         product
+    }
+)
+
+export const loadProductReviews = reviews => (
+    {
+        type: LOAD_PRODUCT_REVIEWS,
+        reviews
+    }
+)
+
+export const createProductReview = review => (
+    {
+        type: CREATE_PRODUCT_REVIEW,
+        review
     }
 )
 
@@ -108,6 +124,32 @@ export const thunkGetProductById = productId => async dispatch => {
         if (product.errors) return product.errors
         dispatch(loadProductById(product))
         return product
+    }
+}
+
+export const thunkGetProductReviews = productId => async dispatch => {
+    try {
+        const res = await fetch(`/api/products/${productId}/reviews`);
+        if (!res.ok) throw new Error("Something is wrong in thunk")
+        const reviews = res.json()
+        console.log(`Testing product reviews from thunk: ${JSON.stringify(reviews)}`)
+        if (reviews.errors) return reviews.errors
+        dispatch(loadProductReviews(reviews['reviews']))
+    } catch(err) {
+        alert(err)
+    }
+}
+
+export const thunkAddAProductReview = (productId, review) => async dispatch => {
+    const res = await csrfFetch(`/api/prodducts/${productId}/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(review)
+    })
+    if (res.ok) {
+        const newReview = await res.json()
+        if (newReview.errors) return newReview.errors
+        dispatch(createProductReview(newReview))
     }
 }
 
@@ -189,7 +231,6 @@ export const selectProduct = state => state.products;
 export const selectAllProductsArry = createSelector(selectProduct, products => Object.values(products.allProducts));
 export const selectLtdProductsArry = createSelector(selectProduct, products => Object.values(products.ltdProducts));
 
-
 //reducer
 const initialState = {
     ltdProducts: {},
@@ -244,6 +285,42 @@ function productsReducer(state = initialState, action) {
                 },
                 currentProduct: product//might get rid of this later
             };
+        }
+        case LOAD_PRODUCT_REVIEWS: {
+            const reviews = action.reviews;
+            const allReviews = {}
+            let productId;
+            if (reviews.length > 0) {
+                productId = reviews[0].productId
+                reviews.forEach(review => {
+                    allReviews[review.id] = review
+                })
+                return {
+                    ...state,
+                    allProducts: {
+                        ...state.allProducts,
+                        [productId]: {
+                            ...state.allProducts[productId],
+                            reviews: allReviews
+                        }
+                    }
+                }
+            }
+            return { ...state }
+        }
+        case CREATE_PRODUCT_REVIEW: {
+            const { productId } = action.review
+            const review = action.review
+            const currentReviews = state.allProducts[productId].reviews || {};
+            return {
+                ...state,
+                allProducts: {
+                    [productId]: {
+                        ...state.allProducts[productId],
+                        reviews: { ...currentReviews, [review.id]: review }
+                    }
+                }
+            }
         }
         case CREATE_PRODUCT: {
             const productId = action.product.id;
