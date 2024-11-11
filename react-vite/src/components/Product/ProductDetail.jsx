@@ -24,7 +24,6 @@ const ProductDetail = () => {
   const [currentReview, setCurrentReview] = useState(null);
   const dispatch = useDispatch();
   const [isInCart, setIsInCart] = useState(false);
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
@@ -55,17 +54,6 @@ const ProductDetail = () => {
       // } catch (err) {
       //   setError(err.message);
       // }
-    };
-
-    const fetchUser = async (userId) => {
-      try {
-        const response = await fetch(`/api/users/${userId}`);
-        if (!response.ok) throw new Error("Failed to fetch user data");
-        const userData = await response.json();
-        setUser(userData);
-      } catch (err) {
-        setError(err.message);
-      }
     };
 
     const fetchReviews = async () => { //i don't think we have a thunk for this yet
@@ -223,15 +211,15 @@ const ProductDetail = () => {
               {/* Reviews Section */}
               <div className="reviews-section">
                 <p className="reviews-title">supported by</p>{
-          sessionUser && product.userId !== sessionUser.id && !(reviews.find(review => review.userId === sessionUser.id)) ? (
-            <button onClick={openAddReviewModal} className="product-detail-button">
-                    <FontAwesomeIcon icon={faPlus} className="nav-icon" />
-                      Add
-                </button>
-          ) : (
-            <div></div>
-          )
-        }
+                sessionUser && product.userId !== sessionUser.id && !(reviews.find(review => review.userId === sessionUser.id)) ? (
+                  <button onClick={openAddReviewModal} className="product-detail-button">
+                          <FontAwesomeIcon icon={faPlus} className="nav-icon" />
+                            Add
+                      </button>
+                ) : (
+                  <div></div>
+                )
+              }
                 {reviews.length > 0 ? (
                   reviews.map((review) => (  
                     <div className='review'>
@@ -244,21 +232,21 @@ const ProductDetail = () => {
                           {review.review}
                         </p>
                         {
-                sessionUser && sessionUser.id === review.userId ? (
-                  <>
-                    <button onClick={() => openEditReviewModal(review)} className="product-detail-button">
-                        <FontAwesomeIcon icon={faPenToSquare} className="nav-icon" />
-                          Edit
-                        </button>
-                        <button onClick={() => openRemoveReviewModal(review)} className="product-detail-button">
-                        <FontAwesomeIcon icon={faTrash} className="nav-icon" />
-                          Remove
-                        </button>
-                  </>
-                ) : (
-                  <div></div>
-                )
-              }                                
+                        sessionUser && sessionUser.id === review.userId ? (
+                          <>
+                            <button onClick={() => openEditReviewModal(review)} className="product-detail-button">
+                                <FontAwesomeIcon icon={faPenToSquare} className="nav-icon" />
+                                  Edit
+                                </button>
+                                <button onClick={() => openRemoveReviewModal(review)} className="product-detail-button">
+                                <FontAwesomeIcon icon={faTrash} className="nav-icon" />
+                                  Remove
+                                </button>
+                          </>
+                        ) : (
+                          <div></div>
+                        )
+                      }                                
                       </div>
                     </div>     
                   ))
