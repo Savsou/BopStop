@@ -45,7 +45,7 @@ export const thunkAddItem = item => async dispatch =>{
     {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(item)
+      body: item
     }
   )
   if (res.ok) {
@@ -83,8 +83,8 @@ function cartReducer(state = initialState, action){
   switch(action.type){
     case(LOAD_CART_ITEMS):{
       const {cartDetails, subTotal} = action.cart
+      console.log("this is the action",action)
       return {
-        ...state,
         items: cartDetails,
         subTotal: subTotal
       }
