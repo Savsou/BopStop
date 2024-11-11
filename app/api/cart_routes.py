@@ -106,3 +106,8 @@ def transaction():
     return {"message": f"Your transaction of {round(total, 2)} was successful"}
   else:
     return {"message": "Your cart is empty"}
+
+@cart_routes.route('/test', methods=["GET"])
+@login_required
+def test_route():
+    return {"message": f"Logged in as {current_user.id}"}

@@ -51,5 +51,5 @@ class User(db.Model, UserMixin):
             'products': [product.to_dict() for product in self.products],
             'reviews': [review.to_dict() for review in self.reviews],
             'wishlists': self.wishlist.to_dict() if self.wishlist else None,
-            'carts': self.cart.to_dict() if self.cart else None
+            'cart': self.cart.to_dict() if self.cart else None
         }

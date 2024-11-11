@@ -7,6 +7,7 @@ import ArtistDetail from "../components/Artist/ArtistDetail";
 import EditUser from '../components/UserProfile/EditUser';
 import UserProfile from '../components/UserProfile/UserProfile';
 import ProductDetail from "../components/Product/ProductDetail";
+import CheckoutPage from "../components/CheckoutPage/CheckoutPage";
 import Layout from './Layout';
 
 import ReduxTest from '../components/Product/ReduxTest';//redux test component
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "redux/test",
         element: <ReduxTest />
+      },
+      {
+        path: "checkout",
+        element: <CheckoutPage />
       }
     ],
   },
