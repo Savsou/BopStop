@@ -3,6 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Cart from '../Cart/Cart';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -14,6 +17,8 @@ const ProductDetail = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState(null);
+  const [isInCart, setIsInCart] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +28,22 @@ const ProductDetail = () => {
         if (!response.ok) throw new Error("Failed to fetch product details");
         const data = await response.json();
         setProduct(data);
+
+        // Fetch user data using product.userId
+        if (data.userId) {
+          fetchUser(data.userId);
+        }
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    const fetchUser = async (userId) => {
+      try {
+        const response = await fetch(`/api/users/${userId}`);
+        if (!response.ok) throw new Error("Failed to fetch user data");
+        const userData = await response.json();
+        setUser(userData);
       } catch (err) {
         setError(err.message);
       }
@@ -42,6 +63,15 @@ const ProductDetail = () => {
     fetchProduct();
     fetchReviews();
   }, [productId]);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   const handleAddReview = async (reviewText) => {
     try {
@@ -106,40 +136,120 @@ const ProductDetail = () => {
     setCurrentReview(null);
   };
 
+  const addToWishlist = async (productId) => {
+    try {
+      const response = await fetch('/api/wishlists', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ productId }),
+      });
+
+      if (!response.ok) throw new Error("Failed to add product to wishlist");
+      
+      // Navigate to the wishlist page after successful addition
+      navigate('/wishlist');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const addToCart = () => {
+    setIsInCart(true);
+  };
+
+  const handleCheckout = () => {
+    alert("Proceeding to checkout with this item.");
+    // Add additional checkout functionality here
+  };
+  
+
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
 
   return (
-    <div className="product-detail">
-      <button onClick={() => navigate(-1)} className="go-back-button">Go Back</button>
-      
-      <img src={product.imageUrl} alt={product.name} className="product-image" />
-      <div className="product-info">
-        <h2 className="product-name">{product.name}</h2>
-        <p className="product-type">Type: {product.type}</p>
-        {product.genre && <p className="product-genre">Genre: {product.genre}</p>}
-        <p className="product-price">Price: ${product.price}</p>
-        <p className="product-description">{product.description}</p>
-      </div>
-
-      {/* Reviews Section */}
-      <div className="reviews-section">
-        <h3>Customer Reviews</h3>
-        <button onClick={openAddReviewModal} className="add-review-button">Add Review</button>
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div key={review.id} className="review">
-              <p><strong>{review.user?.username || 'Anonymous'}</strong></p>
-              <p>{review.review}</p>
-              <p className="review-date">{new Date(review.createdAt).toLocaleDateString()}</p>
-              <button onClick={() => openEditReviewModal(review)} className="edit-button">Edit</button>
-              <button onClick={() => openRemoveReviewModal(review)} className="remove-button">Remove</button>
+    <div className="product-detail-page">
+      {/* Banner Section */}
+      {/* {user?.profileImageUrl && (
+        <div
+          className="banner"
+          style={{ backgroundImage: `url(${user.profileImageUrl})` }}
+        />
+      )}       */}
+      <div className="product-detail">
+        <div className="product-column">
+          <h2 className="product-name">{product.name}</h2>
+          <p className="product-artist">by {product.artistName}</p>
+          <div className='product-info'>
+            <div className='product-info-column'>
+              <p className="product-type">{product.type}</p>
+              {product.genre && <p className="product-genre">Genre: {product.genre}</p>}
+              <p className="product-description">{product.description}</p>
+              <p className="product-price">Price: ${product.price}</p>
+              <p className="product-created-time">released {formatDate(product.createdAt)}</p>
+              <button onClick={() => addToCart(product.productId)} className="product-detail-button">
+                <FontAwesomeIcon icon={faCartPlus} className="nav-icon" /> Add to Cart
+              </button>
             </div>
-          ))
-        ) : (
-          <p>No reviews available for this product.</p>
-        )}
-      </div>
+            <div className='product-image-column'>
+              <img src={product.imageUrl} alt={product.name} className="product-image" />
+              {/* Wishlist Button */}
+              <button onClick={() => addToWishlist(product.productId)} className="product-detail-button">
+                <FontAwesomeIcon icon={faHeart} className="nav-icon" /> Wishlist
+              </button>
+              {/* Reviews Section */}
+              <div className="reviews-section">
+                <p className="reviews-title">supported by</p>
+                <button onClick={openAddReviewModal} className="product-detail-button">
+                    <FontAwesomeIcon icon={faPlus} className="nav-icon" />
+                      Add
+                </button>
+                {reviews.length > 0 ? (
+                  reviews.map((review) => (  
+                    <div className='review'>
+                      <div className='review-image'>
+                      {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
+                      </div>
+                      <div key={review.id} className="review-info">
+                        <p className='review-content'>
+                          <span className='review-name'><strong>{review.user?.username || 'Anonymous'}</strong></span>
+                          {review.review}
+                        </p>
+                        <button onClick={() => openEditReviewModal(review)} className="product-detail-button">
+                        <FontAwesomeIcon icon={faPenToSquare} className="nav-icon" />
+                          Edit
+                        </button>
+                        <button onClick={() => openRemoveReviewModal(review)} className="product-detail-button">
+                        <FontAwesomeIcon icon={faTrash} className="nav-icon" />
+                          Remove
+                        </button>
+                      </div>
+                    </div>     
+                  ))
+                ) : (
+                  <p>No reviews available for this product.</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="artist-column">
+        {/* Conditionally render the Cart component if the product is in the cart */}
+      {isInCart && (
+        <Cart 
+          cartItems={[product]} 
+          handleCheckout={handleCheckout} 
+        />
+      )}
+          {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
+          <p className="product-artist">by {product.artistName}</p>
+          <img src={product.imageUrl} alt={product.name} className="product-image" />
+          <p className="product-name">{product.name}</p>
+          <p className="product-created-time">{formatDate(product.createdAt)}</p>
+        </div>
+      </div>  
 
       {/* Modals */}
       {showAddModal && (

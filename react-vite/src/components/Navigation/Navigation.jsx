@@ -7,6 +7,8 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import AddButton from "./AddButton"
 import logo from "../../../src/logo.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import "./Navigation.css";
 
 function Navigation() {
@@ -25,6 +27,11 @@ function Navigation() {
             <li>
               <AddButton
               />
+            </li>
+            <li>
+            <NavLink to="/wishlist" className="nav-icon-link">
+                <FontAwesomeIcon icon={faHeart} className="nav-icon" />
+            </NavLink>
             </li>
           <li>
             <ProfileButton
