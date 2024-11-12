@@ -8,7 +8,7 @@ cart_routes = Blueprint('cart', __name__)
 @cart_routes.route('/')
 @login_required
 def cart_products():
-  cart= current_user.cart
+  cart = current_user.cart
 
   # idea for getting all products with their quantity.
   cart_details = []
