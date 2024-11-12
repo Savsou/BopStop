@@ -64,8 +64,9 @@ def delete_product(productId):
     if image_url:
       remove_file_from_s3(image_url)
 
-    db.session.delete(product)
+    product.delete()
     db.session.commit()
+
     return {"message": "Product successfully deleted"}
   else:
     return {"message": "Product not found!"}, 404
