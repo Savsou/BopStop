@@ -24,7 +24,7 @@ const ProductDetail = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState(null);
-  const [currentReviewId, setCurrentReviewId] = useState(null);
+  const [currentReviewText, setCurrentReviewText] = useState(null);
   const dispatch = useDispatch();
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const ProductDetail = () => {
     fetchProduct();
     fetchReviews();
     fetchUserReviews();
-  }, [productId, currentReviewId]);
+  }, [productId, currentReviewText]);
 
 
   const formatDate = (dateString) => {
@@ -110,6 +110,7 @@ const ProductDetail = () => {
 
 
   const handleEditReview = async (reviewId, reviewText) => {
+    setCurrentReviewText(reviewText)
     dispatch(thunkEditReview(reviewId, reviewText))
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, {
@@ -158,7 +159,7 @@ const ProductDetail = () => {
     setShowAddModal(false);
     setShowEditModal(false);
     setShowRemoveModal(false);
-    setCurrentReviewId(currentReview.id)
+    setCurrentReviewText(currentReview.review)
     // setCurrentReview(null);
   };
 
@@ -199,8 +200,7 @@ const ProductDetail = () => {
   // // const reviews = reviewsFromState.reviews
   const reviews = Object.values(reviewsFromState.reviews);
   // console.log(`Testing reviews from state: ${JSON.stringify(reviews)}`)
-  console.log(`Testing current review id from state: ${JSON.stringify(currentReviewId)}`)
-  console.log(`Testing editedReview from state: ${JSON.stringify(editedReview[currentReviewId])}`)
+  console.log(`Testing editedReview from state: ${JSON.stringify(editedReview)}`)
 
   return (
     <div className="product-detail-page">
