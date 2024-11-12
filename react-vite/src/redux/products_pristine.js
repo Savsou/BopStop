@@ -132,7 +132,7 @@ export const thunkGetProductReviews = productId => async dispatch => {
         const res = await fetch(`/api/products/${productId}/reviews`);
         if (!res.ok) throw new Error("Something is wrong in thunk")
         const reviews = await res.json()
-        console.log(`Testing product reviews from thunk: ${JSON.stringify(reviews)}`)
+        // console.log(`Testing product reviews from thunk: ${JSON.stringify(reviews)}`)
         if (reviews.errors) return reviews.errors
         dispatch(loadProductReviews(reviews['reviews']))
     } catch(err) {
@@ -141,7 +141,7 @@ export const thunkGetProductReviews = productId => async dispatch => {
 }
 
 export const thunkAddAProductReview = (productId, review) => async dispatch => {
-    const res = await csrfFetch(`/api/prodducts/${productId}/reviews`, {
+    const res = await fetch(`/api/products/${productId}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(review)
@@ -311,7 +311,7 @@ function productsReducer(state = initialState, action) {
         case CREATE_PRODUCT_REVIEW: {
             const { productId } = action.review
             const review = action.review
-            const currentReviews = state.allProducts[productId].reviews || {};
+            const currentReviews = state.allProducts[productId]?.reviews || {};
             return {
                 ...state,
                 allProducts: {

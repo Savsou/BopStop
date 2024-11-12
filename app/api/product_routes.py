@@ -236,9 +236,10 @@ def create_review(productId):
   if product is None:
     return {'message': 'Product could not be found!'}, 404
   data = request.get_json()
+  # return {"data in review route": data}
   newReview = Review(
     userId=current_user.id,
-    review=data['review'],
+    review=data,
     productId=productId,
   )
   db.session.add(newReview)

@@ -5,7 +5,7 @@ import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
 import { thunkRemoveReview, selectUserReviews, thunkEditReview, thunkGetUserReviews } from '../../redux/reviews';
-import { thunkGetProductById, thunkGetProductReviews } from '../../redux/products_pristine';
+import { thunkAddAProductReview, thunkGetProductById, thunkGetProductReviews } from '../../redux/products_pristine';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Cart from '../Cart/Cart';
@@ -16,7 +16,7 @@ const ProductDetail = () => {
   const product = useSelector((state) => state.products.currentProduct)
   const sessionUser = useSelector((state) => state.session.user);
   const reviewsFromState = useSelector((state) => state.products.allProducts[productId])
-  const editedReview = useSelector(selectUserReviews)
+  const userReviews = useSelector(selectUserReviews)
   // const [product, setProduct] = useState(null);
   // const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
@@ -82,7 +82,6 @@ const ProductDetail = () => {
     fetchUserReviews();
   }, [productId, currentReviewText]);
 
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -92,7 +91,9 @@ const ProductDetail = () => {
     });
   };
 
-  const handleAddReview = async (reviewText) => {
+  const handleAddReview = async (review) => {
+    dispatch(thunkAddAProductReview(productId, review))
+    // fetchUserReviews()
     // try {
     //   const response = await fetch(`/api/products/${productId}/reviews`, {
     //     method: 'POST',
@@ -112,6 +113,8 @@ const ProductDetail = () => {
   const handleEditReview = async (reviewId, reviewText) => {
     setCurrentReviewText(reviewText)
     dispatch(thunkEditReview(reviewId, reviewText))
+    // fetchUserReviews()
+
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, {
     //     method: 'PUT',
@@ -143,6 +146,8 @@ const ProductDetail = () => {
     //   setError(err.message);
     // }
     dispatch(thunkRemoveReview(reviewId))
+    closeModals()
+    // fetchUserReviews()
   };
 
   const openAddReviewModal = () => setShowAddModal(true);
@@ -159,7 +164,7 @@ const ProductDetail = () => {
     setShowAddModal(false);
     setShowEditModal(false);
     setShowRemoveModal(false);
-    setCurrentReviewText(currentReview.review)
+    setCurrentReviewText(currentReview?.review)
     // setCurrentReview(null);
   };
 
@@ -195,12 +200,12 @@ const ProductDetail = () => {
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
   if (!reviewsFromState?.reviews) return <h1>Loading reviews from state</h1>
-  if (!editedReview) return <h1>Loading editedReview from state</h1>
+  if (!userReviews) return <h1>Loading userReviews from state</h1>
 
   // // const reviews = reviewsFromState.reviews
   const reviews = Object.values(reviewsFromState.reviews);
-  // console.log(`Testing reviews from state: ${JSON.stringify(reviews)}`)
-  console.log(`Testing editedReview from state: ${JSON.stringify(editedReview)}`)
+  console.log(`Testing reviews from state: ${JSON.stringify(reviews)}`)
+  console.log(`Testing userReviews from state: ${JSON.stringify(userReviews)}`)
 
   return (
     <div className="product-detail-page">

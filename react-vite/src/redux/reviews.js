@@ -44,7 +44,7 @@ export const thunkGetUserReviews = () => async dispatch => {
 }
 
 export const thunkRemoveReview = reviewId => async dispatch => {
-  const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+  const res = await fetch(`/api/reviews/${reviewId}`, {
     method: 'DELETE',
     headers: {'Content-Type':'application/json'}
   })
