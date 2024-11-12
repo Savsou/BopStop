@@ -130,8 +130,6 @@ export const thunkGetProductById = productId => async dispatch => {
 export const thunkGetProductReviews = productId => async dispatch => {
     try {
         const res = await fetch(`/api/products/${productId}/reviews`);
-        console.log("We have entered the thunk below the route call")
-        console.log(res)
         if (!res.ok) throw new Error("Something is wrong in thunk")
         const reviews = await res.json()
         console.log(`Testing product reviews from thunk: ${JSON.stringify(reviews)}`)

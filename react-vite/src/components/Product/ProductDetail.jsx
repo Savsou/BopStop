@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
-import { thunkRemoveReview } from '../../redux/reviews';
+import { thunkRemoveReview, selectUserReviews, thunkEditReview, thunkGetUserReviews } from '../../redux/reviews';
 import { thunkGetProductById, thunkGetProductReviews } from '../../redux/products_pristine';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,7 @@ const ProductDetail = () => {
   const product = useSelector((state) => state.products.currentProduct)
   const sessionUser = useSelector((state) => state.session.user);
   const reviewsFromState = useSelector((state) => state.products.allProducts[productId])
+  const editedReview = useSelector(selectUserReviews)
   // const [product, setProduct] = useState(null);
   // const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
@@ -23,6 +24,7 @@ const ProductDetail = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState(null);
+  const [currentReviewId, setCurrentReviewId] = useState(null);
   const dispatch = useDispatch();
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
@@ -57,7 +59,7 @@ const ProductDetail = () => {
   };
 
   const fetchReviews = async () => { //i don't think we have a thunk for this yet
-    console.log(`Testing productId: ${JSON.stringify(productId)}`)
+    // console.log(`Testing productId: ${JSON.stringify(productId)}`)
 
     dispatch(thunkGetProductReviews(productId));
     // try {
@@ -70,10 +72,15 @@ const ProductDetail = () => {
     // }
   };
 
+  const fetchUserReviews = async () => {
+    dispatch(thunkGetUserReviews())
+  }
+
   useEffect(() => {
     fetchProduct();
     fetchReviews();
-  }, [productId]);
+    fetchUserReviews();
+  }, [productId, currentReviewId]);
 
 
   const formatDate = (dateString) => {
@@ -101,16 +108,9 @@ const ProductDetail = () => {
     // }
   };
 
-  if (!reviewsFromState?.reviews){
-    return <h1>Loading reviews from state</h1>
-  }
 
-  console.log(`Testing reviews from state: ${JSON.stringify(reviewsFromState.reviews)}`)
-  const reviews = Object.values(reviewsFromState.reviews);
-
-  // const handleEditReview = async (reviewId, reviewText) => {
-  const handleEditReview = async (productId) => {
-    dispatch(thunkGetProductReviews(productId))
+  const handleEditReview = async (reviewId, reviewText) => {
+    dispatch(thunkEditReview(reviewId, reviewText))
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, {
     //     method: 'PUT',
@@ -123,8 +123,8 @@ const ProductDetail = () => {
     //     prev.map((review) => (review.id === reviewId ? updatedReview : review))
     //   );
     //   setShowEditModal(false);
-    //   fetchReviews();
-    //   console.log(`Testing updated reviews array: ${JSON.stringify(reviews)}`)
+    //   // fetchReviews();
+    //   // console.log(`Testing updated reviews array: ${JSON.stringify(reviews)}`)
     //   // navigate(`/products/${productId}`);
     // } catch (err) {
     //   setError(err.message);
@@ -158,7 +158,8 @@ const ProductDetail = () => {
     setShowAddModal(false);
     setShowEditModal(false);
     setShowRemoveModal(false);
-    setCurrentReview(null);
+    setCurrentReviewId(currentReview.id)
+    // setCurrentReview(null);
   };
 
   const addToWishlist = async (productId) => {
@@ -190,9 +191,16 @@ const ProductDetail = () => {
     // Add additional checkout functionality here
   };
 
-
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
+  if (!reviewsFromState?.reviews) return <h1>Loading reviews from state</h1>
+  if (!editedReview) return <h1>Loading editedReview from state</h1>
+
+  // // const reviews = reviewsFromState.reviews
+  const reviews = Object.values(reviewsFromState.reviews);
+  // console.log(`Testing reviews from state: ${JSON.stringify(reviews)}`)
+  console.log(`Testing current review id from state: ${JSON.stringify(currentReviewId)}`)
+  console.log(`Testing editedReview from state: ${JSON.stringify(editedReview[currentReviewId])}`)
 
   return (
     <div className="product-detail-page">

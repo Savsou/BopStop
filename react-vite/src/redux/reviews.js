@@ -13,10 +13,11 @@ export const loadUserReviews = reviews => (
   }
 )
 
-export const loadEditedReview = review => (
+export const loadEditedReview = (reviewId, reviewText) => (
   {
     type: LOAD_EDITED_REVIEW,
-    review
+    reviewId,
+    reviewText
   }
 )
 
@@ -61,17 +62,18 @@ export const thunkRemoveReview = reviewId => async dispatch => {
 
 }
 
-export const thunkEditReview = review => async dispatch => {
-  const res = await csrfFetch(`/api/reviews/${review.id}`,
+export const thunkEditReview = (reviewId, reviewText) => async dispatch => {
+  const res = await fetch(`/api/reviews/${reviewId}`,
     {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(review)
+      body: JSON.stringify({ review: reviewText })
     }
   )
   if(res.ok){
     const editReview = await res.json();
     dispatch(loadEditedReview(editReview))
+    return editReview
   }else if (res.status < 500) {
     const errorMessages = await res.json();
     return errorMessages
@@ -83,6 +85,7 @@ export const thunkEditReview = review => async dispatch => {
 //selectors
 const selectReview = state => state.reviews
 export const selectUserReviews = createSelector(selectReview, reviews => reviews.userReviews);
+export const selectEditedReview = createSelector(selectReview, reviews => reviews.userReviews.reviewId)
 
 const initialState = {userReviews:{}}
 
@@ -101,12 +104,17 @@ const reviewReducer = (state = initialState, action) => {
       return state
     }
     case LOAD_EDITED_REVIEW: {
-      const {review} = action.review
+      const reviewId = action.reviewId
+      const reviewText = action.reviewText
       return {
         ...state,
-        userReviews:{
+        userReviews: {
           ...state.userReviews,
-          [review.id]: review
+          [reviewId]: reviewText
+          // {
+          //   ...state[reviewId],
+          //   review: reviewText
+          // }
         }
       }
     }
