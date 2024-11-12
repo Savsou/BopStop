@@ -25,11 +25,17 @@ export const deleteCartItem = itemId => (
 
 export const thunkGetCart = () => async dispatch =>{
   const res = await fetch('/api/cart')
-  const cart = await res.json()
   if (res.ok) {
     const cart = await res.json()
-    if (cart.errors) return cart.errors
     dispatch(loadCartItems(cart))
+  }
+  else if (res.status < 500) {
+    const errorMessages = await res.json();
+    console.error("Validation Errors:", errorMessages);
+    return errorMessages
+  }
+  else {
+    return { server: "Something went wrong. Please try again" }
   }
 }
 
@@ -60,11 +66,10 @@ export const thunkRemoveCartItem = itemId => async dispatch =>{
     }
   )
 
-  if (res.ok) {
-    const deleted = await res.json();
-    if (deleted.errors) return deleted.errors
-    dispatch(deleteProduct(itemId))
-  }
+  const deleted = await res.json();
+  if (deleted.errors) return deleted.errors
+  dispatch(deleteProduct(itemId))
+
 }
 
 const initialState = {
