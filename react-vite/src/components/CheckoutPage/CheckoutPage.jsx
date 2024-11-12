@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./CheckoutPage.css";
-import { csrfFetch } from "../../redux/csrf";
 
 function CheckoutPage() {
     const dispatch = useDispatch();
