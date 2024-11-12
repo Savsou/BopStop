@@ -219,6 +219,7 @@ def product_reviews(productId):
   for index, review in enumerate(productReviews):
     productReviews[index]["artistName"] = User.query.get(review['userId']).to_dict()['artistName']
   if product:
+    # return {'reviews': product.get_reviews}
     return {"reviews": productReviews}
   else:
     return {'message': 'Product could not be found!'}, 404

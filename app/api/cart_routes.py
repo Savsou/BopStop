@@ -3,12 +3,12 @@ from flask_login import login_required, current_user
 from app.models import Cart, db, Product, carts_products
 
 cart_routes = Blueprint('cart', __name__)
-
+#delete this comment
 #Get all products in cart
 @cart_routes.route('/')
 @login_required
 def cart_products():
-  cart= current_user.cart
+  cart = current_user.cart
 
   # idea for getting all products with their quantity.
   cart_details = []
