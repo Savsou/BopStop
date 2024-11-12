@@ -88,3 +88,8 @@ button:hover {
     font-size: 14px;
     color: #878686;
 }
+
+.icons {
+    display: flex;
+    gap: 5px;
+}

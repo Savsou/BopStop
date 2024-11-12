@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./CheckoutPage.css";
-import { csrfFetch } from "../../redux/csrf";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCcVisa, faCcMastercard, faCcDiscover } from "@fortawesome/free-brands-svg-icons";
+import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 
 function CheckoutPage() {
     const dispatch = useDispatch();
@@ -83,6 +85,11 @@ function CheckoutPage() {
                             onChange={(e) => setCardNum(e.target.value)}
                             className="input"
                         />
+                        <div className="icons">
+                            <FontAwesomeIcon size="2x" icon={faCcVisa} style={{color: "#74C0FC",}} />
+                            <FontAwesomeIcon size="2x" icon={faCcMastercard} style={{color: "#0761a6",}} />
+                            <FontAwesomeIcon size="2x" icon={faCcDiscover} style={{color: "#fdc90d",}} />
+                        </div>
                     </div>
                     <div className="expires">
                         <label>Expires on</label>
@@ -121,6 +128,9 @@ function CheckoutPage() {
                             onChange={(e) => setSecurityCode(e.target.value)}
                             className="input"
                         />
+                        <div className="icons">
+                            <FontAwesomeIcon icon={faCreditCard} />
+                        </div>
                     </div>
                 </div>
                 <div className="name-group">
