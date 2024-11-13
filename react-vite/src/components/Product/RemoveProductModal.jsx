@@ -1,5 +1,6 @@
 import React from 'react';
 import './RemoveProductModal.css';
+import '../../context/Modal.css'
 
 const RemoveProductModal = ({ productId, onConfirm, onCancel }) => {
   const handleDelete = () => {
@@ -8,14 +9,18 @@ const RemoveProductModal = ({ productId, onConfirm, onCancel }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <h3>Confirm Product Deletion</h3>
-        <p>Are you sure you want to delete this product? This action cannot be undone.</p>
-        <div className="modal-buttons">
-          <button className="confirm-button" onClick={handleDelete}>Yes, Delete</button>
-          <button className="cancel-button" onClick={onCancel}>Cancel</button>
+        <div className="modal">
+            <div className="modal-header">
+                <span>Delete Item?</span>
+            </div>
+            <div className="modal-content">
+                <p>Are you sure you want to permanently delete this item?</p>
+            </div>
+            <div className="modal-buttons">
+                <button className="confirm-button" onClick={handleDelete}>Yes, delete it</button>
+                <button className="cancel-button" onClick={onCancel}>No, keep it</button>
+            </div>
         </div>
-      </div>
     </div>
   );
 };
