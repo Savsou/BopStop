@@ -147,6 +147,9 @@ label {
 }
 
 .total-calculation {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     text-align: right;
     font-weight: bold;
     font-size: 16px;

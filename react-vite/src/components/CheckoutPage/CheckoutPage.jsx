@@ -201,26 +201,26 @@ function CheckoutPage() {
                                     <div>
                                         <div className="product-info">
                                             <strong>{item.productName}</strong>
-                                            <div>
+                                            <p>
                                                 by {item.artistName}
-                                            </div>
+                                            </p>
                                         </div>
-                                        <div className="product-total">
+                                        <p className="product-total">
                                             ${item.price} x{" "} {item.quantity} = ${item.price * item.quantity}
-                                        </div>
+                                        </p>
                                     </div>
                                 </div>
                             ))}
                             <div className="total-calculation">
-                                <div>
+                                <p>
                                     Subtotal: $ {subtotal}
-                                </div>
-                                <div>
+                                </p>
+                                <p>
                                     Tax: $ {(subtotal * 0.0725).toFixed(2)}
-                                </div>
-                                <div>
+                                </p>
+                                <p>
                                     Total: $ {(subtotal * 1.0725).toFixed(2)}
-                                </div>
+                                </p>
                             </div>
                         </div>
                     )}
