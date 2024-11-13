@@ -27,7 +27,7 @@ const ProductDetail = () => {
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
 
-  console.log(`Testing currentProduct from state: ${JSON.stringify(reviews)}`)
+  // console.log(`Testing currentProduct from state: ${JSON.stringify(reviews)}`)
   // console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
 
   // console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
@@ -80,7 +80,7 @@ const ProductDetail = () => {
   };
 
   const handleAddReview = async (reviewText) => {
-    dispatch(thunkAddAProductReview(productId, {review: reviewText})).then(res=> setCurrentReview(res.json()))
+    dispatch(thunkAddAProductReview(productId, {review: reviewText})).then(res => setCurrentReview(res.json()))
     // try {
     //   const response = await fetch(`/api/products/${productId}/reviews`, {
     //     method: 'POST',
@@ -94,13 +94,13 @@ const ProductDetail = () => {
     // } catch (err) {
     //   setError(err.message);
     // }
-    closeAddModal()
+    closeModals()
   };
 
 
   const handleEditReview = async (reviewId, reviewText) => {
-    dispatch(thunkEditReview(reviewId, {review: reviewText})).then(res => setCurrentReview(res.json()))
-    closeEditModal()
+    dispatch(thunkEditReview(reviewId, {review: reviewText})).then(res => setCurrentReview(res))
+    closeModals()
   //   try {
   //     const response = await fetch(`/api/reviews/${reviewId}`, {
   //       method: 'PUT',
@@ -130,8 +130,8 @@ const ProductDetail = () => {
     // } catch (err) {
     //   setError(err.message);
     // }
-    dispatch(thunkRemoveReview(reviewId))
-    closeRemoveModal()
+    dispatch(thunkRemoveReview(reviewId)).then(res => setCurrentReview(""))
+    closeModals()
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
     //   if (!response.ok) throw new Error("Failed to delete review");
@@ -153,18 +153,11 @@ const ProductDetail = () => {
     setShowRemoveModal(true);
   };
 
-  const closeAddModal = () => {
+  const closeModals = () => {
     setShowAddModal(false);
-  }
-
-  const closeEditModal = () => {
     setShowEditModal(false);
-  }
-
-  const closeRemoveModal = () => {
     setShowRemoveModal(false);
-    setCurrentReviewText(currentReview?.review)
-    // setCurrentReview(null);
+    setCurrentReview(null);
   };
 
   const addToWishlist = async (productId) => {
@@ -199,13 +192,7 @@ const ProductDetail = () => {
 
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
-  if (!reviewsFromState?.reviews) return <h1>Loading reviews from state</h1>
-  if (!userReviews) return <h1>Loading userReviews from state</h1>
 
-  // // const reviews = reviewsFromState.reviews
-  const reviews = Object.values(reviewsFromState.reviews);
-  console.log(`Testing reviews from state: ${JSON.stringify(reviews)}`)
-  console.log(`Testing userReviews from state: ${JSON.stringify(userReviews)}`)
 
   return (
     <div className="product-detail-page">
@@ -305,7 +292,7 @@ const ProductDetail = () => {
       {/* Modals */}
       {showAddModal && (
         <AddReviewModal
-          onClose={closeAddModal}
+          onClose={closeModals}
           onSubmit={handleAddReview}
         />
       )}
@@ -313,7 +300,7 @@ const ProductDetail = () => {
       {showEditModal && currentReview && (
         <EditReviewModal
           review={currentReview}
-          onClose={closeEditModal}
+          onClose={closeModals}
           onSubmit={(reviewText) => handleEditReview(currentReview.id, reviewText)}
         />
       )}
@@ -321,7 +308,7 @@ const ProductDetail = () => {
       {showRemoveModal && currentReview && (
         <RemoveReviewModal
           review={currentReview}
-          onClose={closeRemoveModal}
+          onClose={closeModals}
           onConfirm={() => handleRemoveReview(currentReview.id)}
         />
       )}

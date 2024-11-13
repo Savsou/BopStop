@@ -239,7 +239,7 @@ def create_review(productId):
   # return {"data in review route": data}
   newReview = Review(
     userId=current_user.id,
-    review=data,
+    review=data['review'],
     productId=productId,
   )
   db.session.add(newReview)

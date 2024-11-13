@@ -12,11 +12,10 @@ export const loadUserReviews = reviews => (
   }
 )
 
-export const loadEditedReview = (reviewId, reviewText) => (
+export const loadEditedReview = (review) => (
   {
     type: LOAD_EDITED_REVIEW,
-    reviewId,
-    reviewText
+    review
   }
 )
 
@@ -84,7 +83,6 @@ export const thunkEditReview = (reviewId, reviewText) => async dispatch => {
 //selectors
 const selectReview = state => state.reviews
 export const selectUserReviews = createSelector(selectReview, reviews => reviews.userReviews);
-export const selectEditedReview = createSelector(selectReview, reviews => reviews.userReviews.reviewId)
 
 const initialState = {userReviews:{}}
 
@@ -103,17 +101,12 @@ const reviewReducer = (state = initialState, action) => {
       return state
     }
     case LOAD_EDITED_REVIEW: {
-      const reviewId = action.reviewId
-      const reviewText = action.reviewText
+      const {review} = action.review
       return {
         ...state,
         userReviews: {
           ...state.userReviews,
-          [reviewId]: reviewText
-          // {
-          //   ...state[reviewId],
-          //   review: reviewText
-          // }
+          [review.id]: review
         }
       }
     }
