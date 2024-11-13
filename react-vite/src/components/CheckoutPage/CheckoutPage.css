@@ -78,8 +78,13 @@ label {
     margin-top: 16px;
 }
 
-button:hover {
+.checkout-button:hover {
     background-color: #0056b3;
+}
+
+.checkout-button:disabled {
+    background-color: #b7b7b7;
+    cursor: default;
 }
 
 .things-below {
@@ -142,6 +147,9 @@ button:hover {
 }
 
 .total-calculation {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     text-align: right;
     font-weight: bold;
     font-size: 16px;

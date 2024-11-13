@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./CheckoutPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCcVisa, faCcMastercard, faCcDiscover } from "@fortawesome/free-brands-svg-icons";
 import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 
 function CheckoutPage() {
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const sessionUser = useSelector((state) => state.session.user);
     const [cardNum, setCardNum] = useState("")
     const [expiresMonth, setExpiresMonth] = useState("");
@@ -16,30 +17,33 @@ function CheckoutPage() {
     const [lastName, setLastName] = useState("");
     const [cartDetails, setCartDetails] = useState([]);
     const [subtotal, setSubtotal] = useState("");
+    const [isSameBillingChecked, setIsSameBillingChecked] = useState(false);
+    const [isSavePaymentChecked, setIsSavePaymentChecked] = useState(false);
     const [message, setMessage] = useState("");
+
+    const fetchCart = useCallback(async () => {
+        try {
+            const response = await fetch("/api/cart/session");
+            console.log(response)
+            console.log(sessionUser.cart)
+            if (response.ok) {
+                const data = await response.json();
+                setCartDetails(data.cartDetails);
+                setSubtotal(data.subtotal)
+            }
+        } catch (error) {
+            console.error("Error fetching cart: ", error )
+        }
+    }, [sessionUser.cart]);
 
     useEffect(() => {
         if (!sessionUser) {
             console.log("Not logged in")
         }
         //should go to the backend, get their cart info
-        const fetchCart = async () => {
-            try {
-                const response = await fetch("/api/cart/session");
-                console.log(response)
-                console.log(sessionUser.cart)
-                if (response.ok) {
-                    const data = await response.json();
-                    setCartDetails(data.cartDetails);
-                    setSubtotal(data.subtotal)
-                }
-            } catch (error) {
-                console.error("Error fetching cart: ", error )
-            }
-        }
 
-        fetchCart()
-    }, [sessionUser])
+        fetchCart();
+    }, [sessionUser, fetchCart]);
 
     const months = [];
     for (let i = 1; i <= 12; i++) {
@@ -64,7 +68,17 @@ function CheckoutPage() {
             if (response.ok) {
                 const data = await response.json();
                 // setMessage(data.message);
+                setCardNum("")
+                setExpiresMonth("")
+                setExpiresYear("")
+                setSecurityCode("")
+                setFirstName("")
+                setLastName("")
+                setIsSameBillingChecked(false)
+                setIsSavePaymentChecked(false)
                 alert(data.message)
+                // fetchCart()
+                navigate('/')
             } else {
                 setMessage("Something went wrong. Please try again.");
             }
@@ -73,6 +87,8 @@ function CheckoutPage() {
             setMessage("An error occured. Please try again.");
         }
     }
+
+    const isCartEmpty = cartDetails.length === 0;
 
     return (
         <div className="container">
@@ -156,11 +172,21 @@ function CheckoutPage() {
                     </div>
                 </div>
                 <div className="checkbox">
-                    <input type="checkbox" id="same-billing" />
+                    <input
+                        type="checkbox"
+                        id="same-billing"
+                        checked={isSameBillingChecked}
+                        onChange={() => setIsSameBillingChecked(!isSameBillingChecked)}
+                        />
                     <label htmlFor="same-billing">My card billing address is the same as my shipping address</label>
                 </div>
                 <div className="checkbox">
-                    <input type="checkbox" id="save-payment" />
+                    <input
+                        type="checkbox"
+                        id="save-payment"
+                        checked={isSavePaymentChecked}
+                        onChange={() => setIsSavePaymentChecked(!isSavePaymentChecked)}
+                        />
                     <label htmlFor="save-payment">Save this payment method for future purchases? You can remove it at anytime</label>
                 </div>
 
@@ -175,24 +201,37 @@ function CheckoutPage() {
                                     <div>
                                         <div className="product-info">
                                             <strong>{item.productName}</strong>
-                                            <div>
+                                            <p>
                                                 by {item.artistName}
-                                            </div>
+                                            </p>
                                         </div>
-                                        <div className="product-total">
+                                        <p className="product-total">
                                             ${item.price} x{" "} {item.quantity} = ${item.price * item.quantity}
-                                        </div>
+                                        </p>
                                     </div>
                                 </div>
                             ))}
                             <div className="total-calculation">
-                                Subtotal: $ {subtotal}
+                                <p>
+                                    Subtotal: $ {subtotal}
+                                </p>
+                                <p>
+                                    Tax: $ {(subtotal * 0.0725).toFixed(2)}
+                                </p>
+                                <p>
+                                    Total: $ {(subtotal * 1.0725).toFixed(2)}
+                                </p>
                             </div>
                         </div>
                     )}
                 </div>
 
-                <button type="submit" className="checkout-button">Complete Purchase</button>
+                <button
+                    type="submit"
+                    className="checkout-button"
+                    disabled={isCartEmpty}>
+                        Complete Purchase
+                </button>
                 <div className="things-below">
                     <p>A receipt will be sent to {sessionUser.email}.</p>
                 </div>
