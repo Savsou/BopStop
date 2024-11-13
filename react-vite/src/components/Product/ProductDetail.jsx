@@ -4,18 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
-import { selectUserReviews, thunkGetUserReviews, thunkRemoveReview, thunkEditReview } from '../../redux/reviews';
-import { thunkGetProductById } from '../../redux/products_pristine';
+import { thunkRemoveReview, thunkEditReview } from '../../redux/reviews';
+import { thunkGetProductReviews, thunkAddAProductReview, thunkGetProductById  } from '../../redux/products_pristine';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Cart from '../Cart/Cart';
 import './ProductDetail.css';
-import { thunkGetProductReviews, thunkAddAProductReview } from '../../redux/products';
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
-  // const product = useSelector((state) => state.products.currentProduct)
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([])
   const [error, setError] = useState('');
@@ -26,12 +24,6 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
-
-  // console.log(`Testing currentProduct from state: ${JSON.stringify(reviews)}`)
-  // console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
-
-  // console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
-  // console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
 
   useEffect(() => {
     dispatch(thunkGetProductById(productId)).then(res => setProduct(res));
@@ -44,7 +36,6 @@ const ProductDetail = () => {
   // useEffect(() => {
 
     // const fetchProduct = async () => {
-    //   dispatch(thunkGetProductById(productId)).then(res => setProduct(res));
       // try {
       //   const response = await fetch(`/api/products/${productId}`);
       //   if (!response.ok) throw new Error("Failed to fetch product details");
@@ -80,7 +71,8 @@ const ProductDetail = () => {
   };
 
   const handleAddReview = async (reviewText) => {
-    dispatch(thunkAddAProductReview(productId, {review: reviewText})).then(res => setCurrentReview(res.json()))
+    dispatch(thunkAddAProductReview(productId, {review: reviewText})).then(res => setCurrentReview(res))
+    closeModals()
     // try {
     //   const response = await fetch(`/api/products/${productId}/reviews`, {
     //     method: 'POST',
@@ -94,7 +86,6 @@ const ProductDetail = () => {
     // } catch (err) {
     //   setError(err.message);
     // }
-    closeModals()
   };
 
 
@@ -121,6 +112,8 @@ const ProductDetail = () => {
   };
 
   const handleRemoveReview = async (reviewId) => {
+    dispatch(thunkRemoveReview(reviewId)).then(res => setCurrentReview(""))
+    closeModals()
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
     //   if (!response.ok) throw new Error("Failed to delete review");
@@ -130,8 +123,6 @@ const ProductDetail = () => {
     // } catch (err) {
     //   setError(err.message);
     // }
-    dispatch(thunkRemoveReview(reviewId)).then(res => setCurrentReview(""))
-    closeModals()
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
     //   if (!response.ok) throw new Error("Failed to delete review");
