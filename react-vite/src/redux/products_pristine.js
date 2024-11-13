@@ -184,9 +184,10 @@ export const thunkRemoveProduct = productId => async dispatch => {
 
 //selectors
 export const selectProduct = state => state.products;
-
-export const selectAllProductsArry = createSelector(selectProduct, products => Object.values(products.allProducts));
+export const selectAllProductsArry = createSelector(selectProduct, products => products.allProducts);
 export const selectLtdProductsArry = createSelector(selectProduct, products => Object.values(products.ltdProducts));
+
+
 
 
 //reducer
