@@ -13,12 +13,7 @@ function Wishlist() {
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch('/api/wishlists', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+      const response = await fetch('/api/wishlist/session');
       const data = await response.json();
       if (response.ok) {
         setWishlist(data.wishlist);
@@ -35,7 +30,21 @@ function Wishlist() {
   };
 
   const removeFromWishlist = async (productId) => {
-    // Implementation
+    try {
+      const response = await fetch(`/api/wishlist/${productId}`, {
+        method: "DELETE",
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        fetchWishlist()
+      } else {
+        setError(data.message || 'Failed to remove product from wishlist')
+      }
+    } catch (err) {
+      setError("Failed to remove product")
+    }
   };
 
   return (
@@ -45,16 +54,21 @@ function Wishlist() {
       <ul className="wishlist-items">
         {wishlist.map((product) => (
           <li key={product.productId} className="wishlist-item">
-            <span className="wishlist-item-name">{product.productName} - ${product.price}</span>
+            <img src={product.imageUrl} alt={product.productName} className='wishlist-image'/>
+            <div className='wishlist-content'>
+              <h3 className='wishlist-item-name'>{product.productName}</h3>
+              <p>{product.artistName}</p>
+              <p className='wishlist-item-price'>{product.price}</p>
+            </div>
             <button onClick={() => removeFromWishlist(product.productId)} className="wishlist-item-remove">
               <FontAwesomeIcon icon={faTrashAlt} /> Remove
             </button>
           </li>
         ))}
       </ul>
-      <button onClick={() => addToWishlist(1)} className="wishlist-add-button">
+      {/* <button onClick={() => addToWishlist(1)} className="wishlist-add-button">
         <FontAwesomeIcon icon={faHeart} /> Add Product 1 to Wishlist
-      </button>
+      </button> */}
     </div>
   );
 }
