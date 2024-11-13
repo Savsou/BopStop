@@ -26,6 +26,8 @@
 
   .product-column {
     width: 756px;
+    display: flex;
+    flex-direction: column;
   }
 
   .artist-column {
@@ -45,10 +47,11 @@
     font-size: 14px;
   }
 
-  .product-info {
+  .product-meta {
     width: 100%;
     margin: auto;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
   }
 
@@ -65,7 +68,7 @@
     padding-bottom: 7px;
   }
 
-  .product-image {
+  .product-image-big {
     width: 350px;
     height: auto;
   }

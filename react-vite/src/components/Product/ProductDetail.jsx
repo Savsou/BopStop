@@ -194,7 +194,7 @@ const ProductDetail = () => {
         <div className="product-column">
           <h2 className="product-name">{product.name}</h2>
           <p className="product-artist">by {product.artistName}</p>
-          <div className='product-info'>
+          <div className='product-meta'>
             <div className='product-info-column'>
               <p className="product-type">{product.type}</p>
               {product.genre && <p className="product-genre">Genre: {product.genre}</p>}
@@ -206,7 +206,7 @@ const ProductDetail = () => {
               </button>
             </div>
             <div className='product-image-column'>
-              <img src={product.imageUrl} alt={product.name} className="product-image" />
+              <img src={product.imageUrl} alt={product.name} className="product-image-big" />
               {/* Wishlist Button */}
               <button onClick={() => addToWishlist(product.productId)} className="product-detail-button">
                 <FontAwesomeIcon icon={faHeart} className="nav-icon" /> Wishlist
