@@ -4,83 +4,71 @@ import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
-import { thunkRemoveReview, selectUserReviews, thunkEditReview, thunkGetUserReviews } from '../../redux/reviews';
-import { thunkAddAProductReview, thunkGetProductById, thunkGetProductReviews } from '../../redux/products_pristine';
+import { selectUserReviews, thunkGetUserReviews, thunkRemoveReview, thunkEditReview } from '../../redux/reviews';
+import { thunkGetProductById } from '../../redux/products_pristine';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Cart from '../Cart/Cart';
 import './ProductDetail.css';
+import { thunkGetProductReviews, thunkAddAProductReview } from '../../redux/products';
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const product = useSelector((state) => state.products.currentProduct)
   const sessionUser = useSelector((state) => state.session.user);
-  const reviewsFromState = useSelector((state) => state.products.allProducts[productId])
-  const userReviews = useSelector(selectUserReviews)
-  // const [product, setProduct] = useState(null);
-  // const [reviews, setReviews] = useState([]);
+  // const product = useSelector((state) => state.products.currentProduct)
+  const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([])
   const [error, setError] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
-  const [currentReview, setCurrentReview] = useState(null);
-  const [currentReviewText, setCurrentReviewText] = useState(null);
+  const [currentReview, setCurrentReview] = useState('');
   const dispatch = useDispatch();
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
 
+  console.log(`Testing currentProduct from state: ${JSON.stringify(reviews)}`)
+  // console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
 
   // console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
   // console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
 
-  const fetchProduct = async () => {
-    dispatch(thunkGetProductById(productId));
-    // try {
-    //   const response = await fetch(`/api/products/${productId}`);
-    //   if (!response.ok) throw new Error("Failed to fetch product details");
-    //   const data = await response.json();
-    //   setProduct(data);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
-    // try {
-    //   const response = await fetch(`/api/products/${productId}`);
-    //   if (!response.ok) throw new Error("Failed to fetch product details");
-    //   const data = await response.json();
-    //   setProduct(data);
-
-    //   // Fetch user data using product.userId
-    //   if (data.userId) {
-    //     fetchUser(data.userId);
-    //   }
-    // } catch (err) {
-    //   setError(err.message);
-    // }
-  };
-
-  const fetchReviews = async () => { //i don't think we have a thunk for this yet
-    // console.log(`Testing productId: ${JSON.stringify(productId)}`)
-
-    dispatch(thunkGetProductReviews(productId));
-    // try {
-    //   const response = await fetch(`/api/products/${productId}/reviews`);
-    //   if (!response.ok) throw new Error("Failed to fetch reviews");
-    //   const data = await response.json();
-    //   setReviews(data.reviews || []);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
-  };
-
-  const fetchUserReviews = async () => {
-    dispatch(thunkGetUserReviews())
-  }
+  useEffect(() => {
+    dispatch(thunkGetProductById(productId)).then(res => setProduct(res));
+  }, [productId])
 
   useEffect(() => {
-    fetchProduct();
-    fetchReviews();
-    fetchUserReviews();
-  }, [productId, currentReviewText]);
+    dispatch(thunkGetProductReviews(productId)).then(res => setReviews(res.reviews))
+  },[currentReview])
+
+  // useEffect(() => {
+
+    // const fetchProduct = async () => {
+    //   dispatch(thunkGetProductById(productId)).then(res => setProduct(res));
+      // try {
+      //   const response = await fetch(`/api/products/${productId}`);
+      //   if (!response.ok) throw new Error("Failed to fetch product details");
+      //   const data = await response.json();
+      //   setProduct(data);
+      // } catch (err) {
+      //   setError(err.message);
+      // }
+    // };
+
+    // const fetchReviews = async () => { //i don't think we have a thunk for this yet
+    //   try {
+    //     const response = await fetch(`/api/products/${productId}/reviews`);
+    //     if (!response.ok) throw new Error("Failed to fetch reviews");
+    //     const data = await response.json();
+    //     setReviews(data.reviews || []);
+    //   } catch (err) {
+    //     setError(err.message);
+    //   }
+    // };
+
+    // fetchProduct();
+    // fetchReviews();
+  // }, [productId]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -91,9 +79,8 @@ const ProductDetail = () => {
     });
   };
 
-  const handleAddReview = async (review) => {
-    dispatch(thunkAddAProductReview(productId, review))
-    // fetchUserReviews()
+  const handleAddReview = async (reviewText) => {
+    dispatch(thunkAddAProductReview(productId, {review: reviewText})).then(res=> setCurrentReview(res.json()))
     // try {
     //   const response = await fetch(`/api/products/${productId}/reviews`, {
     //     method: 'POST',
@@ -107,32 +94,30 @@ const ProductDetail = () => {
     // } catch (err) {
     //   setError(err.message);
     // }
+    closeAddModal()
   };
 
 
   const handleEditReview = async (reviewId, reviewText) => {
-    setCurrentReviewText(reviewText)
-    dispatch(thunkEditReview(reviewId, reviewText))
-    // fetchUserReviews()
-
-    // try {
-    //   const response = await fetch(`/api/reviews/${reviewId}`, {
-    //     method: 'PUT',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ review: reviewText }),
-    //   });
-    //   if (!response.ok) throw new Error("Failed to edit review");
-    //   const updatedReview = await response.json();
-    //   setReviews((prev) =>
-    //     prev.map((review) => (review.id === reviewId ? updatedReview : review))
-    //   );
-    //   setShowEditModal(false);
-    //   // fetchReviews();
-    //   // console.log(`Testing updated reviews array: ${JSON.stringify(reviews)}`)
-    //   // navigate(`/products/${productId}`);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
+    dispatch(thunkEditReview(reviewId, {review: reviewText})).then(res => setCurrentReview(res.json()))
+    closeEditModal()
+  //   try {
+  //     const response = await fetch(`/api/reviews/${reviewId}`, {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ review: reviewText }),
+  //     });
+  //     if (!response.ok) throw new Error("Failed to edit review");
+  //     const updatedReview = await response.json();
+  //     setReviews((prev) =>
+  //       prev.map((review) => (review.id === reviewId ? updatedReview : review))
+  //     );
+  //     setShowEditModal(false);
+  //     // navigate(`/products/${productId}`);
+  //     // navigate(`/products/${productId}`);
+  //   } catch (err) {
+  //     setError(err.message);
+  //   }
   };
 
   const handleRemoveReview = async (reviewId) => {
@@ -146,8 +131,16 @@ const ProductDetail = () => {
     //   setError(err.message);
     // }
     dispatch(thunkRemoveReview(reviewId))
-    closeModals()
-    // fetchUserReviews()
+    closeRemoveModal()
+    // try {
+    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
+    //   if (!response.ok) throw new Error("Failed to delete review");
+    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+    //   setShowRemoveModal(false);
+    //   navigate(`/products/${productId}`);
+    // } catch (err) {
+    //   setError(err.message);
+    // }
   };
 
   const openAddReviewModal = () => setShowAddModal(true);
@@ -160,9 +153,15 @@ const ProductDetail = () => {
     setShowRemoveModal(true);
   };
 
-  const closeModals = () => {
+  const closeAddModal = () => {
     setShowAddModal(false);
+  }
+
+  const closeEditModal = () => {
     setShowEditModal(false);
+  }
+
+  const closeRemoveModal = () => {
     setShowRemoveModal(false);
     setCurrentReviewText(currentReview?.review)
     // setCurrentReview(null);
@@ -196,6 +195,7 @@ const ProductDetail = () => {
     alert("Proceeding to checkout with this item.");
     // Add additional checkout functionality here
   };
+
 
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
@@ -251,7 +251,7 @@ const ProductDetail = () => {
                 }
                 {reviews.length > 0 ? (
                   reviews.map((review) => (
-                    <div key={review.id} className='review'>
+                    <div className='review'>
                       <div className='review-image'>
                         {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
                       </div>
@@ -269,13 +269,13 @@ const ProductDetail = () => {
                               </button>
                               <button onClick={() => openRemoveReviewModal(review)} className="product-detail-button">
                                 <FontAwesomeIcon icon={faTrash} className="nav-icon" />
-                                Remove
-                              </button>
-                            </>
-                          ) : (
-                            <div></div>
-                          )
-                        }
+                                  Remove
+                                </button>
+                          </>
+                        ) : (
+                          <div></div>
+                        )
+                      }
                       </div>
                     </div>
                   ))
@@ -287,13 +287,13 @@ const ProductDetail = () => {
           </div>
         </div>
         <div className="artist-column">
-          {/* Conditionally render the Cart component if the product is in the cart */}
-          {isInCart && (
-            <Cart
-              cartItems={[product]}
-              handleCheckout={handleCheckout}
-            />
-          )}
+        {/* Conditionally render the Cart component if the product is in the cart */}
+      {isInCart && (
+        <Cart
+          cartItems={[product]}
+          handleCheckout={handleCheckout}
+        />
+      )}
           {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
           <p className="product-artist">by {product.artistName}</p>
           <img src={product.imageUrl} alt={product.name} className="product-image" />
@@ -305,7 +305,7 @@ const ProductDetail = () => {
       {/* Modals */}
       {showAddModal && (
         <AddReviewModal
-          onClose={closeModals}
+          onClose={closeAddModal}
           onSubmit={handleAddReview}
         />
       )}
@@ -313,7 +313,7 @@ const ProductDetail = () => {
       {showEditModal && currentReview && (
         <EditReviewModal
           review={currentReview}
-          onClose={closeModals}
+          onClose={closeEditModal}
           onSubmit={(reviewText) => handleEditReview(currentReview.id, reviewText)}
         />
       )}
@@ -321,7 +321,7 @@ const ProductDetail = () => {
       {showRemoveModal && currentReview && (
         <RemoveReviewModal
           review={currentReview}
-          onClose={closeModals}
+          onClose={closeRemoveModal}
           onConfirm={() => handleRemoveReview(currentReview.id)}
         />
       )}

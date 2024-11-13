@@ -1,4 +1,3 @@
-import { csrfFetch } from "./csrf";
 import { createSelector } from 'reselect';
 
 const LOAD_USER_REVIEWS = 'reviews/load_user_reviews';
@@ -31,7 +30,7 @@ export const deleteReview = reviewId => (
 //thunk action creators
 
 export const thunkGetUserReviews = () => async dispatch => {
-  const res = await csrfFetch('/api/reviews/current');
+  const res = await fetch('/api/reviews/current');
   if(res.ok){
     const userReviews = await res.json();
     dispatch(loadUserReviews(userReviews))
@@ -67,7 +66,7 @@ export const thunkEditReview = (reviewId, reviewText) => async dispatch => {
     {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ review: reviewText })
+      body: JSON.stringify(reviewText)
     }
   )
   if(res.ok){
