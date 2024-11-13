@@ -5,7 +5,7 @@ from app.models import Cart, db, Product, carts_products
 cart_routes = Blueprint('cart', __name__)
 #delete this comment
 #Get all products in cart
-@cart_routes.route('/')
+@cart_routes.route('/session')
 @login_required
 def cart_products():
   cart = current_user.cart
@@ -21,16 +21,16 @@ def cart_products():
           cart_details.append({
               'productId': product.id,
               'productName': product.name,
+              'artistName': product.user.artistName,
               'quantity': cart_product.quantity,
               'price': round(product.price, 2),
+              'imageUrl': product.imageUrl,
           })
 
   return {
       'cartDetails': cart_details,
       'subtotal': round(cart.subtotal, 2)
   }, 200
-
-  return {"cart": cart.to_dict()}
 
 
 

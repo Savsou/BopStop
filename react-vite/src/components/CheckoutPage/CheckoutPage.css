@@ -93,3 +93,57 @@ button:hover {
     display: flex;
     gap: 5px;
 }
+
+.cart-items {
+    margin-top: 30px;
+    font-size: 14px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.cart-products {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cart-product {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #fdfdfd;
+}
+
+.product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-product > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.product-total {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.total-calculation {
+    text-align: right;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 15px;
+}

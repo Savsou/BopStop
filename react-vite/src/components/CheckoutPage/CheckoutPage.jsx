@@ -14,7 +14,8 @@ function CheckoutPage() {
     const [securityCode, setSecurityCode] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [cartDetails, setCartDetails] = useState([])
+    const [cartDetails, setCartDetails] = useState([]);
+    const [subtotal, setSubtotal] = useState("");
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -24,12 +25,13 @@ function CheckoutPage() {
         //should go to the backend, get their cart info
         const fetchCart = async () => {
             try {
-                const response = await fetch("/api/cart");
+                const response = await fetch("/api/cart/session");
                 console.log(response)
                 console.log(sessionUser.cart)
                 if (response.ok) {
                     const data = await response.json();
                     setCartDetails(data.cartDetails);
+                    setSubtotal(data.subtotal)
                 }
             } catch (error) {
                 console.error("Error fetching cart: ", error )
@@ -169,12 +171,23 @@ function CheckoutPage() {
                         <div className="cart-products">
                             {cartDetails.map((item) => (
                                 <div key={item.productId} className="cart-product">
-                                    <p>
-                                        <strong>{item.productName}</strong> - ${item.price} x{" "}
-                                        {item.quantity} = ${item.price * item.quantity}
-                                    </p>
+                                    <img src={item.imageUrl} alt={item.name} className="product-image" />
+                                    <div>
+                                        <div className="product-info">
+                                            <strong>{item.productName}</strong>
+                                            <div>
+                                                by {item.artistName}
+                                            </div>
+                                        </div>
+                                        <div className="product-total">
+                                            ${item.price} x{" "} {item.quantity} = ${item.price * item.quantity}
+                                        </div>
+                                    </div>
                                 </div>
                             ))}
+                            <div className="total-calculation">
+                                Subtotal: $ {subtotal}
+                            </div>
                         </div>
                     )}
                 </div>
