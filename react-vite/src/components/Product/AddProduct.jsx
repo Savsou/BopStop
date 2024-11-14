@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { thunkAddProduct } from "../../redux/products_pristine";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -16,7 +16,15 @@ function AddProduct() {
   const [imageUrl, setImageUrl] = useState(null);
   // const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
+  const fileInputRef = useRef(null); // Ref for the hidden file input
 
+  const handleDivClick = () => {
+    fileInputRef.current.click(); // Trigger the hidden input when the div is clicked
+  };
+
+  const handleFileChange = (e) => {
+    setImageUrl(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +40,7 @@ function AddProduct() {
       //   imageUrl: image,
       // };
 
-      const formData = new FormData()
+      const formData = new FormData();
       formData.append("name", name);
       formData.append("type", type);
       formData.append("genre", genre);
@@ -48,7 +56,7 @@ function AddProduct() {
       //   thunkAddProduct(newProduct)
       // )
 
-      const serverResponse = await dispatch(thunkAddProduct(formData))
+      const serverResponse = await dispatch(thunkAddProduct(formData));
 
       if (serverResponse) {
         setErrors(serverResponse);
@@ -59,7 +67,7 @@ function AddProduct() {
         setPrice("");
         setDescription("");
         setImageUrl(null);
-        alert("Product added successfuly")
+        alert("Product added successfuly");
         navigate(`/profile/${sessionUser.id}`);
       }
     }
@@ -106,70 +114,74 @@ function AddProduct() {
 
   return (
     <div className="container">
-      <div className="album"></div>
+      <div className="album">
+        <button type="submit" className="button submit">
+          Add Product
+        </button>
+      </div>
       <div className="product">
-      {/* <h2 className="header">Add a New Product</h2> */}
-      {/* {message && <p>{message}</p>} */}
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <label className="label name">
-          {/* Name: */}
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            // required
-            className="input name"
-          />
+        {/* <h2 className="header">Add a New Product</h2> */}
+        {/* {message && <p>{message}</p>} */}
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <label className="label name">
+            {/* Name: */}
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              // required
+              className="input name"
+            />
           </label>
           {errors.name && <p>{errors.name}</p>}
-        <label className="label price">
-            price:
-          </label>
+          <label className="label price">price:</label>
           <label className="label us-dollars">
-          <input
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            min="0.01"
-            // required
-            className="input price"
+            <input
+              type="number"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              min="0.01"
+              // required
+              className="input price"
             />
             US Dollars
           </label>
           {errors.price && <p>{errors.price}</p>}
-        <label className="label description">
-            description:
-            </label>
+          <label className="label description">description:</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             // required
             className="input textarea description"
           />
-          {errors.description && <p>{errors.description}</p>} 
-          <div className="upload">
-          <label className="label imageurl">
-          {/* Image URL: */}
-          <input
-            type="file"
-            accept="image/*"
-              onChange={(e) => setImageUrl(e.target.files[0])}
-              style={{ display: "none" }}
-            // required
-            className="input imageurl"
+          {errors.description && <p>{errors.description}</p>}
+          <div
+            className="upload"
+            onClick={handleDivClick}
+            style={{ cursor: "pointer" }}
+          >
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              ref={fileInputRef}
+              style={{ display: "none" }} // Hide the original input
             />
-            <label htmlFor="file-upload" className="upload-button">
-            Upload Album Art
-              </label>
-              <p className="upload-notes"><br></br>1400 x 1400 pixels minimum<br></br>
-                (bigger is better)</p>
-              <p className="upload-notes"><br></br>.jpg, .gif or .png, 10MB max</p>
-          </label>
+            <label className="label imageurl">
+              <div className="upload-button">Upload Album Art</div>
+              <p className="upload-notes">
+                <br></br>
+                1400 x 1400 pixels minimum <br></br>(bigger is better)
+              </p>
+              <p className="upload-notes">
+                <br></br>
+                .jpg, .gif, or .png, 10MB max
+              </p>
+            </label>
           </div>
-        {errors.imageUrl && <p>{errors.imageUrl}</p>}  
-        <label className="label type">
-          Type:
+          {errors.imageUrl && <p>{errors.imageUrl}</p>}
+          <label className="label type">type:</label>
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -201,10 +213,8 @@ function AddProduct() {
             <option value="bag">Bag</option>
             <option value="other">Other</option>
           </select>
-        </label>
-        {errors.type && <p>{errors.type}</p>}
-        <label className="label genre">
-          Genre:
+          {errors.type && <p>{errors.type}</p>}
+          <label className="label genre">Genre:</label>
           <select
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
@@ -221,12 +231,8 @@ function AddProduct() {
             <option value="pop">Pop</option>
             <option value="ambient">Ambient</option>
           </select>
-          </label>
           {errors.genre && <p>{errors.genre}</p>}
-        <button type="submit" className="button submit">
-          Add Product
-        </button>
-      </form>
+        </form>
       </div>
     </div>
   );

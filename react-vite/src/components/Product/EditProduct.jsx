@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { thunkEditProduct, thunkGetProductById } from "../../redux/products_pristine";
+import {
+  thunkEditProduct,
+  thunkGetProductById,
+} from "../../redux/products_pristine";
 import "./EditProduct.css";
 
 function EditProduct() {
@@ -9,7 +12,7 @@ function EditProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-  const currentProduct = useSelector((state) => state.products.currentProduct)
+  const currentProduct = useSelector((state) => state.products.currentProduct);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [genre, setGenre] = useState("");
@@ -17,7 +20,7 @@ function EditProduct() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [errors, setErrors] = useState({});
-
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -39,6 +42,14 @@ function EditProduct() {
     fetchProduct();
   }, [dispatch, productId, navigate]);
 
+  const handleDivClick = () => {
+    fileInputRef.current.click(); // Open file input on div click
+  };
+
+  const handleFileChange = (e) => {
+    setImageUrl(e.target.files[0]); // Set selected file
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (sessionUser) {
@@ -56,14 +67,14 @@ function EditProduct() {
 
       // console.log(`Testing updated product data: ${JSON.stringify(updatedProduct)}`)
 
-      const formData = new FormData()
-      formData.append("id", productId)
-      formData.append("name", name)
-      formData.append("type", type)
-      formData.append("genre", genre)
-      formData.append("price", price)
-      formData.append("description", description)
-      formData.append("imageUrl", imageUrl)
+      const formData = new FormData();
+      formData.append("id", productId);
+      formData.append("name", name);
+      formData.append("type", type);
+      formData.append("genre", genre);
+      formData.append("price", price);
+      formData.append("description", description);
+      formData.append("imageUrl", imageUrl);
 
       try {
         const serverResponse = await dispatch(
@@ -75,8 +86,8 @@ function EditProduct() {
           setErrors(serverResponse);
         } else {
           // navigate(`/products/${productId}`);
-            alert("Product updated successfuly")
-            navigate(`/profile/${sessionUser.id}`);
+          alert("Product updated successfuly");
+          navigate(`/profile/${sessionUser.id}`);
         }
       } catch (error) {
         setErrors({ server: error.message });
@@ -87,25 +98,72 @@ function EditProduct() {
 
   return (
     <div className="container">
-      <h2 className="header">Edit Product</h2>
-      <form onSubmit={handleSubmit} encType="multipart/form-data" className="form">
-        <label className="label">
-          Name:
+      <div className="album">
+        <button type="submit" className="button submit">
+          Update Product
+        </button>
+      </div>
+      <div className="product">
+        {/* <h2 className="header">Edit Product</h2> */}
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <label className="label name">{/* Name: */}</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="input"
+            className="input name"
           />
-        </label>
-        {errors.name && <p className="error">{errors.name}</p>}
+          {errors.name && <p className="error">{errors.name}</p>}
 
-        <label className="label">
-          Type:
+          <label className="label price">price:</label>
+          <input
+            type="number"
+            step="0.01"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            min="0.01"
+            className="input price"
+          />
+          {errors.price && <p className="error">{errors.price}</p>}
+
+          <label className="label description">description:</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="input textarea description"
+          />
+          {errors.description && <p className="error">{errors.description}</p>}
+          <div
+            className="upload"
+            onClick={handleDivClick}
+            style={{ cursor: "pointer" }}
+          >
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImageUrl(e.target.files[0])}
+              className="input imageurl"
+              style={{ display: "none" }}
+            />
+            <label className="label imageurl">
+              <div className="upload-button">Upload Album Art</div>
+              <p className="upload-notes">
+                <br></br>
+                1400 x 1400 pixels minimum <br></br>(bigger is better)
+              </p>
+              <p className="upload-notes">
+                <br></br>
+                .jpg, .gif, or .png, 10MB max
+              </p>
+            </label>
+          </div>
+          {errors.imageUrl && <p className="error">{errors.imageUrl}</p>}
+
+          <label className="label type">type:</label>
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="input"
+            className="input type"
           >
             <option value="">Select...</option>
             <option value="music">--- Music ---</option>
@@ -132,15 +190,13 @@ function EditProduct() {
             <option value="bag">Bag</option>
             <option value="other">Other</option>
           </select>
-        </label>
-        {errors.type && <p className="error">{errors.type}</p>}
+          {errors.type && <p className="error">{errors.type}</p>}
 
-        <label className="label">
-          Genre:
+          <label className="label genre">genre:</label>
           <select
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
-            className="input"
+            className="input genre"
           >
             <option value="">Select...</option>
             <option value="electronic">Electronic</option>
@@ -153,47 +209,9 @@ function EditProduct() {
             <option value="pop">Pop</option>
             <option value="ambient">Ambient</option>
           </select>
-        </label>
-        {errors.genre && <p className="error">{errors.genre}</p>}
-
-        <label className="label">
-          Price:
-          <input
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            min="0.01"
-            className="input"
-          />
-        </label>
-        {errors.price && <p className="error">{errors.price}</p>}
-
-        <label className="label">
-          Description:
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="input textarea"
-          />
-        </label>
-        {errors.description && <p className="error">{errors.description}</p>}
-
-        <label className="label">
-          Image URL:
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImageUrl(e.target.files[0])}
-            className="input"
-          />
-        </label>
-        {errors.imageUrl && <p className="error">{errors.imageUrl}</p>}
-
-        <button type="submit" className="button">
-          Update Product
-        </button>
-      </form>
+          {errors.genre && <p className="error">{errors.genre}</p>}
+        </form>
+      </div>
     </div>
   );
 }
