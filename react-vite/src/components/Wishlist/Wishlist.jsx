@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import "./Wishlist.css";
 
 function Wishlist() {
@@ -54,10 +55,12 @@ function Wishlist() {
       <ul className="wishlist-items">
         {wishlist.map((product) => (
           <li key={product.productId} className="wishlist-item">
-            <img src={product.imageUrl} alt={product.productName} className='wishlist-image'/>
+            <Link to={`/products/${product.productId}`}>
+              <img src={product.imageUrl} alt={product.productName} className='wishlist-image'/>
+            </Link>
             <div className='wishlist-content'>
               <h3 className='wishlist-item-name'>{product.productName}</h3>
-              <p>{product.artistName}</p>
+              <p>by {product.artistName}</p>
               <p className='wishlist-item-price'>{product.price}</p>
             </div>
             <button onClick={() => removeFromWishlist(product.productId)} className="wishlist-item-remove">
