@@ -83,31 +83,20 @@ export const deleteProduct = productId => (
 
 export const thunkGetAllProducts = () => async dispatch => {
     // dispatch(loadAllProductsReq())
-    try {
-        const res = await fetch('/api/products');
-        if (res.ok) {
-            const products = await res.json()
-            console.log(`Testing thunkGetAllProducts: ${JSON.stringify(products)}`)
-            if (products.errors) return products.errors
-            dispatch(loadAllProducts(products["products"]))
-        } else if (res.status < 500) {
-            const errorMessages = await res.json();
-            console.error("Validation Errors:", errorMessages);
-            return errorMessages
-        } else {
-            console.error("Server Error");
-            return { server: "Something went wrong. Please try again" }
-        }
-    } catch (error) {
-        console.error("Error in thunkGetAllProducts:", error);
-        return { error: "Something went wrong. Please try again." };
+
+    const res = await fetch('/api/products');
+    if (res.ok) {
+        const products = await res.json()
+        console.log(`Testing thunkGetAllProducts: ${products}`)
+        if (products.errors) return products.errors
+        dispatch(loadAllProducts(products["products"]))
     }
 }
 
-export const thunkGetLimitedProducts = () => async dispatch => {
+export const thunkGetLimitedProducts = (limit = 20) => async dispatch => {
     // dispatch(loadLimitedProductsReq())
 
-    const res = await fetch('/api/products/limited');
+    const res = await fetch(`/api/products?limit=${limit}`);
     if (res.ok) {
         const products = await res.json()
         // console.log(`Testing thunkGetLimitedProducts: ${JSON.stringify(products)}`)

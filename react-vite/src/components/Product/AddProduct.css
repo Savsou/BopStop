@@ -11,6 +11,7 @@
   .album {
     width: 672.19px;
     background-color: rgba(0,0,0,0.0375);
+    padding: 35px 20px 96px 20px;
   }
 
   .product {
@@ -92,7 +93,7 @@
     margin-top: 24px;
   }
 
-  .input.description{
+  .input.description {
     border-radius: 0px;
     width: 400px;
     height: 48px;
@@ -127,10 +128,34 @@
 
   .input.type{
     border-radius: 0px;
+    width: 400px;
+    height: 22px;
   }
 
-  .input.genre{
+  .label.type {
+    font-size: 12px;
+    color: #333;
+    font-weight: 100;
+  }
+
+  .input.genre {
     border-radius: 0px;
+    width: 400px;
+    height: 22px;
+  }
+
+  .label.genre {
+    font-size: 12px;
+    color: #333;
+    font-weight: 100;
+  }
+
+  .button.submit {
+    background-color: #0687f5;
+    border: 1px solid #2072b8;
+    border-radius: 0px;
+    font-weight: bold;
+    font-size: 14px;
   }
   
   

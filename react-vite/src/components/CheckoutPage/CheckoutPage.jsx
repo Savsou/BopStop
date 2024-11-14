@@ -91,7 +91,7 @@ function CheckoutPage() {
     const isCartEmpty = cartDetails.length === 0;
 
     return (
-        <div className="container">
+        <div className="checkout-container">
             <h2 className="header">Enter your payment details</h2>
             <form onSubmit={handleSubmit} className="form">
                 <div className="card-group">

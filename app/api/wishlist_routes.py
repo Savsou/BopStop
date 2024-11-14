@@ -31,7 +31,7 @@ def view_wishlist():
 
   return {'wishlist': result}
 
-@wishlist_routes.route('/', methods=["POST"])
+@wishlist_routes.route('/session', methods=["POST"])
 @login_required
 def add_to_wishlist():
   data = request.get_json()

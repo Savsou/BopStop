@@ -1,35 +1,104 @@
 from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import Product, Review, db, User
 from app.forms import EditProductForm
 from app.forms import NewProductForm
-from app.aws_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3
+from app.aws_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3, update_file_on_s3
 from sqlalchemy.orm import joinedload
+
 
 product_routes = Blueprint('products', __name__)
 
 #Get all products
 @product_routes.route('/')
-def products():
-  products = Product.query.all()
-  allProducts = [product.to_dict() for product in products]
-  for index, product in enumerate(allProducts):
-    allProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
-  return {"products": allProducts}
+def all_products():
+  # allProducts = Product.query.all()
+  # for index, product in enumerate(allProducts):
+  #   allProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
+
+  # return {'products': allProducts}
+
+  limit = request.args.get('limit', type=int)
+  if limit and limit > 0:
+    products = Product.query.options(joinedload(Product.user)).limit(limit).all()
+  else:
+    products = Product.query.options(joinedload(Product.user)).all()
+  allProducts = {
+    "products": [
+      {
+        "productId": product.id,
+        "name": product.name,
+        "userId": product.userId,
+        "artistName": product.user.artistName,
+        "type": product.type,
+        "genre": product.genre,
+        "price": round(product.price, 2),
+        "description": product.description,
+        "imageUrl": product.imageUrl
+      }
+      for product in products
+    ]
+  }
+  return jsonify(allProducts)
+
+# @product_routes.route('/limited')
+# def limited_products():
+
+#   products = Product.query.options(joinedload(Product.user)).limit(20).all()
+#   allProducts = {
+#     "products": [
+#       {
+#         "productId": product.id,
+#         "name": product.name,
+#         "userId": product.userId,
+#         "artistName": product.user.artistName,
+#         "type": product.type,
+#         "genre": product.genre,
+#         "price": round(product.price, 2),
+#         "description": product.description,
+#         "imageUrl": product.imageUrl
+#       }
+#       for product in products
+#     ]
+#   }
+#   return jsonify(allProducts)
+
+  # allProducts = [product.to_dict() for product in products]
+  # for index, product in enumerate(allProducts):
+  #   allProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
+  # return {"products": allProducts}
 
 #Get limited amount of products
-@product_routes.route('/limited')
-def limited_products():
-  products = Product.query.limit(20).all()
-  limitedProducts = [product.to_dict() for product in products]
-  for index, product in enumerate(limitedProducts):
-    limitedProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
-  return {"products": limitedProducts}
+# @product_routes.route('/limited')
+# def limited_products():
+#   limitedProducts = Product.query.all()
+  # products = Product.query.options(joinedload(Product.user)).limit(20).all()
+  # limitedProducts = {"products": [
+  #     {
+  #       "productId": product.id,
+  #       "name": product.name,
+  #       "userId": product.userId,
+  #       "artistName": product.user.artistName,
+  #       "type": product.type,  # Assuming Product has a 'type' column
+  #       "genre": product.genre,  # Assuming Product has a 'genre' col
+  #       "price": round(product.price, 2),
+  #       "description": product.description,
+  #       "imageUrl": product.imageUrl
+  #     }
+  #     for product in products
+  #   ]
+  # }
+  # return jsonify(limitedProducts)
+  # for index, product in enumerate(limitedProducts):
+  #   limitedProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
+  # return {"products": limitedProducts}
 
 #Get details of a Product by id
 @product_routes.route('/<int:productId>')
 def product(productId):
   product = Product.query.options(joinedload(Product.user)).get(productId)
+
   if(product is None):
     return {"message": "Product not found!"}, 404
 
@@ -45,6 +114,7 @@ def product(productId):
     "imageUrl": product.imageUrl,
     "createdAt": product.createdAt
   }
+
   return jsonify(productWithArtist)
 
 #Get current user products (NOT yet in API docs)
@@ -167,7 +237,7 @@ def update_product(productId):
       new_image.filename = get_unique_filename(new_image.filename)
 
       old_image_url = product.imageUrl
-      upload = upload_file_to_s3(new_image, old_image_url=old_image_url)
+      upload = update_file_on_s3(new_image, old_image_url=old_image_url)
 
       if "url" not in upload:
         return {"errors": upload["errors"]}, 400
