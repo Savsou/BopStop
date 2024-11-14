@@ -1,3 +1,5 @@
+import { thunkGetProductById } from "./products_pristine"
+
 const LOAD_WISHLIST = '/api/cart/load_wishlist'
 const LOAD_A_WISHLIST_ITEM = '/api/cart/load_a_wishlist_item'
 const DELETE_WISHLIST_ITEM = '/api/cart/delete_wishlist_item'
@@ -40,17 +42,18 @@ export const thunkGetWishlist = () => async dispatch => {
   }
 }
 
-export const thunkAddWishlistItem = item => async dispatch =>{
+export const thunkAddWishlistItem = productId => async dispatch =>{
   try{
     const res = await fetch('/api/wishlist/session',
       {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(item)
+        body: JSON.stringify({productId})
       }
     )
     if (res.ok) {
       const addedMsg = await res.json();
+      const item = await dispatch(thunkGetProductById(productId))
       dispatch(loadAWishlistItem(item))
       return addedMsg
     }else if (res.status < 500) {
@@ -89,7 +92,7 @@ function wishlistReducer(state = initialState, action){
       const {wishlist} = action.wishlist
       if(wishlist.len <= 0) return state
       const wishlistItems = {}
-      wishlist.forEach(item => allItems[item.productId] = item)
+      wishlist.forEach(item => wishlistItems[item.productId] = item)
       return {
         items: wishlistItems,
         amount: wishlist.length

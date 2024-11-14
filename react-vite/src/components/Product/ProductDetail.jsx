@@ -6,6 +6,7 @@ import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
 import { thunkRemoveReview, thunkEditReview } from '../../redux/reviews';
 import { thunkGetProductReviews, thunkAddAProductReview, thunkGetProductById  } from '../../redux/products_pristine';
+import { thunkAddWishlistItem } from '../../redux/wishlist';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Cart from '../Cart/Cart';
@@ -152,24 +153,29 @@ const ProductDetail = () => {
     setCurrentReview(null);
   };
 
-  const addToWishlist = async (productId) => {
-    try {
-      const response = await fetch('/api/wishlist/session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ productId }),
-      });
+  // const addToWishlist = async (productId) => {
+  //   try {
+  //     const response = await fetch('/api/wishlist/session', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ productId }),
+  //     });
 
-      if (!response.ok) throw new Error("Failed to add product to wishlist");
+  //     if (!response.ok) throw new Error("Failed to add product to wishlist");
 
-      // Navigate to the wishlist page after successful addition
-      navigate('/wishlist');
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+  //     // Navigate to the wishlist page after successful addition
+  //     navigate('/wishlist');
+  //   } catch (err) {
+  //     setError(err.message);
+  //   }
+  // };
+
+  const addToWishlist = async(productId) => {
+    dispatch(thunkAddWishlistItem(productId));
+    alert("Added product to wishlist")
+  }
 
   const addToCart = () => {
     setIsInCart(true);
