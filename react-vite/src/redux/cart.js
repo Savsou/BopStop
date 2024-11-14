@@ -24,38 +24,44 @@ export const deleteCartItem = itemId => (
 )
 
 export const thunkGetCart = () => async dispatch =>{
-  const res = await fetch('/api/cart')
-  if (res.ok) {
-    const cart = await res.json()
-    dispatch(loadCartItems(cart))
-  }
-  else if (res.status < 500) {
-    const errorMessages = await res.json();
-    console.error("Validation Errors:", errorMessages);
-    return errorMessages
-  }
-  else {
+  try{
+    const res = await fetch('/api/cart')
+    if (res.ok) {
+      const cart = await res.json()
+      dispatch(loadCartItems(cart))
+    }
+    else if (res.status < 500) {
+      const errorMessages = await res.json();
+      console.error("Validation Errors:", errorMessages);
+      return errorMessages
+    }
+  }catch(e){
+    console.error(e)
     return { server: "Something went wrong. Please try again" }
   }
 }
 
-export const thunkAddItem = item => async dispatch =>{
-  const res = await fetch('/api/cart',
-    {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: item
+export const thunkAddCartItem = item => async dispatch =>{
+  try{
+    const res = await fetch('/api/cart',
+      {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: item
+      }
+    )
+    if (res.ok) {
+      const addedMsg = await res.json();
+      dispatch(loadACartItem(item))
+      return addedMsg
+    } else if (res.status < 500) {
+      const errorMessages = await res.json();
+      return errorMessages
     }
-  )
-  if (res.ok) {
-    const addedMsg = await res.json();
-    return addedMsg
-  } else if (res.status < 500) {
-    const errorMessages = await res.json();
-    return errorMessages
-  } else {
+  }catch(e){
+    console.error(e)
     return { "server": "Something went wrong. Please try again" }
-}
+  }
 }
 
 export const thunkRemoveCartItem = itemId => async dispatch =>{
@@ -69,11 +75,11 @@ export const thunkRemoveCartItem = itemId => async dispatch =>{
   const deleted = await res.json();
   if (deleted.errors) return deleted.errors
   dispatch(deleteProduct(itemId))
-
+  return deleted
 }
 
 const initialState = {
-  items: [],
+  items: {},
   subTotal : 0
 }
 
@@ -81,12 +87,27 @@ function cartReducer(state = initialState, action){
   switch(action.type){
     case(LOAD_CART_ITEMS):{
       const {cartDetails, subTotal} = action.cart
-      console.log("this is the action",action)
+      if(cartDetails.len <= 0) return state
+      const cartItems = {}
+      cartDetails.forEach(item => cartItems[item.productId] = item)
       return {
-        items: cartDetails,
+        items: cartItems,
         subTotal: subTotal
       }
     }
+
+    case(LOAD_A_CART_ITEM):{
+      const {item} = action
+      return {
+        ...state,
+        items:{
+          ...state.items,
+          [item.productId]: item
+        },
+      }
+    }
+
+
     case(DELETE_CART_ITEM):{
       const {itemId} = action
       const copyState = { ...state }

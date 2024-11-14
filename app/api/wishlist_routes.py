@@ -9,7 +9,7 @@ wishlist_routes = Blueprint('wishlists', __name__)
 # @login_required
 # def view_wishlist():
 
-@wishlist_routes.route('/')
+@wishlist_routes.route('/session')
 @login_required
 def view_wishlist():
   wishlist = current_user.to_dict()["wishlists"]
@@ -26,7 +26,7 @@ def view_wishlist():
 
   return {'wishlist': result}
 
-@wishlist_routes.route('/', methods=["POST"])
+@wishlist_routes.route('/session', methods=["POST"])
 @login_required
 def add_to_wishlist():
   data = request.get_json()

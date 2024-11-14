@@ -12,7 +12,7 @@ product_routes = Blueprint('products', __name__)
 #Get all products
 @product_routes.route('/')
 def products():
-  data = request.get_json()
+  data = request.get_json(silent=True) or {}
   products = {}
   if "limit" in data and data["limit"] > 0:
     products = Product.query.options(joinedload(Product.user)).limit(data["limit"]).all()
@@ -70,7 +70,11 @@ def products():
 @product_routes.route('/<int:productId>')
 def product(productId):
   product = Product.query.options(joinedload(Product.user)).get(productId)
-  {
+
+  if(product is None):
+    return {"message": "Product not found!"}, 404
+
+  productWithArtist = {
     "productId": product.id,
     "name": product.name,
     "userId": product.userId,
@@ -82,11 +86,7 @@ def product(productId):
     "imageUrl": product.imageUrl
   }
 
-  return jsonify(product)
-  if(product is None):
-    return {"message": "Product not found!"}, 404
-  else:
-    return product.to_dict()
+  return jsonify(productWithArtist)
 
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
