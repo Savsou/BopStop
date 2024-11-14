@@ -1,10 +1,21 @@
 /* AddProduct.css */
 .container {
-    max-width: 600px;
+    width: 1344.280px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
     color: #333;
+    display: flex;
+  }
+
+  .album {
+    width: 672.19px;
+    background-color: rgba(0,0,0,0.0375);
+  }
+
+  .product {
+    width: 672.19px;
+    padding: 15px 10px 24px 20px;
   }
   
   .header {
@@ -13,24 +24,16 @@
     margin-bottom: 20px;
   }
   
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-  
   .label {
-    font-weight: bold;
-    margin-top: 15px;
     display: block;
   }
   
   .input {
     width: 100%;
-    padding: 8px;
     margin-top: 5px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 0px;
     font-size: 14px;
   }
   
@@ -54,4 +57,80 @@
   .button:hover {
     background-color: #6046fe;
   }
+  
+  .input.name{
+    border-radius: 0px;
+    font-size: 22px;
+    width: 405px;
+    padding: 5px 10px;
+  }
+
+  .label.price {
+    font-size: 12px;
+    font-weight: 100;
+  }
+
+  .input.price{
+    border-radius: 0px;
+    font-size: 12px;
+    width: 48px;
+    height: 22px;
+    padding: 3px;
+    margin: 10px 10px 5px 0;
+  }
+
+  .label.us-dollars {
+    font-size: 12px;
+    color: #0687f5;
+    font-weight: 100;
+  }
+
+  .label.description {
+    font-size: 12px;
+    color: #333;
+    font-weight: 100;
+    margin-top: 24px;
+  }
+
+  .input.description{
+    border-radius: 0px;
+    width: 400px;
+    height: 48px;
+  }
+
+  .input.imageurl{
+    border-radius: 0px;
+  }
+
+  .upload-button {
+    display: inline-block;
+    color: #0687f5;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 100;
+    margin-top: 60px;
+  }
+  
+  .upload {
+    width: 210px;
+    height: 210px;
+    border: 1px #999 dashed;
+    text-align: center;
+    margin-bottom: 21px;
+  }
+
+  .upload-notes {
+    font-size: 12px;
+    font-weight: 100;
+    color: #999;
+  }
+
+  .input.type{
+    border-radius: 0px;
+  }
+
+  .input.genre{
+    border-radius: 0px;
+  }
+  
   

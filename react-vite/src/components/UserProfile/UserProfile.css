@@ -3,3 +3,11 @@ a.product-detail-button {
   font-size: 13.33px;
   padding-right: 8px;
 }
+
+.product-name-link {
+  text-decoration: none;
+}
+
+.product-name-link:hover {
+  text-decoration: underline;
+}

@@ -37,8 +37,9 @@
   }
 
   .wishlist-image {
-    width: 80%;
-    height: 80%;
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
     padding: 15px;
   }
 

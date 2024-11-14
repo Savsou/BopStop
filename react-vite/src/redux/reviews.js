@@ -12,7 +12,7 @@ export const loadUserReviews = reviews => (
   }
 )
 
-export const loadEditedReview = review => (
+export const loadEditedReview = (review) => (
   {
     type: LOAD_EDITED_REVIEW,
     review
@@ -60,17 +60,18 @@ export const thunkRemoveReview = reviewId => async dispatch => {
 
 }
 
-export const thunkEditReview = review => async dispatch => {
-  const res = await fetch(`/api/reviews/${review.id}`,
+export const thunkEditReview = (reviewId, reviewText) => async dispatch => {
+  const res = await fetch(`/api/reviews/${reviewId}`,
     {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(review)
+      body: JSON.stringify(reviewText)
     }
   )
   if(res.ok){
     const editReview = await res.json();
     dispatch(loadEditedReview(editReview))
+    return editReview
   }else if (res.status < 500) {
     const errorMessages = await res.json();
     return errorMessages
@@ -103,7 +104,7 @@ const reviewReducer = (state = initialState, action) => {
       const {review} = action.review
       return {
         ...state,
-        userReviews:{
+        userReviews: {
           ...state.userReviews,
           [review.id]: review
         }

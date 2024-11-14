@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from app.models import Product, Review, db, User
 from app.forms import EditProductForm
 from app.forms import NewProductForm
-from app.aws_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3, update_file_on_s3
+from app.aws_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3
 
 
 product_routes = Blueprint('products', __name__)
@@ -64,9 +64,8 @@ def delete_product(productId):
     if image_url:
       remove_file_from_s3(image_url)
 
-    product.delete()
+    db.session.delete(product)
     db.session.commit()
-
     return {"message": "Product successfully deleted"}
   else:
     return {"message": "Product not found!"}, 404
@@ -156,7 +155,7 @@ def update_product(productId):
       new_image.filename = get_unique_filename(new_image.filename)
 
       old_image_url = product.imageUrl
-      upload = update_file_on_s3(new_image, old_image_url=old_image_url)
+      upload = upload_file_to_s3(new_image, old_image_url=old_image_url)
 
       if "url" not in upload:
         return {"errors": upload["errors"]}, 400
@@ -237,6 +236,7 @@ def create_review(productId):
   if product is None:
     return {'message': 'Product could not be found!'}, 404
   data = request.get_json()
+  # return {"data in review route": data}
   newReview = Review(
     userId=current_user.id,
     review=data['review'],

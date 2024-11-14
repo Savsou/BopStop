@@ -4,6 +4,8 @@ const LOAD_ALL_PRODUCTS = 'products/load_all_products';
 const LOAD_LIMITED_PRODUCTS = 'products/load_limited_products';
 const LOAD_CURRENT_USER_PRODUCTS = 'products/load_current_user_products';
 const LOAD_PRODUCT_BY_ID = 'products/load_product_by_id';
+const LOAD_PRODUCT_REVIEWS = 'products/load_product_reviews';
+const CREATE_PRODUCT_REVIEW = 'products/create_product_review';
 const CREATE_PRODUCT = 'products/create_product';
 const DELETE_PRODUCT = 'products/delete_product';
 // const LOAD_ALL_PRODUCTS_REQUEST = 'products/load_all_products_request';
@@ -50,6 +52,20 @@ export const loadProductById = product => (
     }
 )
 
+export const loadProductReviews = reviews => (
+    {
+        type: LOAD_PRODUCT_REVIEWS,
+        reviews
+    }
+)
+
+export const createProductReview = review => (
+    {
+        type: CREATE_PRODUCT_REVIEW,
+        review
+    }
+)
+
 export const createProduct = product => ({
     type: CREATE_PRODUCT,
     product
@@ -67,13 +83,24 @@ export const deleteProduct = productId => (
 
 export const thunkGetAllProducts = () => async dispatch => {
     // dispatch(loadAllProductsReq())
-
-    const res = await fetch('/api/products');
-    if (res.ok) {
-        const products = await res.json()
-        console.log(`Testing thunkGetAllProducts: ${products}`)
-        if (products.errors) return products.errors
-        dispatch(loadAllProducts(products["products"]))
+    try {
+        const res = await fetch('/api/products');
+        if (res.ok) {
+            const products = await res.json()
+            console.log(`Testing thunkGetAllProducts: ${JSON.stringify(products)}`)
+            if (products.errors) return products.errors
+            dispatch(loadAllProducts(products["products"]))
+        } else if (res.status < 500) {
+            const errorMessages = await res.json();
+            console.error("Validation Errors:", errorMessages);
+            return errorMessages
+        } else {
+            console.error("Server Error");
+            return { server: "Something went wrong. Please try again" }
+        }
+    } catch (error) {
+        console.error("Error in thunkGetAllProducts:", error);
+        return { error: "Something went wrong. Please try again." };
     }
 }
 
@@ -81,10 +108,9 @@ export const thunkGetLimitedProducts = () => async dispatch => {
     // dispatch(loadLimitedProductsReq())
 
     const res = await fetch('/api/products/limited');
-    console.log(res)
     if (res.ok) {
         const products = await res.json()
-        console.log(`Testing thunkGetLimitedProducts: ${products}`)
+        // console.log(`Testing thunkGetLimitedProducts: ${JSON.stringify(products)}`)
         if (products.errors) return products.errors
         dispatch(loadLimitedProducts(products["products"]))
     }
@@ -109,7 +135,6 @@ export const thunkGetProductById = productId => async dispatch => {
         return product
     }
 }
-
 
 export const thunkAddProduct = (product) => async dispatch => {
     const response = await fetch("/api/products/", {
@@ -147,10 +172,7 @@ export const thunkEditProduct = (product) => async dispatch => {
         )
         if (editRes.ok) {
             const editProduct = await editRes.json()
-            console.log(`Testing thunkEditProduct data from dispatch: ${JSON.stringify(editProduct)}`)
-
-            // const getRes = await fetch(`/api/products/${product.id}`);//is this just a GET?
-            // const updatedProduct = await getRes.json();
+            // console.log(`Testing thunkEditProduct data from dispatch: ${JSON.stringify(editProduct)}`)
             dispatch(loadProductById(editProduct))
             // return editProduct; //might not need this
         } else if (editRes.status < 500) {
@@ -182,9 +204,35 @@ export const thunkRemoveProduct = productId => async dispatch => {
     }
 }
 
+export const thunkGetProductReviews = productId => async dispatch => {
+    try {
+        const res = await fetch(`/api/products/${productId}/reviews`);
+        if (!res.ok) throw new Error("Something is wrong in thunk")
+        const reviews = await res.json()
+        if (reviews.errors) return reviews.errors
+        dispatch(loadProductReviews(reviews['reviews']))
+        return reviews
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export const thunkAddAProductReview = (productId, review) => async dispatch => {
+    const res = await fetch(`/api/products/${productId}/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(review)
+    })
+    if (res.ok) {
+        const newReview = await res.json()
+        if (newReview.errors) return newReview.errors
+        dispatch(createProductReview(newReview.review))
+        return res
+    }
+}
+
 //selectors
 export const selectProduct = state => state.products;
-
 export const selectAllProductsArry = createSelector(selectProduct, products => Object.values(products.allProducts));
 export const selectLtdProductsArry = createSelector(selectProduct, products => Object.values(products.ltdProducts));
 
@@ -243,6 +291,42 @@ function productsReducer(state = initialState, action) {
                 },
                 currentProduct: product//might get rid of this later
             };
+        }
+        case LOAD_PRODUCT_REVIEWS: {
+            const reviews = action.reviews;
+            const allReviews = {}
+            let productId;
+            if (reviews.length > 0) {
+                productId = reviews[0].productId
+                reviews.forEach(review => {
+                    allReviews[review.id] = review
+                })
+                return {
+                    ...state,
+                    allProducts: {
+                        ...state.allProducts,
+                        [productId]: {
+                            ...state.allProducts[productId],
+                            reviews: allReviews
+                        }
+                    }
+                }
+            }
+            return { ...state }
+        }
+        case CREATE_PRODUCT_REVIEW: {
+            const {productId} = action.review
+            const review = action.review
+            const currentReviews = state.allProducts[productId]?.reviews || {};
+            return {
+                ...state,
+                allProducts: {
+                    [productId]: {
+                        ...state.allProducts[productId],
+                        reviews: { ...currentReviews, [review.id]: review }
+                    }
+                }
+            }
         }
         case CREATE_PRODUCT: {
             const productId = action.product.id;

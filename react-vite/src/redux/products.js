@@ -129,6 +129,7 @@ export const thunkGetProductReviews = productId => async dispatch => {
     const  reviews = res.json()
     if(reviews.errors) return reviews.errors
     dispatch(loadProductReviews(reviews['reviews']))
+    return reviews
   }
 }
 
@@ -146,11 +147,13 @@ export const thunkAddAProduct = product => async dispatch => {
 }
 
 export const thunkAddAProductReview = (productId, review) => async dispatch => {
-  const res = await fetch(`/api/prodducts/${productId}/reviews`,{
+  console.log(review)
+  const res = await fetch(`/api/products/${productId}/reviews`,{
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(review)
   })
+  return res
   if(res.ok){
     const newReview = await res.json()
     if(newReview.errors) return newReview.errors

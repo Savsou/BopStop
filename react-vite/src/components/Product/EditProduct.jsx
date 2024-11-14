@@ -75,7 +75,8 @@ function EditProduct() {
           setErrors(serverResponse);
         } else {
           // navigate(`/products/${productId}`);
-          alert("Product updated successfuly")
+            alert("Product updated successfuly")
+            navigate(`/profile/${sessionUser.id}`);
         }
       } catch (error) {
         setErrors({ server: error.message });

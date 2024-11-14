@@ -67,7 +67,7 @@ const EditUser = () => {
     };
 
     return (
-        <div className="container">
+        <div className="container-editUser">
             <h2 className="header">Edit Profile</h2>
             {errors.server && <div className="error">{errors.server}</div>}
             <form onSubmit={handleSubmit} encType="multipart/form-data" className="form">
