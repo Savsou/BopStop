@@ -1,0 +1,115 @@
+#modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #modal-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgb(0, 6, 9, 0.6)
+  }
+  
+  #modal-content {
+    position: absolute;
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-title {
+    background-color: rgb(255, 255, 255);
+    color: #333;
+    font-size: 18px;
+    text-align: center;
+    width: 460px;
+    margin: 0;
+    padding-top: 15px;
+    padding-bottom: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-width: 2px;
+    border-bottom-style: dotted;
+    border-bottom-color: rgb(204, 204, 204);
+  }
+  
+  .modal-content {
+    background-color: rgb(245, 245, 245);
+    padding-top: 25px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 460px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 460px;
+    align-items: center;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .form-group label{
+    color: rgb(51, 51, 51);
+    width: 155px;
+    text-align: right;
+    margin-right: 16px;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 300;
+  }
+  
+  .form-group input{
+    width: 300px;
+    height: 31px;
+    border: 1px solid rgb(204, 204, 204);
+    outline-color: rgb(51, 51, 51);
+    background-color: rgb(255, 255, 255);
+    font-size: 16px;
+    padding-left: 10px;
+  }
+  
+  .form-group input:focus{
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .form-group button{
+    margin-top: 20px;
+    background-color: rgb(0, 161, 198);
+    border: none;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-weight: 700px;
+    text-align: center;
+    width: 294.79px;
+    height: 36px;
+  }
+  
+  .form-group button:hover{
+    cursor: pointer;
+  }
+  
+  

@@ -9,6 +9,7 @@ import UserProfile from '../components/UserProfile/UserProfile';
 import ProductDetail from "../components/Product/ProductDetail";
 import Wishlist from '../components/Wishlist/Wishlist';
 import Cart from '../components/Cart/Cart';
+import CheckoutPage from "../components/CheckoutPage/CheckoutPage";
 import Layout from './Layout';
 
 import ReduxTest from '../components/Product/ReduxTest';//redux test component
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
       {
         path: "redux/test",
         element: <ReduxTest />
+      },
+      {
+        path: "checkout",
+        element: <CheckoutPage />
       }
     ],
   },

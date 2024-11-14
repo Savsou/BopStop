@@ -20,8 +20,8 @@ class Product(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
     reviews = db.relationship('Review', backref='product', cascade='all, delete-orphan')
-    wishlists = db.relationship('Wishlist', secondary=wishlists_products, backref='wishlists_list')
-    carts = db.relationship('Cart', secondary=carts_products, backref='carts_list')
+    wishlists = db.relationship('Wishlist', secondary=wishlists_products, backref='wishlists_list', cascade='all, delete')
+    carts = db.relationship('Cart', secondary=carts_products, backref='carts_list', cascade='all, delete')
 
     @property
     def get_userId(self):
@@ -47,3 +47,13 @@ class Product(db.Model):
             # 'wishlists': [wishlist.id for wishlist in self.wishlists],
             # 'carts': [cart.id for cart in self.carts],
         }
+
+    def delete(self):
+        # Remove from wishlists and carts before deleting the product
+        db.session.execute(
+            wishlists_products.delete().where(wishlists_products.c.productId == self.id)
+        )
+        db.session.execute(
+            carts_products.delete().where(carts_products.c.productId == self.id)
+        )
+        db.session.delete(self)
