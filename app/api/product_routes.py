@@ -1,10 +1,10 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import Product, Review, db, User
 from app.forms import EditProductForm
 from app.forms import NewProductForm
 from app.aws_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3
-
+from sqlalchemy.orm import joinedload
 
 product_routes = Blueprint('products', __name__)
 
@@ -29,11 +29,22 @@ def limited_products():
 #Get details of a Product by id
 @product_routes.route('/<int:productId>')
 def product(productId):
-  product = Product.query.get(productId)
+  product = Product.query.options(joinedload(Product.user)).get(productId)
   if(product is None):
     return {"message": "Product not found!"}, 404
-  else:
-    return product.to_dict()
+
+  productWithArtist = {
+    "productId": product.id,
+    "name": product.name,
+    "userId": product.userId,
+    "artistName": product.user.artistName,
+    "type": product.type,
+    "genre": product.genre,
+    "price": round(product.price, 2),
+    "description": product.description,
+    "imageUrl": product.imageUrl
+  }
+  return jsonify(productWithArtist)
 
 #Get current user products (NOT yet in API docs)
 @product_routes.route('/current')
