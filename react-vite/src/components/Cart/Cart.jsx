@@ -16,7 +16,7 @@ function Cart() {
 
   const fetchCartItems = async () => {
     try {
-      const response = await fetch('/api/cart', {
+      const response = await fetch('/api/cart/session', {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -94,7 +94,7 @@ function Cart() {
           </li>
         ))}
       </ul>
-          <p className='cart-subtotal'>Subtotal: ${subtotal.toFixed(2)}</p>
+          <p className='cart-subtotal'>Subtotal: ${subtotal}</p>
           <p className='cart-notes'>taxes calculated at checkout</p>
       <button onClick={handleCheckout} className='cart-checkout'>Checkout</button>
     </div>

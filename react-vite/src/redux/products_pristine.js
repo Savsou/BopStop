@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 const LOAD_ALL_PRODUCTS = 'products/load_all_products';
 const LOAD_LIMITED_PRODUCTS = 'products/load_limited_products';
-const LOAD_CURRENT_USER_PRODUCTS = 'products/load_current_user_products';
+// const LOAD_CURRENT_USER_PRODUCTS = 'products/load_current_user_products';
 const LOAD_PRODUCT_BY_ID = 'products/load_product_by_id';
 const LOAD_PRODUCT_REVIEWS = 'products/load_product_reviews';
 const CREATE_PRODUCT_REVIEW = 'products/create_product_review';
@@ -38,12 +38,12 @@ export const loadLimitedProducts = products => (
 //   }
 // )
 
-export const loadCurrentUserProducts = products => (
-    {
-        type: LOAD_CURRENT_USER_PRODUCTS,
-        products
-    }
-)
+// export const loadCurrentUserProducts = products => (
+//     {
+//         type: LOAD_CURRENT_USER_PRODUCTS,
+//         products
+//     }
+// )
 
 export const loadProductById = product => (
     {
@@ -105,14 +105,14 @@ export const thunkGetLimitedProducts = (limit = 20) => async dispatch => {
     }
 }
 
-export const thunkGetCurrentUserProducts = () => async dispatch => {
-    const res = await fetch('/api/products/current');
-    if (res.ok) {
-        const products = await res.json()
-        if (products.errors) return products.errors
-        dispatch(loadCurrentUserProducts(products["products"]))
-    }
-}
+// export const thunkGetCurrentUserProducts = () => async dispatch => {
+//     const res = await fetch('/api/products/current');
+//     if (res.ok) {
+//         const products = await res.json()
+//         if (products.errors) return products.errors
+//         dispatch(loadCurrentUserProducts(products["products"]))
+//     }
+// }
 
 export const thunkGetProductById = productId => async dispatch => {
     const res = await fetch(`/api/products/${productId}`);
@@ -230,8 +230,8 @@ export const selectLtdProductsArry = createSelector(selectProduct, products => O
 const initialState = {
     ltdProducts: {},
     allProducts: {},
-    currentUserProducts: {},
-    currentProduct: null,//might get rid of this later
+    // currentUserProducts: {},
+    // currentProduct: null,//might get rid of this later
     loading: false,
 };
 
@@ -261,15 +261,15 @@ function productsReducer(state = initialState, action) {
                 ltdProducts,
             };
         }
-        case LOAD_CURRENT_USER_PRODUCTS: {
-            const currentUserProducts = {};
-            action.products.forEach(product => currentUserProducts[product.productId] = product)
-            return {
-                ...state,
-                loading: false,
-                currentUserProducts,
-            };
-        }
+        // case LOAD_CURRENT_USER_PRODUCTS: {
+        //     const currentUserProducts = {};
+        //     action.products.forEach(product => currentUserProducts[product.productId] = product)
+        //     return {
+        //         ...state,
+        //         loading: false,
+        //         currentUserProducts,
+        //     };
+        // }
         case LOAD_PRODUCT_BY_ID: {
             const product = action.product
             return {
@@ -278,7 +278,7 @@ function productsReducer(state = initialState, action) {
                     ...state.allProducts,
                     [product.productId]: product
                 },
-                currentProduct: product//might get rid of this later
+                // currentProduct: product//might get rid of this later
             };
         }
         case LOAD_PRODUCT_REVIEWS: {
