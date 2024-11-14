@@ -153,12 +153,11 @@ const ProductDetail = () => {
 
   const addToWishlist = async (productId) => {
     try {
-      const response = await fetch('/api/wishlists', {
+      const response = await fetch('/api/wishlist/session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify({ productId }),
       });
 
