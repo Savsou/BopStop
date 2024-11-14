@@ -15,7 +15,6 @@ const ProductDetail = () => {
   const { productId } = useParams();
   const product = useSelector((state) => state.products.currentProduct)
   const sessionUser = useSelector((state) => state.session.user);
-  // const product = useSelector((state) => state.products.currentProduct)
   // const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
@@ -270,7 +269,7 @@ const ProductDetail = () => {
       )}
           {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
           <p className="product-artist">by {product.artistName}</p>
-          <img src={product.imageUrl} alt={product.name} className="product-image" />
+          <img src={product.imageUrl} alt={product.name} className="product-image-small" />
           <p className="product-name">{product.name}</p>
           <p className="product-created-time">{formatDate(product.createdAt)}</p>
         </div>

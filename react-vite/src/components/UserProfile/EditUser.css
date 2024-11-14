@@ -1,6 +1,6 @@
 /* EditUser.css */
 
-.container {
+.container-editUser {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -21,7 +21,7 @@
 
 .label {
     font-weight: bold;
-    margin-top: 15px;
+    /* margin-top: 15px; */
     display: block;
 }
 

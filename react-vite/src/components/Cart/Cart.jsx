@@ -101,7 +101,7 @@ function Cart() {
 
   return (
     <div className="cart-container">
-      <h2>Shopping Cart</h2>
+      <h3>Shopping Cart</h3>
       {error && <p className="error">{error}</p>}
       <ul>
         {cartItems.map((item) => (
@@ -113,8 +113,9 @@ function Cart() {
           </li>
         ))}
       </ul>
-      <h3>Subtotal: ${subtotal.toFixed(2)}</h3>
-      <button onClick={handleCheckout}>Checkout</button>
+          <p className='cart-subtotal'>Subtotal: ${subtotal.toFixed(2)}</p>
+          <p className='cart-notes'>taxes calculated at checkout</p>
+      <button onClick={handleCheckout} className='cart-checkout'>Checkout</button>
     </div>
   );
 }
