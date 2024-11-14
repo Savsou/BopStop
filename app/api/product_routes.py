@@ -294,15 +294,24 @@ def update_product(productId):
 # REVIEWS Get all reviews by product's id
 @product_routes.route('/<int:productId>/reviews')
 def product_reviews(productId):
-  product = Product.query.get(productId)
-  productReviews = product.get_reviews
-  for index, review in enumerate(productReviews):
-    productReviews[index]["artistName"] = User.query.get(review['userId']).to_dict()['artistName']
-  if product:
-    # return {'reviews': product.get_reviews}
-    return {"reviews": productReviews}
-  else:
+  product = Product.query.options(joinedload(Product.reviews).joinedload(Review.user)).filter_by(id=productId).first()
+
+  if not product:
     return {'message': 'Product could not be found!'}, 404
+
+  # Construct the response with reviews and associated artistName
+  productReviews = [
+    {
+      "reviewId": review.id,
+      "userId": review.userId,
+      "artistName": review.user.artistName,
+      "review": review.review,
+      "productId": review.productId,
+    }
+    for review in product.reviews
+  ]
+
+  return jsonify({"reviews": productReviews})
 
 # REVIEWS Create and return a review for a product by id
   """
@@ -317,7 +326,6 @@ def create_review(productId):
   if product is None:
     return {'message': 'Product could not be found!'}, 404
   data = request.get_json()
-  # return {"data in review route": data}
   newReview = Review(
     userId=current_user.id,
     review=data['review'],
