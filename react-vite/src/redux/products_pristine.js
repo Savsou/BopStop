@@ -77,11 +77,10 @@ export const thunkGetAllProducts = () => async dispatch => {
     }
 }
 
-export const thunkGetLimitedProducts = () => async dispatch => {
+export const thunkGetLimitedProducts = (limit = 20) => async dispatch => {
     // dispatch(loadLimitedProductsReq())
 
-    const res = await fetch('/api/products/limited');
-    console.log(res)
+    const res = await fetch(`/api/products?limit=${limit}`);
     if (res.ok) {
         const products = await res.json()
         console.log(`Testing thunkGetLimitedProducts: ${products}`)

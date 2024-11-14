@@ -11,11 +11,16 @@ product_routes = Blueprint('products', __name__)
 
 #Get all products
 @product_routes.route('/')
-def products():
-  data = request.get_json(silent=True) or {}
-  products = {}
-  if "limit" in data and data["limit"] > 0:
-    products = Product.query.options(joinedload(Product.user)).limit(data["limit"]).all()
+def all_products():
+  # allProducts = Product.query.all()
+  # for index, product in enumerate(allProducts):
+  #   allProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
+
+  # return {'products': allProducts}
+
+  limit = request.args.get('limit', type=int)
+  if limit and limit > 0:
+    products = Product.query.options(joinedload(Product.user)).limit(limit).all()
   else:
     products = Product.query.options(joinedload(Product.user)).all()
   allProducts = {
@@ -36,6 +41,28 @@ def products():
   }
   return jsonify(allProducts)
 
+# @product_routes.route('/limited')
+# def limited_products():
+
+#   products = Product.query.options(joinedload(Product.user)).limit(20).all()
+#   allProducts = {
+#     "products": [
+#       {
+#         "productId": product.id,
+#         "name": product.name,
+#         "userId": product.userId,
+#         "artistName": product.user.artistName,
+#         "type": product.type,
+#         "genre": product.genre,
+#         "price": round(product.price, 2),
+#         "description": product.description,
+#         "imageUrl": product.imageUrl
+#       }
+#       for product in products
+#     ]
+#   }
+#   return jsonify(allProducts)
+
   # allProducts = [product.to_dict() for product in products]
   # for index, product in enumerate(allProducts):
   #   allProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
@@ -44,27 +71,27 @@ def products():
 #Get limited amount of products
 # @product_routes.route('/limited')
 # def limited_products():
-
-#   products = Product.query.options(joinedload(Product.user)).limit(20).all()
-#   limitedProducts = {"products": [
-#       {
-#         "productId": product.id,
-#         "name": product.name,
-#         "userId": product.userId,
-#         "artistName": product.user.artistName,
-#         "type": product.type,  # Assuming Product has a 'type' column
-#         "genre": product.genre,  # Assuming Product has a 'genre' col
-#         "price": round(product.price, 2),
-#         "description": product.description,
-#         "imageUrl": product.imageUrl
-#       }
-#       for product in products
-#     ]
-#   }
-#   return jsonify(limitedProducts)
-#   for index, product in enumerate(limitedProducts):
-#     limitedProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
-#   return {"products": limitedProducts}
+#   limitedProducts = Product.query.all()
+  # products = Product.query.options(joinedload(Product.user)).limit(20).all()
+  # limitedProducts = {"products": [
+  #     {
+  #       "productId": product.id,
+  #       "name": product.name,
+  #       "userId": product.userId,
+  #       "artistName": product.user.artistName,
+  #       "type": product.type,  # Assuming Product has a 'type' column
+  #       "genre": product.genre,  # Assuming Product has a 'genre' col
+  #       "price": round(product.price, 2),
+  #       "description": product.description,
+  #       "imageUrl": product.imageUrl
+  #     }
+  #     for product in products
+  #   ]
+  # }
+  # return jsonify(limitedProducts)
+  # for index, product in enumerate(limitedProducts):
+  #   limitedProducts[index]["artistName"] = User.query.get(product['userId']).to_dict()['artistName']
+  # return {"products": limitedProducts}
 
 #Get details of a Product by id
 @product_routes.route('/<int:productId>')
