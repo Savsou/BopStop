@@ -11,6 +11,7 @@ const ReduxTest = () => {
     // const ltdProducts = useSelector(state => state.products.ltdProducts)
     const cart = useSelector(state => state.cart)
     const [item, setItem] = useState({})
+    const [item2, setItem2] = useState({})
 
     // useEffect(() => {
     //     dispatch(thunkGetAllProducts());
@@ -35,6 +36,14 @@ const ReduxTest = () => {
         fetchProduct();
     },[])
 
+    useEffect(() => {
+        const fetchProduct2 = async () =>{
+            const res = await fetch('/api/products/2')
+            setItem2(await res.json())
+        }
+        fetchProduct2();
+    },[])
+
     console.log(JSON.stringify(item))
     return (
         <div> Testing BEYONCE&apos;S Products state
@@ -42,7 +51,9 @@ const ReduxTest = () => {
 
 
             {/*button to test auth*/}
-            <button onClick={async () => dispatch(thunkRemoveCartItem(2))}>auth</button>
+            <button onClick={async () => dispatch(thunkAddCartItem(item))}>add</button>
+            <button onClick={async () => dispatch(thunkAddCartItem(item2))}>add2</button>
+            <button onClick={async () => dispatch(thunkRemoveCartItem(item2.productId))}>delete</button>
             {/* {currentUserProducts.map(({ productId, name, userId, type, genre, price, description, imageUrl}) => (
         <div key={productId}>
             <img src={imageUrl} alt="product-image"/>

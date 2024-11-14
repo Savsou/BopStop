@@ -89,6 +89,7 @@ def delete_from_cart(productId):
         )
       )
       db.session.commit()
+      current_user.cart.update_subtotal()
       return {"message": "Product removed from Cart"}
     else:
       return {"message": "Can't find product in Cart"}

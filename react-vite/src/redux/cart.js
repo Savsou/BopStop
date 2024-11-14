@@ -52,7 +52,7 @@ export const thunkAddCartItem = item => async dispatch =>{
     )
     if (res.ok) {
       const addedMsg = await res.json();
-      dispatch(loadACartItem(item))
+      await dispatch(loadACartItem(item))
       dispatch(thunkGetCart())
       return addedMsg
     } else if (res.status < 500) {
@@ -66,7 +66,7 @@ export const thunkAddCartItem = item => async dispatch =>{
 }
 
 export const thunkRemoveCartItem = itemId => async dispatch =>{
-  const res = fetch(`/api/cart/${itemId}`,
+  const res = await fetch(`/api/cart/${itemId}`,
     {
       method:'DELETE',
       headers: {'Content-Type': 'application/json'}
@@ -74,7 +74,8 @@ export const thunkRemoveCartItem = itemId => async dispatch =>{
   )
   const deleted = await res.json();
   if (deleted.errors) return deleted.errors
-  dispatch(deleteProduct(itemId))
+  await dispatch(deleteCartItem(itemId))
+  dispatch(thunkGetCart())
   return deleted
 }
 
@@ -87,7 +88,8 @@ function cartReducer(state = initialState, action){
   switch(action.type){
     case(LOAD_CART_ITEMS):{
       const {cartDetails, subtotal} = action.cart
-      if(cartDetails.len <= 0) return state
+      console.log(action.cart)
+      if(cartDetails.length <= 0) return initialState
       const cartItems = {}
       cartDetails.forEach(item => cartItems[item.productId] = item)
       return {
@@ -110,7 +112,8 @@ function cartReducer(state = initialState, action){
     case(DELETE_CART_ITEM):{
       const {itemId} = action
       const copyState = { ...state }
-      copyState.cartDetails.filter(item => itemId != item.productId)
+
+      delete copyState.items[itemId]
       return copyState;
     }
     default:
