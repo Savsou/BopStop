@@ -77,26 +77,7 @@ function Cart() {
   };
 
   const handleCheckout = async () => {
-    try {
-      const response = await fetch('/api/cart/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setCartItems([]);
-        setSubtotal(0);
-        alert(data.message);
-        navigate('/checkout');
-      } else {
-        setError(data.message || 'Checkout failed');
-      }
-    } catch (err) {
-      setError('Checkout failed');
-    }
+    navigate('/checkout');
   };
 
   return (
