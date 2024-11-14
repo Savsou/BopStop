@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import Product, Review, db, User
 from app.forms import EditProductForm
@@ -316,6 +317,7 @@ def create_review(productId):
   if product is None:
     return {'message': 'Product could not be found!'}, 404
   data = request.get_json()
+  # return {"data in review route": data}
   newReview = Review(
     userId=current_user.id,
     review=data['review'],

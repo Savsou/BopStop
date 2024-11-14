@@ -12,7 +12,7 @@ export const loadUserReviews = reviews => (
   }
 )
 
-export const loadEditedReview = review => (
+export const loadEditedReview = (review) => (
   {
     type: LOAD_EDITED_REVIEW,
     review
@@ -104,7 +104,7 @@ const reviewReducer = (state = initialState, action) => {
       const {review} = action.review
       return {
         ...state,
-        userReviews:{
+        userReviews: {
           ...state.userReviews,
           [review.id]: review
         }

@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
-import { selectUserReviews, thunkGetUserReviews, thunkRemoveReview, thunkEditReview } from '../../redux/reviews';
-import { thunkGetProductById } from '../../redux/products_pristine';
+import { thunkRemoveReview, thunkEditReview } from '../../redux/reviews';
+import { thunkGetProductReviews, thunkAddAProductReview, thunkGetProductById  } from '../../redux/products_pristine';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Cart from '../Cart/Cart';
 import './ProductDetail.css';
-import { thunkGetProductReviews, thunkAddAProductReview } from '../../redux/products';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -27,12 +26,6 @@ const ProductDetail = () => {
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
 
-  console.log(`Testing currentProduct from state: ${JSON.stringify(reviews)}`)
-  // console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
-
-  // console.log(`Testing currentProduct from state: ${JSON.stringify(product)}`)
-  // console.log(`Testing currentUser from state: ${JSON.stringify(sessionUser.artistName)}`)
-
   useEffect(() => {
     dispatch(thunkGetProductById(productId)).then(res => setProduct(res));
   }, [productId])
@@ -44,7 +37,6 @@ const ProductDetail = () => {
   // useEffect(() => {
 
     // const fetchProduct = async () => {
-    //   dispatch(thunkGetProductById(productId)).then(res => setProduct(res));
       // try {
       //   const response = await fetch(`/api/products/${productId}`);
       //   if (!response.ok) throw new Error("Failed to fetch product details");
@@ -80,7 +72,8 @@ const ProductDetail = () => {
   };
 
   const handleAddReview = async (reviewText) => {
-    dispatch(thunkAddAProductReview(productId, {review: reviewText})).then(res=> setCurrentReview(res.json()))
+    dispatch(thunkAddAProductReview(productId, {review: reviewText})).then(res => setCurrentReview(res))
+    closeModals()
     // try {
     //   const response = await fetch(`/api/products/${productId}/reviews`, {
     //     method: 'POST',
@@ -94,12 +87,12 @@ const ProductDetail = () => {
     // } catch (err) {
     //   setError(err.message);
     // }
-    closeAddModal()
   };
 
+
   const handleEditReview = async (reviewId, reviewText) => {
-    dispatch(thunkEditReview(reviewId, {review: reviewText})).then(res => setCurrentReview(res.json()))
-    closeEditModal()
+    dispatch(thunkEditReview(reviewId, {review: reviewText})).then(res => setCurrentReview(res))
+    closeModals()
   //   try {
   //     const response = await fetch(`/api/reviews/${reviewId}`, {
   //       method: 'PUT',
@@ -120,6 +113,8 @@ const ProductDetail = () => {
   };
 
   const handleRemoveReview = async (reviewId) => {
+    dispatch(thunkRemoveReview(reviewId)).then(res => setCurrentReview(""))
+    closeModals()
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
     //   if (!response.ok) throw new Error("Failed to delete review");
@@ -129,8 +124,6 @@ const ProductDetail = () => {
     // } catch (err) {
     //   setError(err.message);
     // }
-    dispatch(thunkRemoveReview(reviewId))
-    closeRemoveModal()
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
     //   if (!response.ok) throw new Error("Failed to delete review");
@@ -152,27 +145,20 @@ const ProductDetail = () => {
     setShowRemoveModal(true);
   };
 
-  const closeAddModal = () => {
+  const closeModals = () => {
     setShowAddModal(false);
-  }
-
-  const closeEditModal = () => {
     setShowEditModal(false);
-  }
-
-  const closeRemoveModal = () => {
     setShowRemoveModal(false);
     setCurrentReview(null);
   };
 
   const addToWishlist = async (productId) => {
     try {
-      const response = await fetch('/api/wishlists', {
+      const response = await fetch('/api/wishlist/session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify({ productId }),
       });
 
@@ -197,6 +183,7 @@ const ProductDetail = () => {
 
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
+
 
   return (
     <div className="product-detail-page">
@@ -231,34 +218,34 @@ const ProductDetail = () => {
               {/* Reviews Section */}
               <div className="reviews-section">
                 <p className="reviews-title">supported by</p>{
-                sessionUser && product.userId !== sessionUser.id && !(reviews.find(review => review.userId === sessionUser.id)) ? (
-                  <button onClick={openAddReviewModal} className="product-detail-button">
-                          <FontAwesomeIcon icon={faPlus} className="nav-icon" />
-                            Add
-                      </button>
-                ) : (
-                  <div></div>
-                )
-              }
+                  sessionUser && product.userId !== sessionUser.id && !(reviews.find(review => review.userId === sessionUser.id)) ? (
+                    <button onClick={openAddReviewModal} className="product-detail-button">
+                      <FontAwesomeIcon icon={faPlus} className="nav-icon" />
+                      Add
+                    </button>
+                  ) : (
+                    <div></div>
+                  )
+                }
                 {reviews.length > 0 ? (
                   reviews.map((review) => (
                     <div className='review'>
                       <div className='review-image'>
-                      {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
+                        {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
                       </div>
-                      <div key={review.id} className="review-info">
+                      <div className="review-info">
                         <p className='review-content'>
-                          <span className='review-name'><strong>{review.user?.username || 'Anonymous'}</strong></span>
+                          <span className='review-name'><strong>{review.artistName || 'Anonymous'}</strong></span>
                           {review.review}
                         </p>
                         {
-                        sessionUser && sessionUser.id === review.userId ? (
-                          <>
-                            <button onClick={() => openEditReviewModal(review)} className="product-detail-button">
+                          sessionUser && sessionUser.id === review.userId ? (
+                            <>
+                              <button onClick={() => openEditReviewModal(review)} className="product-detail-button">
                                 <FontAwesomeIcon icon={faPenToSquare} className="nav-icon" />
-                                  Edit
-                                </button>
-                                <button onClick={() => openRemoveReviewModal(review)} className="product-detail-button">
+                                Edit
+                              </button>
+                              <button onClick={() => openRemoveReviewModal(review)} className="product-detail-button">
                                 <FontAwesomeIcon icon={faTrash} className="nav-icon" />
                                   Remove
                                 </button>
@@ -296,7 +283,7 @@ const ProductDetail = () => {
       {/* Modals */}
       {showAddModal && (
         <AddReviewModal
-          onClose={closeAddModal}
+          onClose={closeModals}
           onSubmit={handleAddReview}
         />
       )}
@@ -304,7 +291,7 @@ const ProductDetail = () => {
       {showEditModal && currentReview && (
         <EditReviewModal
           review={currentReview}
-          onClose={closeEditModal}
+          onClose={closeModals}
           onSubmit={(reviewText) => handleEditReview(currentReview.id, reviewText)}
         />
       )}
@@ -312,7 +299,7 @@ const ProductDetail = () => {
       {showRemoveModal && currentReview && (
         <RemoveReviewModal
           review={currentReview}
-          onClose={closeRemoveModal}
+          onClose={closeModals}
           onConfirm={() => handleRemoveReview(currentReview.id)}
         />
       )}
