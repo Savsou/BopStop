@@ -141,7 +141,8 @@ function EditProduct() {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => setImageUrl(e.target.files[0])}
+              onChange={handleFileChange}
+              ref={fileInputRef}
               className="input imageurl"
               style={{ display: "none" }}
             />
