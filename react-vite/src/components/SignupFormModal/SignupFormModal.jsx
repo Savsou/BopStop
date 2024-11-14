@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
 import '../../../src/index.css';
-import '../../context/Modal.css';
+// import '../../context/Modal.css';
 import '../../context/FormModal.css';
 import "./SignupForm.css";
 

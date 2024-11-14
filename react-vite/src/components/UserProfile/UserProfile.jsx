@@ -84,9 +84,11 @@ const ProfilePage = () => {
               
               {/* Product Column */}
               <div className="product-column">
-                <h2 className="product-name">{product.name}</h2>
+              <Link to={`/products/${product.productId}`} className="product-name-link">
+                  <h2 className="product-name">{product.name}</h2>
+                  </Link>
                 <p className="product-artist">by {product.artistName}</p>
-                <div className="product-info">
+                <div className="product-meta">
                   <div className="product-info-column">
                     <p className="product-type">{product.type}</p>
                     {product.genre && <p className="product-genre">Genre: {product.genre}</p>}
@@ -104,14 +106,14 @@ const ProfilePage = () => {
                     </button>
                   </div>
                   <div className="product-image-column">
-                    <img src={product.imageUrl} alt={product.name} className="product-image" />
+                    <img src={product.imageUrl} alt={product.name} className="product-image-big" />
                   </div>
                 </div>
               </div>
 
               {/* Artist Column */}
               <div className="artist-column">
-              <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" />
+              <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image-small" />
                 <p className="product-artist">by {product.artistName}</p>
                 <img src={product.imageUrl} alt={product.name} className="product-image" />
                 <p className="product-name">{product.name}</p>

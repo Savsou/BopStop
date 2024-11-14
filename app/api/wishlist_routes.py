@@ -12,17 +12,22 @@ wishlist_routes = Blueprint('wishlists', __name__)
 @wishlist_routes.route('/session')
 @login_required
 def view_wishlist():
-  wishlist = current_user.to_dict()["wishlists"]
+  wishlist = current_user.wishlist
+
   result =[]
 
-  for product in wishlist["products"]:
-    dict_product = {
-      "productId": product["productId"],
-      "productName": product["name"],
-      "userId": product["userId"],
-      "price": product["price"]
-    }
-    result.append(dict_product)
+  for product in wishlist.products:
+    wishlist_product = db.session.query(wishlists_products).filter_by(wishlistId=wishlist.id, productId=product.id).first()
+
+    if wishlist_product:
+      result.append({
+        "productId": product.id,
+        "productName": product.name,
+        "userId": product.userId,
+        "price": round(product.price, 2),
+        "imageUrl": product.imageUrl,
+        "artistName": product.user.artistName,
+    })
 
   return {'wishlist': result}
 

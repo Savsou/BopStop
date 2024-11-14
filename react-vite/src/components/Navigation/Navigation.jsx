@@ -8,15 +8,16 @@ import SignupFormModal from "../SignupFormModal";
 import AddButton from "./AddButton"
 import logo from "../../../src/logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faShoppingCart  } from '@fortawesome/free-solid-svg-icons';
 import "./Navigation.css";
 
 function Navigation() {
   const user = useSelector((store) => store.session.user);
+  const cartItems = useSelector((store) => store.cart.items);
 
   return (
     <nav>
-      <ul>
+      <ul className="nav-right">
         <li className="nav-logo">
           <NavLink to="/">
             <img src={logo} alt="Logo" className="logo" />
@@ -25,34 +26,38 @@ function Navigation() {
         {user ? (
           <>
             <li>
-              <AddButton
-              />
+              <AddButton />
             </li>
             <li>
-            <NavLink to="/wishlist" className="nav-icon-link">
+              <NavLink to="/wishlist" className="nav-icon-link">
                 <FontAwesomeIcon icon={faHeart} className="nav-icon" />
-            </NavLink>
+              </NavLink>
             </li>
-          <li>
-            <ProfileButton
-              buttonClass="profile-button"
-            />
+            {cartItems.length > 0 && ( // Only show if there are items in the cart
+              <li>
+                <NavLink to="/cart" className="nav-icon-link">
+                  <FontAwesomeIcon icon={faShoppingCart} className="nav-icon" />
+                </NavLink>
+              </li>
+            )}
+            <li>
+              <ProfileButton buttonClass="profile-button" />
             </li>
-            </>
+          </>
         ) : (
           <>
             <li>
               <OpenModalMenuItem
                 itemText="Log In"
-                  modalComponent={<LoginFormModal />}
-                  buttonClass="login-button"
+                modalComponent={<LoginFormModal />}
+                buttonClass="login-button"
               />
             </li>
             <li>
               <OpenModalMenuItem
                 itemText="Sign Up"
-                  modalComponent={<SignupFormModal />}
-                  buttonClass="signup-button"
+                modalComponent={<SignupFormModal />}
+                buttonClass="signup-button"
               />
             </li>
           </>
