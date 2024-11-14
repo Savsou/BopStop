@@ -83,13 +83,24 @@ export const deleteProduct = productId => (
 
 export const thunkGetAllProducts = () => async dispatch => {
     // dispatch(loadAllProductsReq())
-
-    const res = await fetch('/api/products');
-    if (res.ok) {
-        const products = await res.json()
-        console.log(`Testing thunkGetAllProducts: ${products}`)
-        if (products.errors) return products.errors
-        dispatch(loadAllProducts(products["products"]))
+    try {
+        const res = await fetch('/api/products');
+        if (res.ok) {
+            const products = await res.json()
+            console.log(`Testing thunkGetAllProducts: ${JSON.stringify(products)}`)
+            if (products.errors) return products.errors
+            dispatch(loadAllProducts(products["products"]))
+        } else if (res.status < 500) {
+            const errorMessages = await res.json();
+            console.error("Validation Errors:", errorMessages);
+            return errorMessages
+        } else {
+            console.error("Server Error");
+            return { server: "Something went wrong. Please try again" }
+        }
+    } catch (error) {
+        console.error("Error in thunkGetAllProducts:", error);
+        return { error: "Something went wrong. Please try again." };
     }
 }
 
@@ -97,10 +108,9 @@ export const thunkGetLimitedProducts = () => async dispatch => {
     // dispatch(loadLimitedProductsReq())
 
     const res = await fetch('/api/products/limited');
-    console.log(res)
     if (res.ok) {
         const products = await res.json()
-        console.log(`Testing thunkGetLimitedProducts: ${products}`)
+        // console.log(`Testing thunkGetLimitedProducts: ${JSON.stringify(products)}`)
         if (products.errors) return products.errors
         dispatch(loadLimitedProducts(products["products"]))
     }
@@ -223,7 +233,7 @@ export const thunkAddAProductReview = (productId, review) => async dispatch => {
 
 //selectors
 export const selectProduct = state => state.products;
-export const selectAllProductsArry = createSelector(selectProduct, products => products.allProducts);
+export const selectAllProductsArry = createSelector(selectProduct, products => Object.values(products.allProducts));
 export const selectLtdProductsArry = createSelector(selectProduct, products => Object.values(products.ltdProducts));
 
 
