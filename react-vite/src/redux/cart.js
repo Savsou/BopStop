@@ -25,7 +25,7 @@ export const deleteCartItem = itemId => (
 
 export const thunkGetCart = () => async dispatch =>{
   try{
-    const res = await fetch('/api/cart')
+    const res = await fetch('/api/cart/session')
     if (res.ok) {
       const cart = await res.json()
       dispatch(loadCartItems(cart))
@@ -43,16 +43,17 @@ export const thunkGetCart = () => async dispatch =>{
 
 export const thunkAddCartItem = item => async dispatch =>{
   try{
-    const res = await fetch('/api/cart',
+    const res = await fetch('/api/cart/session',
       {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: item
+        body: JSON.stringify(item)
       }
     )
     if (res.ok) {
       const addedMsg = await res.json();
       dispatch(loadACartItem(item))
+      dispatch(thunkGetCart())
       return addedMsg
     } else if (res.status < 500) {
       const errorMessages = await res.json();
@@ -71,7 +72,6 @@ export const thunkRemoveCartItem = itemId => async dispatch =>{
       headers: {'Content-Type': 'application/json'}
     }
   )
-
   const deleted = await res.json();
   if (deleted.errors) return deleted.errors
   dispatch(deleteProduct(itemId))
@@ -80,19 +80,19 @@ export const thunkRemoveCartItem = itemId => async dispatch =>{
 
 const initialState = {
   items: {},
-  subTotal : 0
+  subtotal : 0
 }
 
 function cartReducer(state = initialState, action){
   switch(action.type){
     case(LOAD_CART_ITEMS):{
-      const {cartDetails, subTotal} = action.cart
+      const {cartDetails, subtotal} = action.cart
       if(cartDetails.len <= 0) return state
       const cartItems = {}
       cartDetails.forEach(item => cartItems[item.productId] = item)
       return {
         items: cartItems,
-        subTotal: subTotal
+        subtotal
       }
     }
 
@@ -107,7 +107,6 @@ function cartReducer(state = initialState, action){
       }
     }
 
-
     case(DELETE_CART_ITEM):{
       const {itemId} = action
       const copyState = { ...state }
@@ -118,6 +117,5 @@ function cartReducer(state = initialState, action){
       return state
   }
 }
-
 
 export default cartReducer

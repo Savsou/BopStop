@@ -37,7 +37,7 @@ def cart_products():
 #Add product to cart
   #only does one product at a time because product does not
   #as an attribute
-@cart_routes.route('/', methods=['POST'])
+@cart_routes.route('/session', methods=['POST'])
 @login_required
 def add_to_cart():
   data = request.get_json()
