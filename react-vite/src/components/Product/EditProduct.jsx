@@ -99,9 +99,6 @@ function EditProduct() {
   return (
     <div className="container">
       <div className="album">
-        <button type="submit" className="button submit">
-          Update Product
-        </button>
       </div>
       <div className="product">
         {/* <h2 className="header">Edit Product</h2> */}
@@ -211,6 +208,9 @@ function EditProduct() {
             <option value="ambient">Ambient</option>
           </select>
           {errors.genre && <p className="error">{errors.genre}</p>}
+          <button type="submit" className="button submit">
+          Update Product
+          </button>
         </form>
       </div>
     </div>

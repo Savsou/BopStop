@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from app.models import Product, Review, db, User
 from app.forms import EditProductForm
 from app.forms import NewProductForm
-from app.aws_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3
+from app.aws_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3, update_file_on_s3
 from sqlalchemy.orm import joinedload
 
 
@@ -236,7 +236,7 @@ def update_product(productId):
       new_image.filename = get_unique_filename(new_image.filename)
 
       old_image_url = product.imageUrl
-      upload = upload_file_to_s3(new_image, old_image_url=old_image_url)
+      upload = update_file_on_s3(new_image, old_image_url=old_image_url)
 
       if "url" not in upload:
         return {"errors": upload["errors"]}, 400

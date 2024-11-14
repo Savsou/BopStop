@@ -115,9 +115,6 @@ function AddProduct() {
   return (
     <div className="container">
       <div className="album">
-        <button type="submit" className="button submit">
-          Add Product
-        </button>
       </div>
       <div className="product">
         {/* <h2 className="header">Add a New Product</h2> */}
@@ -232,6 +229,9 @@ function AddProduct() {
             <option value="ambient">Ambient</option>
           </select>
           {errors.genre && <p>{errors.genre}</p>}
+          <button type="submit" className="button submit">
+          Add Product
+          </button>
         </form>
       </div>
     </div>
