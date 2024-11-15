@@ -54,7 +54,6 @@ function Wishlist() {
 
   const handleDelete = async(productId) => {
     dispatch(thunkRemoveWishlistItem(productId))
-    dispatch((thunkGetWishlist()))
   }
 
   return (

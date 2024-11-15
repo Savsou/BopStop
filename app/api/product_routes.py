@@ -111,7 +111,8 @@ def product(productId):
     "genre": product.genre,
     "price": round(product.price, 2),
     "description": product.description,
-    "imageUrl": product.imageUrl
+    "imageUrl": product.imageUrl,
+    "createdAt": product.createdAt
   }
 
   return jsonify(productWithArtist)
