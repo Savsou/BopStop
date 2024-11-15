@@ -49,6 +49,7 @@ function ProfileButton() {
     e.preventDefault();
     dispatch(thunkLogout());
     closeMenu();
+    navigate('/')
   };
 
   if (!user) return null; // If not logged in, don't render the button
