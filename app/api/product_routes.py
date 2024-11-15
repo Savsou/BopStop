@@ -35,7 +35,8 @@ def all_products():
         "genre": product.genre,
         "price": round(product.price, 2),
         "description": product.description,
-        "imageUrl": product.imageUrl
+        "imageUrl": product.imageUrl,
+        "createdAt": product.createdAt,
       }
       for product in products
     ]
