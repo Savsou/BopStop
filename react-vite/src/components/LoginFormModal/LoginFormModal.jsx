@@ -6,9 +6,11 @@ import '../../../src/index.css';
 // import '../../context/Modal.css';
 import '../../context/FormModal.css';
 import "./LoginForm.css";
+import { useNavigate } from "react-router-dom";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -47,6 +49,7 @@ function LoginFormModal() {
       });
     } else {
       closeModal();
+      navigate('/')
     }
   };
 
@@ -68,6 +71,7 @@ function LoginFormModal() {
       });
     } else {
       closeModal();
+      navigate('/')
     }
   };
 
