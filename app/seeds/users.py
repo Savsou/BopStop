@@ -16,7 +16,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/adele_adkins.jpg',
         },
         {
-            'artistName': 'Taylor',
+            'artistName': 'Taylor Swift',
             'username': 'taylor_swift',
             'email': 'taylor@example.com',
             'password': 'hashedpassword2',
@@ -25,7 +25,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/taylor_swift_.jpg',
         },
         {
-            'artistName': 'Ed',
+            'artistName': 'Ed Sheeran',
             'username': 'ed_sheeran',
             'email': 'ed@example.com',
             'password': 'hashedpassword3',
@@ -43,7 +43,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/beyonce_knowles_.jpg',
         },
         {
-            'artistName': 'Katy',
+            'artistName': 'Katy Perry',
             'username': 'katy_perry',
             'email': 'katy@example.com',
             'password': 'hashedpassword5',
@@ -52,7 +52,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/katy_perry_.jpg',
         },
         {
-            'artistName': 'Bruno',
+            'artistName': 'Bruno Mars',
             'username': 'bruno_mars',
             'email': 'bruno@example.com',
             'password': 'hashedpassword6',
@@ -61,7 +61,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/bruno_mars_.jpg',
         },
         {
-            'artistName': 'Billie',
+            'artistName': 'Billie Eilish',
             'username': 'billie_eilish',
             'email': 'billie@example.com',
             'password': 'hashedpassword7',
@@ -70,7 +70,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/billie_eilish_.jpg',
         },
         {
-            'artistName': 'Lady',
+            'artistName': 'Lady Gaga',
             'username': 'lady_gaga',
             'email': 'gaga@example.com',
             'password': 'hashedpassword8',
@@ -79,7 +79,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/lady_gaga_.jpg',
         },
         {
-            'artistName': 'Kendrick',
+            'artistName': 'Kendrick Lamar',
             'username': 'kendricklamer',
             'email': 'kendricklamer@example.com',
             'password': 'hashedpassword9',
@@ -97,7 +97,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/rihanna_.jpg',
         },
         {
-            'artistName': 'Justin',
+            'artistName': 'Justin Bieber',
             'username': 'justin_bieber',
             'email': 'justin@example.com',
             'password': 'hashedpassword11',
@@ -106,7 +106,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/justin_bieber_.jpg',
         },
         {
-            'artistName': 'Dua',
+            'artistName': 'Dua Lipa',
             'username': 'dua_lipa',
             'email': 'dua@example.com',
             'password': 'hashedpassword12',
@@ -115,7 +115,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/dua_lipa_.jpg',
         },
         {
-            'artistName': 'Shawn',
+            'artistName': 'Shawn Mendes',
             'username': 'shawn_mendes',
             'email': 'shawn@example.com',
             'password': 'hashedpassword13',
@@ -133,7 +133,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/sia_.jpg',
         },
         {
-            'artistName': 'The',
+            'artistName': 'The Weeknd',
             'username': 'the_weeknd',
             'email': 'weeknd@example.com',
             'password': 'hashedpassword15',
@@ -142,7 +142,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/the_weeknd_.jpg',
         },
         {
-            'artistName': 'Post',
+            'artistName': 'Post Malone',
             'username': 'post_malone',
             'email': 'post@example.com',
             'password': 'hashedpassword16',
@@ -151,7 +151,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/post_malone_.jpg',
         },
         {
-            'artistName': 'Ariana',
+            'artistName': 'Ariana Grande',
             'username': 'ariana_grande',
             'email': 'ariana@example.com',
             'password': 'hashedpassword17',
@@ -160,7 +160,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/ariana_grande_.jpg',
         },
         {
-            'artistName': 'Travis',
+            'artistName': 'Travis Scott',
             'username': 'travis_scott',
             'email': 'travis@example.com',
             'password': 'hashedpassword18',
@@ -169,7 +169,7 @@ def seed_users():
             'bannerImageUrl': f'{base_url}/travis_scott_.jpg',
         },
         {
-            'artistName': 'Imagine',
+            'artistName': 'Imagine Dragons',
             'username': 'imagine_dragons',
             'email': 'imagine@example.com',
             'password': 'hashedpassword19',

@@ -299,6 +299,7 @@ def product_reviews(productId):
   productReviews = product.get_reviews
   for index, review in enumerate(productReviews):
     productReviews[index]["artistName"] = User.query.get(review['userId']).to_dict()['artistName']
+    productReviews[index]["profileImageUrl"] = User.query.get(review['userId']).to_dict()['profileImageUrl']
   if product:
     # return {'reviews': product.get_reviews}
     return {"reviews": productReviews}
