@@ -1,3 +1,5 @@
+import { thunkGetProductById } from "./products_pristine"
+
 const LOAD_CART_ITEMS = '/api/cart/load_cart_items'
 const LOAD_A_CART_ITEM = '/api/cart/load_a_cart_item'
 const DELETE_CART_ITEM = '/api/cart/delete_cart_item'
@@ -41,17 +43,18 @@ export const thunkGetCart = () => async dispatch =>{
   }
 }
 
-export const thunkAddCartItem = item => async dispatch =>{
+export const thunkAddCartItem = productId => async dispatch =>{
   try{
     const res = await fetch('/api/cart/session',
       {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(item)
+        body: JSON.stringify({productId})
       }
     )
     if (res.ok) {
       const addedMsg = await res.json();
+      const item = await dispatch(thunkGetProductById(productId))
       await dispatch(loadACartItem(item))
       dispatch(thunkGetCart())
       return addedMsg

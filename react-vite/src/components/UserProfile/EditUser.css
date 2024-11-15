@@ -1,68 +1,129 @@
 /* EditUser.css */
 
 .container-editUser {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     font-family: Arial, sans-serif;
-    color: #333;
 }
 
-.header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.form {
+form {
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.label {
-    font-weight: bold;
-    /* margin-top: 15px; */
-    display: block;
+.profile {
+    width: 1214px;
+    margin: auto;
+    display: flex;
 }
 
-.input, .textarea {
+.pic-column{
+    margin-right: 38px;
+    margin-top: -40px;
+}
+
+.info-column {
+    width: 647.625px
+}
+
+.uploadbannerimage {
+    background-color: #EEF2F3;
+    height: 100px;
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+  }
+
+.label.bannerurl {
+    margin-top: 55px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1214px;
 }
 
-.textarea {
-    resize: vertical;
-    height: 80px;
-}
-
-.file-input {
-    margin-top: 10px;
-}
-
-.error {
-    color: red;
+.uploadbannerimage-button {
     font-size: 12px;
-    margin-top: -5px;
-    margin-bottom: 10px;
+    color: #999;
+    right: 0;
+    text-align: right;
 }
 
-.button {
-    background-color: #1da0c3;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 15px;
-    transition: background-color 0.3s ease;
+.label.profileimage {
+    color: #999;
+    font-size: 13px;
+    padding: 95px 91px 0 91px;
 }
+  
+  .upload {
+    width: 210px;
+    height: 210px;
+    border: 1px #999 dashed;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 21px;
+    background-color:#eee;
+  }
 
-.button:hover {
-    background-color: #6046fe;
-}
+  .profileimage-notes {
+    margin-top: 145px;
+    width: 100%;
+    line-height: 21px;
+  }
+
+  .notes {
+    font-size: 12px;
+    color: #999;
+  }
+
+  .label.name {
+    font-size: 12px;
+    color: #929292;
+    font-weight: 400;
+    margin-top: 20px;
+  }
+
+  .input.yourname{
+    border-radius: 0px;
+    font-size: 22px;
+    width: 446px;
+    height: 32px;
+    padding: 0 8px;
+    border-color: #a7a7a7
+  }
+
+  .label.bio {
+    font-size: 12px;
+    color: #929292;
+    font-weight: 400;
+    margin-top: 20px;
+  }
+
+  .input.textarea.bio {
+    border-radius: 0px;
+    width: 630px;
+    height: 115px;
+    padding: 8px;
+    font-size: 12px;
+    font-family:Arial, Helvetica, sans-serif;
+    border-color: #a7a7a7
+  }
+
+  .button.editprofile {
+    background-color: rgb(0,161,198);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 13px;
+    margin-right: 10px;
+  }
+
+  .button.cancel-editprofile {
+    color: rgb(0,161,198);
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 13px;
+    padding: 0;
+    font-weight: bold;
+  }
+
+  .ctas-editprofile {
+    display: flex;
+  }

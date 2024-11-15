@@ -4,18 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
+import Cart from '../Cart/Cart';
 import { thunkRemoveReview, thunkEditReview } from '../../redux/reviews';
 import { thunkGetProductReviews, thunkAddAProductReview, thunkGetProductById  } from '../../redux/products_pristine';
 import { thunkAddWishlistItem } from '../../redux/wishlist';
+import { thunkGetCart, thunkAddCartItem, thunkRemoveCartItem } from '../../redux/cart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartPlus, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Cart from '../Cart/Cart';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
-  // const product = useSelector((state) => state.products.currentProduct)
+  const cart = useSelector((state) => state.cart)
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([])
   const [error, setError] = useState('');
@@ -27,6 +28,8 @@ const ProductDetail = () => {
   const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
 
+  console.log(JSON.stringify(cart))
+
   useEffect(() => {
     dispatch(thunkGetProductById(productId)).then(res => setProduct(res));
   }, [productId])
@@ -34,6 +37,10 @@ const ProductDetail = () => {
   useEffect(() => {
     dispatch(thunkGetProductReviews(productId)).then(res => setReviews(res.reviews))
   },[currentReview])
+
+    useEffect(() => {
+    dispatch(thunkGetCart())
+  }, [productId]);
 
   // useEffect(() => {
 
@@ -177,19 +184,16 @@ const ProductDetail = () => {
     alert("Added product to wishlist")
   }
 
-  const addToCart = () => {
-    setIsInCart(true);
+  const addToCart = (productId) => {
+    dispatch(thunkAddCartItem(productId));
   };
 
-  const handleCheckout = () => {
-    alert("Proceeding to checkout with this item.");
-    // Add additional checkout functionality here
-  };
-
+  const removeFromCart = (productId) => {
+    dispatch(thunkRemoveCartItem(productId));
+  }
 
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
-
 
   return (
     <div className="product-detail-page">
@@ -207,7 +211,7 @@ const ProductDetail = () => {
           <div className='product-meta'>
             <div className='product-info-column'>
               <p className="product-type">{product.type}</p>
-              {product.genre && <p className="product-genre">Genre: {product.genre}</p>}
+              {product.genre && <p className="product-genre">{product.genre}</p>}
               <p className="product-description">{product.description}</p>
               <p className="product-price">Price: ${product.price}</p>
               <p className="product-created-time">released {formatDate(product.createdAt)}</p>
@@ -272,15 +276,15 @@ const ProductDetail = () => {
         </div>
         <div className="artist-column">
         {/* Conditionally render the Cart component if the product is in the cart */}
-      {isInCart && (
+      {/* {isInCart && ( */}
         <Cart
-          cartItems={[product]}
-          handleCheckout={handleCheckout}
+          cart={cart}
+          removeFromCart={removeFromCart}
         />
-      )}
+      {/* )} */}
           {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
-          <p className="product-artist">by {product.artistName}</p>
           <img src={product.imageUrl} alt={product.name} className="product-image-small" />
+          <p className="product-artist">{product.artistName}</p>
           <p className="product-name">{product.name}</p>
           <p className="product-created-time">{formatDate(product.createdAt)}</p>
         </div>
