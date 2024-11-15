@@ -26,6 +26,10 @@ function AddProduct() {
     setImageUrl(e.target.files[0]);
   };
 
+  const handleCancel = () => {
+    navigate(-1); // Navigate to the previous page
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (sessionUser) {
@@ -114,18 +118,31 @@ function AddProduct() {
 
   return (
     <div className="container">
-      <div className="album">
-      </div>
-      <div className="product">
-        {/* <h2 className="header">Add a New Product</h2> */}
-        {/* {message && <p>{message}</p>} */}
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+      {/* <h2 className="header">Add a New Product</h2> */}
+      {/* {message && <p>{message}</p>} */}
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <div className="album">
+          <div className="ctas">
+            <button type="submit" className="button submit">
+              Add Product
+            </button>
+            <button
+              type="button"
+              className="button cancel"
+              onClick={handleCancel}
+            >
+              cancel
+            </button>
+          </div>
+        </div>
+        <div className="product">
           <label className="label name">
             {/* Name: */}
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              placeholder="track name"
               // required
               className="input name"
             />
@@ -150,6 +167,7 @@ function AddProduct() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             // required
+            placeholder="(optional)"
             className="input textarea description"
           />
           {errors.description && <p>{errors.description}</p>}
@@ -184,8 +202,9 @@ function AddProduct() {
             onChange={(e) => setType(e.target.value)}
             // required
             className="input type"
+            style={{ color: type === "" ? "#AAA" : "#333" }}
           >
-            <option value="">Select...</option>
+            <option value="">(optional)</option>
             <option value="music">--- Music ---</option>
             <option value="cd">Compact Disc (CD)</option>
             <option value="cassette">Cassette</option>
@@ -211,13 +230,14 @@ function AddProduct() {
             <option value="other">Other</option>
           </select>
           {errors.type && <p>{errors.type}</p>}
-          <label className="label genre">Genre:</label>
+          <label className="label genre">genre:</label>
           <select
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
             className="input genre"
+            style={{ color: genre === "" ? "#AAA" : "#333" }}
           >
-            <option value="">Select...</option>
+            <option value="">(optional)</option>
             <option value="electronic">Electronic</option>
             <option value="metal">Metal</option>
             <option value="rock">Rock</option>
@@ -229,11 +249,8 @@ function AddProduct() {
             <option value="ambient">Ambient</option>
           </select>
           {errors.genre && <p>{errors.genre}</p>}
-          <button type="submit" className="button submit">
-          Add Product
-          </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

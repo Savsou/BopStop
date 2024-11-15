@@ -13,7 +13,7 @@ const RemoveProductModal = ({ productId, onConfirm, onCancel }) => {
             <div className="modal-header">
                 <span>Delete Item?</span>
             </div>
-            <div className="modal-content">
+            <div className="confirmation-modal-content">
                 <p>Are you sure you want to permanently delete this item?</p>
             </div>
             <div className="modal-buttons">

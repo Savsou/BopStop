@@ -50,6 +50,10 @@ function EditProduct() {
     setImageUrl(e.target.files[0]); // Set selected file
   };
 
+  const handleCancel = () => {
+    navigate(-1); // Navigate to the previous page
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (sessionUser) {
@@ -98,11 +102,23 @@ function EditProduct() {
 
   return (
     <div className="container">
-      <div className="album">
-      </div>
-      <div className="product">
-        {/* <h2 className="header">Edit Product</h2> */}
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <div className="album">
+          <div className="ctas">
+            <button type="submit" className="button submit">
+              Update Product
+            </button>
+            <button
+              type="button"
+              className="button cancel"
+              onClick={handleCancel}
+            >
+              cancel
+            </button>
+          </div>
+        </div>
+        <div className="product">
+          {/* <h2 className="header">Edit Product</h2> */}
           <label className="label name">{/* Name: */}</label>
           <input
             type="text"
@@ -113,14 +129,17 @@ function EditProduct() {
           {errors.name && <p className="error">{errors.name}</p>}
 
           <label className="label price">price:</label>
-          <input
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            min="0.01"
-            className="input price"
-          />
+          <label className="label us-dollars">
+            <input
+              type="number"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              min="0.01"
+              className="input price"
+            />
+            US Dollars
+          </label>
           {errors.price && <p className="error">{errors.price}</p>}
 
           <label className="label description">description:</label>
@@ -162,6 +181,7 @@ function EditProduct() {
             value={type}
             onChange={(e) => setType(e.target.value)}
             className="input type"
+            style={{ color: type === "" ? "#AAA" : "#333" }}
           >
             <option value="">Select...</option>
             <option value="music">--- Music ---</option>
@@ -195,6 +215,7 @@ function EditProduct() {
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
             className="input genre"
+            style={{ color: genre === "" ? "#AAA" : "#333" }}
           >
             <option value="">Select...</option>
             <option value="electronic">Electronic</option>
@@ -208,11 +229,8 @@ function EditProduct() {
             <option value="ambient">Ambient</option>
           </select>
           {errors.genre && <p className="error">{errors.genre}</p>}
-          <button type="submit" className="button submit">
-          Update Product
-          </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }
