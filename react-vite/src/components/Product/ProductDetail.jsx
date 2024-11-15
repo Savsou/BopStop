@@ -25,7 +25,6 @@ const ProductDetail = () => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState('');
   const dispatch = useDispatch();
-  const [isInCart, setIsInCart] = useState(false);
   const navigate = useNavigate();
 
   console.log(JSON.stringify(cart))
@@ -41,6 +40,7 @@ const ProductDetail = () => {
     useEffect(() => {
     dispatch(thunkGetCart())
   }, [productId]);
+
 
   // useEffect(() => {
 
@@ -276,12 +276,12 @@ const ProductDetail = () => {
         </div>
         <div className="artist-column">
         {/* Conditionally render the Cart component if the product is in the cart */}
-      {/* {isInCart && ( */}
+      {(cart.subtotal > 0) && (
         <Cart
           cart={cart}
           removeFromCart={removeFromCart}
         />
-      {/* )} */}
+      )}
           {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
           <img src={product.imageUrl} alt={product.name} className="product-image-small" />
           <p className="product-artist">{product.artistName}</p>

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import "./Cart.css";
 
 function Cart({cart, removeFromCart}) {
-  console.log("Cart prop from productDetail page:", cart)
+  // console.log("Cart prop from productDetail page:", cart)
   const cartItems = Object.values(cart.items)
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ function Cart({cart, removeFromCart}) {
   // const [subtotal, setSubtotal] = useState(0);
   const [error, setError] = useState(null);
 
-  console.log("cartItems", JSON.stringify(cartItems))
+  // console.log("cartItems", JSON.stringify(cartItems))
 
   // useEffect(() => {
   //   // fetchCartItems();
@@ -103,7 +103,7 @@ function Cart({cart, removeFromCart}) {
           </li>
         ))}
       </ul>
-          <p className='cart-subtotal'>Subtotal: ${cartItems.subtotal}</p>
+          <p className='cart-subtotal'>Subtotal: ${cart.subtotal}</p>
           <p className='cart-notes'>taxes calculated at checkout</p>
       <button onClick={handleCheckout} className='cart-checkout'>Checkout</button>
     </div>
