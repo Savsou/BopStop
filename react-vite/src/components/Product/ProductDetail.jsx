@@ -282,7 +282,7 @@ const ProductDetail = () => {
           removeFromCart={removeFromCart}
         />
       {/* )} */}
-          <img src={sessionUser.profileImageUrl} alt={`${sessionUser.artistName}'s profile`} className="profile-image" />
+          <img src={product.profileImageUrl} alt={`${sessionUser.artistName}'s profile`} className="profile-image-small" />
           <img src={product.imageUrl} alt={product.name} className="product-image-small" />
           <p className="product-artist">{product.artistName}</p>
           <p className="product-name">{product.name}</p>
