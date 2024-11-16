@@ -13,7 +13,7 @@ def seed_users():
             'password': 'hashedpassword1',
             'bio': 'Hello, I am Adele!',
             'profileImageUrl': f'{base_url}/adele_adkins.jpg',
-            'bannerImageUrl': f'{base_url}/adele_adkins.jpg',
+            'bannerImageUrl': f'{base_url}/adelebanner.jpg',
         },
         {
             'artistName': 'Taylor Swift',
@@ -22,7 +22,7 @@ def seed_users():
             'password': 'hashedpassword2',
             'bio': 'Welcome to my world!',
             'profileImageUrl': f'{base_url}/taylor_swift_.jpg',
-            'bannerImageUrl': f'{base_url}/taylor_swift_.jpg',
+            'bannerImageUrl': f'{base_url}/taylor-swiftbanner.jpg',
         },
         {
             'artistName': 'Ed Sheeran',
@@ -31,7 +31,7 @@ def seed_users():
             'password': 'hashedpassword3',
             'bio': 'Music is my life!',
             'profileImageUrl': f'{base_url}/ed_sheeran_.jpg',
-            'bannerImageUrl': f'{base_url}/ed_sheeran_.jpg',
+            'bannerImageUrl': f'{base_url}/ed-sheeranbanner.jpg',
         },
         {
             'artistName': 'Beyonce',
@@ -40,7 +40,7 @@ def seed_users():
             'password': 'hashedpassword4',
             'bio': 'Queen B in the house!',
             'profileImageUrl': f'{base_url}/beyonce_knowles_.jpg',
-            'bannerImageUrl': f'{base_url}/beyonce_knowles_.jpg',
+            'bannerImageUrl': f'{base_url}/beyoncebanner.jpg',
         },
         {
             'artistName': 'Katy Perry',
@@ -49,7 +49,7 @@ def seed_users():
             'password': 'hashedpassword5',
             'bio': "I'm just a Katycat!",
             'profileImageUrl': f'{base_url}/katy_perry_.jpg',
-            'bannerImageUrl': f'{base_url}/katy_perry_.jpg',
+            'bannerImageUrl': f'{base_url}/katy-perrybanner.jpg',
         },
         {
             'artistName': 'Bruno Mars',
@@ -58,7 +58,7 @@ def seed_users():
             'password': 'hashedpassword6',
             'bio': 'Just the way you are!',
             'profileImageUrl': f'{base_url}/bruno_mars_.jpg',
-            'bannerImageUrl': f'{base_url}/bruno_mars_.jpg',
+            'bannerImageUrl': f'{base_url}/bruno-marsbanner.jpg',
         },
         {
             'artistName': 'Billie Eilish',
@@ -67,7 +67,7 @@ def seed_users():
             'password': 'hashedpassword7',
             'bio': 'I love my fans!',
             'profileImageUrl': f'{base_url}/billie_eilish_.jpg',
-            'bannerImageUrl': f'{base_url}/billie_eilish_.jpg',
+            'bannerImageUrl': f'{base_url}/billie-eilishbanner.png',
         },
         {
             'artistName': 'Lady Gaga',
@@ -76,16 +76,16 @@ def seed_users():
             'password': 'hashedpassword8',
             'bio': 'Born this way!',
             'profileImageUrl': f'{base_url}/lady_gaga_.jpg',
-            'bannerImageUrl': f'{base_url}/lady_gaga_.jpg',
+            'bannerImageUrl': f'{base_url}/lady-gagabanner.jpg',
         },
         {
             'artistName': 'Kendrick Lamar',
-            'username': 'kendricklamer',
+            'username': 'kendricklamar',
             'email': 'kendricklamer@example.com',
             'password': 'hashedpassword9',
             'bio': 'Not like us',
             'profileImageUrl': f'{base_url}/kendrick_lamar_.jpg',
-            'bannerImageUrl': f'{base_url}/kendrick_lamar_.jpg',
+            'bannerImageUrl': f'{base_url}/kendrick-lamarbanner.jpg',
         },
         {
             'artistName': 'Rihanna',
@@ -94,7 +94,7 @@ def seed_users():
             'password': 'hashedpassword10',
             'bio': 'Shine bright like a diamond!',
             'profileImageUrl': f'{base_url}/rihanna_.jpg',
-            'bannerImageUrl': f'{base_url}/rihanna_.jpg',
+            'bannerImageUrl': f'{base_url}/rihannabanner.jpg',
         },
         {
             'artistName': 'Justin Bieber',
@@ -103,7 +103,7 @@ def seed_users():
             'password': 'hashedpassword11',
             'bio': 'Never say never!',
             'profileImageUrl': f'{base_url}/justin_bieber_.jpg',
-            'bannerImageUrl': f'{base_url}/justin_bieber_.jpg',
+            'bannerImageUrl': f'{base_url}/justin-bieberbanner.jpg',
         },
         {
             'artistName': 'Dua Lipa',
@@ -112,7 +112,7 @@ def seed_users():
             'password': 'hashedpassword12',
             'bio': 'Future Nostalgia!',
             'profileImageUrl': f'{base_url}/dua_lipa_.jpg',
-            'bannerImageUrl': f'{base_url}/dua_lipa_.jpg',
+            'bannerImageUrl': f'{base_url}/dua-lipabanner.jpg',
         },
         {
             'artistName': 'Shawn Mendes',
@@ -121,7 +121,7 @@ def seed_users():
             'password': 'hashedpassword13',
             'bio': 'In my blood!',
             'profileImageUrl': f'{base_url}/shawn_mendes_.jpg',
-            'bannerImageUrl': f'{base_url}/shawn_mendes_.jpg',
+            'bannerImageUrl': f'{base_url}/shawn-mendesbanner.jpg',
         },
         {
             'artistName': 'Sia',
@@ -130,7 +130,7 @@ def seed_users():
             'password': 'hashedpassword14',
             'bio': 'Elastic heart!',
             'profileImageUrl': f'{base_url}/sia_.jpg',
-            'bannerImageUrl': f'{base_url}/sia_.jpg',
+            'bannerImageUrl': f'{base_url}/siabanner.jpg',
         },
         {
             'artistName': 'The Weeknd',
@@ -139,7 +139,7 @@ def seed_users():
             'password': 'hashedpassword15',
             'bio': "Can't feel my face!",
             'profileImageUrl': f'{base_url}/the_weeknd_.jpg',
-            'bannerImageUrl': f'{base_url}/the_weeknd_.jpg',
+            'bannerImageUrl': f'{base_url}/the-weekndbanner.jpg',
         },
         {
             'artistName': 'Post Malone',
@@ -148,7 +148,7 @@ def seed_users():
             'password': 'hashedpassword16',
             'bio': 'Rockstar vibes!',
             'profileImageUrl': f'{base_url}/post_malone_.jpg',
-            'bannerImageUrl': f'{base_url}/post_malone_.jpg',
+            'bannerImageUrl': f'{base_url}/post-malonebanner.jpg',
         },
         {
             'artistName': 'Ariana Grande',
@@ -157,7 +157,7 @@ def seed_users():
             'password': 'hashedpassword17',
             'bio': 'Thank you, next!',
             'profileImageUrl': f'{base_url}/ariana_grande_.jpg',
-            'bannerImageUrl': f'{base_url}/ariana_grande_.jpg',
+            'bannerImageUrl': f'{base_url}/ariana-grandebanner.jpg',
         },
         {
             'artistName': 'Travis Scott',
@@ -166,7 +166,7 @@ def seed_users():
             'password': 'hashedpassword18',
             'bio': 'Astroworld vibes!',
             'profileImageUrl': f'{base_url}/travis_scott_.jpg',
-            'bannerImageUrl': f'{base_url}/travis_scott_.jpg',
+            'bannerImageUrl': f'{base_url}/travis-scottbanner.jpg',
         },
         {
             'artistName': 'Imagine Dragons',
@@ -175,7 +175,7 @@ def seed_users():
             'password': 'hashedpassword19',
             'bio': 'Believer life!',
             'profileImageUrl': f'{base_url}/imagine_dragons_.jpg',
-            'bannerImageUrl': f'{base_url}/imagine_dragons_.jpg',
+            'bannerImageUrl': f'{base_url}/imagine-dragonsbanner.jpg',
         },
         {
             'artistName': 'Coldplay',
@@ -184,7 +184,7 @@ def seed_users():
             'password': 'hashedpassword20',
             'bio': 'Viva La Vida!',
             'profileImageUrl': f'{base_url}/coldplay_.jpg',
-            'bannerImageUrl': f'{base_url}/coldplay_.jpg',
+            'bannerImageUrl': f'{base_url}/coldplaybanner.jpg',
         }
     ]
 

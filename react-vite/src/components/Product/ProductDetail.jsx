@@ -202,10 +202,10 @@ const ProductDetail = () => {
   return (
     <div className="product-detail-page">
       {/* Banner Section */}
-      {product?.profileImageUrl && (
+      {product?.bannerImageUrl && (
         <div
           className="banner"
-          style={{ backgroundImage: `url(${product.profileImageUrl})` }}
+          style={{ backgroundImage: `url(${product.bannerImageUrl})` }}
         />
       )}
       <div className="product-detail">
