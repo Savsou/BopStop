@@ -150,6 +150,7 @@ function CheckoutPage() {
                             value={securityCode}
                             onChange={(e) => setSecurityCode(e.target.value.replace(/\D/g, ''))}
                             className="input"
+                            maxLength="3"
                             required
                         />
                         <div className="icons">
