@@ -1,5 +1,5 @@
 /* AddProduct.css */
-.container {
+.container-add-product {
     width: 1344.280px;
     margin: 0 auto;
     padding: 20px;
@@ -150,7 +150,7 @@
     font-size: 14px;
   }
   
-  form {
+  .add-product-form {
     display: flex;
   }
 

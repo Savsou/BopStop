@@ -101,8 +101,8 @@ function EditProduct() {
   };
 
   return (
-    <div className="container">
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className="container-edit-product">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="edit-product-form">
         <div className="album">
           <div className="ctas">
             <button type="submit" className="button submit">
@@ -163,7 +163,7 @@ function EditProduct() {
               style={{ display: "none" }}
             />
             <label className="label imageurl">
-              <div className="upload-button">Upload Album Art</div>
+              <div className="upload-button">Upload Product Image</div>
               <p className="upload-notes">
                 <br></br>
                 1400 x 1400 pixels minimum <br></br>(bigger is better)

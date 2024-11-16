@@ -91,7 +91,7 @@ const EditUser = () => {
   return (
     <div className="container-editUser">
       {errors.server && <div className="error">{errors.server}</div>}
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="edit-profile-form">
         <div className="uploadbannerimage" onClick={handleBannerImageClick} style={{ cursor: "pointer" }}>
           <input
             type="file"

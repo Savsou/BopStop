@@ -64,10 +64,10 @@ function ProfileButton() {
               <li onClick={handleViewProfile} className="username">{user.username}</li>
               {/* <li onClick={handleViewProfile}>{user.email}</li> */}
               <li>
-                <button onClick={handleEditProfile}>Edit Profile</button>
+                <button onClick={handleEditProfile} className="edit-profile">Edit Profile</button>
               </li>
               <li>
-                <button onClick={logout}>Log Out</button>
+                <button onClick={logout} className="log-out">Log Out</button>
               </li>
             </>
           ) : (
