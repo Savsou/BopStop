@@ -8,6 +8,7 @@ const LOAD_PRODUCT_REVIEWS = 'products/load_product_reviews';
 const CREATE_PRODUCT_REVIEW = 'products/create_product_review';
 const CREATE_PRODUCT = 'products/create_product';
 const DELETE_PRODUCT = 'products/delete_product';
+const DELETE_PRODUCT_REVIEW = 'products/delete_product_review';
 // const LOAD_ALL_PRODUCTS_REQUEST = 'products/load_all_products_request';
 // const LOAD_LIMITED_PRODUCTS_REQUEST = 'products/load_limited_products_request';
 
@@ -75,6 +76,13 @@ export const deleteProduct = productId => (
     {
         type: DELETE_PRODUCT,
         productId
+    }
+)
+
+export const deleteProductReview = review => (
+    {
+        type: DELETE_PRODUCT_REVIEW,
+        review
     }
 )
 
@@ -339,7 +347,7 @@ function productsReducer(state = initialState, action) {
             if (reviews.length > 0) {
                 productId = reviews[0].productId
                 reviews.forEach(review => {
-                    allReviews[review.id] = review
+                    allReviews[review.reviewId] = review
                 })
                 return {
                     ...state,
@@ -377,6 +385,22 @@ function productsReducer(state = initialState, action) {
                     [productId]: action.product
                 }
             };
+        }
+        case DELETE_PRODUCT:{
+            const {productId} = action
+            copyState = {...state}
+            delete copyState.allProducts[productId]
+            if(copyState.ltdProducts[productId]){
+                delete copyState.ltdProducts[productId]
+            }
+            return copyState
+        }
+
+        case DELETE_PRODUCT_REVIEW:{
+            const {productId, reviewId} = action.review
+            const copyState = {...state}
+            delete copyState.allProducts[productId].reviews[reviewId]
+            return copyState
         }
         default:
             return state;
