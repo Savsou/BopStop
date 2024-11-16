@@ -32,8 +32,8 @@ function AddProduct() {
     navigate(-1); // Navigate to the previous page
   };
 
-  const handleSubmit = async () => {
-    // e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (sessionUser) {
       setErrors({});
 
@@ -67,6 +67,7 @@ function AddProduct() {
       if (serverResponse) {
         setErrors(serverResponse);
       } else {
+        setShowConfirmModal(true);
         setName("");
         setType("");
         setGenre("");
@@ -74,7 +75,7 @@ function AddProduct() {
         setDescription("");
         setImageUrl(null);
         // alert("Product added successfuly");
-        navigate(`/profile/${sessionUser.id}`);
+        // navigate(`/profile/${sessionUser.id}`);
       }
     }
 
@@ -119,21 +120,21 @@ function AddProduct() {
   };
 
   //Confirmation Modals
-  const openConfirmModal = (e) => {
-    e.preventDefault();
-    setShowConfirmModal(true);
-  }
+  // const openConfirmModal = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirmModal(true);
+  // }
 
-  const handleCancelModal = () => {
-    setShowConfirmModal(false);
-    handleSubmit();
-  }
+  // const handleCancelModal = () => {
+  //   setShowConfirmModal(false);
+  //   handleSubmit();
+  // }
 
   return (
     <div className="container-add-product">
       {/* <h2 className="header">Add a New Product</h2> */}
       {/* {message && <p>{message}</p>} */}
-      <form onSubmit={openConfirmModal} encType="multipart/form-data" className="add-product-form">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="add-product-form">
         <div className="album">
           <div className="ctas">
             <button type="submit" className="button submit">
@@ -155,7 +156,7 @@ function AddProduct() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="product name"
+              placeholder="Product Name"
               // required
               className="input name"
             />
@@ -180,7 +181,7 @@ function AddProduct() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             // required
-            placeholder="(optional)"
+            placeholder="(Description here)"
             className="input textarea description"
           />
           {errors.description && <p>{errors.description}</p>}
@@ -217,7 +218,7 @@ function AddProduct() {
             className="input type"
             style={{ color: type === "" ? "#AAA" : "#333" }}
           >
-            <option value="">(optional)</option>
+            <option value="">(Type)</option>
             <option value="music">--- Music ---</option>
             <option value="cd">Compact Disc (CD)</option>
             <option value="cassette">Cassette</option>
@@ -250,7 +251,7 @@ function AddProduct() {
             className="input genre"
             style={{ color: genre === "" ? "#AAA" : "#333" }}
           >
-            <option value="">(optional)</option>
+            <option value="">(Optional)</option>
             <option value="electronic">Electronic</option>
             <option value="metal">Metal</option>
             <option value="rock">Rock</option>
@@ -267,7 +268,10 @@ function AddProduct() {
 
       {showConfirmModal && (
         <ConfirmationModal
-          onClose={handleCancelModal}
+          onClose={() => {
+            setShowConfirmModal(false)
+            navigate(`/profile/${sessionUser.id}`);
+          }}
           message={"You have added this product!"}
         />
       )};

@@ -24,7 +24,7 @@ function CheckoutPage() {
     const [isSameBillingChecked, setIsSameBillingChecked] = useState(false);
     const [isSavePaymentChecked, setIsSavePaymentChecked] = useState(false);
     const [message, setMessage] = useState("");
-    const [showModal, setShowModal] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
 
     const fetchCart = useCallback(async () => {
@@ -74,7 +74,7 @@ function CheckoutPage() {
             if (response.ok) {
                 const data = await response.json();
                 setModalMessage(data.message);
-                setShowModal(true);
+                setShowConfirmModal(true);
 
                 setCardNum("")
                 setExpiresMonth("")
@@ -253,13 +253,12 @@ function CheckoutPage() {
                 </div>
             </form>
             {message && <p>{message}</p>}
-            {showModal && (
+            {showConfirmModal && (
                 <ConfirmationModal
                     onClose={() => {
-                            setShowModal(false)
-                            navigate('/')
-                        }
-                    }
+                        setShowConfirmModal(false)
+                        navigate('/')
+                    }}
                     message={modalMessage}
                 />
             )}

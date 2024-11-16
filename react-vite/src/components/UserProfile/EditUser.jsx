@@ -57,8 +57,8 @@ const EditUser = () => {
     navigate(-1); // Navigate to the previous page
   };
 
-  const handleSubmit = async () => {
-    // e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("artistName", artistName);
     formData.append("bio", bio);
@@ -82,6 +82,7 @@ const EditUser = () => {
         const result = await response.json();
         // console.log(result.message);
         // alert(result.message);
+        setShowConfirmModal(true)
         setErrors({});
       }
     } catch (error) {
@@ -91,20 +92,20 @@ const EditUser = () => {
   };
 
   //Confirmation Modals
-  const openConfirmModal = (e) => {
-    e.preventDefault();
-    setShowConfirmModal(true);
-  }
+  // const openConfirmModal = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirmModal(true);
+  // }
 
-  const handleCancelModal = () => {
-    setShowConfirmModal(false);
-    handleSubmit();
-  }
+  // const handleCancelModal = () => {
+  //   setShowConfirmModal(false);
+  //   handleSubmit();
+  // }
 
   return (
     <div className="container-editUser">
       {errors.server && <div className="error">{errors.server}</div>}
-      <form onSubmit={openConfirmModal} encType="multipart/form-data" className="edit-profile-form">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="edit-profile-form">
         <div className="uploadbannerimage" onClick={handleBannerImageClick} style={{ cursor: "pointer" }}>
           <input
             type="file"
@@ -176,7 +177,9 @@ const EditUser = () => {
 
       {showConfirmModal && (
         <ConfirmationModal
-          onClose={handleCancelModal}
+          onClose={() => {
+            setShowConfirmModal(false)
+          }}
           message={"You have edited your profile!"}
         />
       )};
