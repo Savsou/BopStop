@@ -5,9 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./Cart.css";
 
-function Cart({cart, removeFromCart}) {
-  //console.log("Cart prop from productDetail page:", cart)
-  const cartItems = Object.values(cart.items)
 function Cart({ cart, removeFromCart }) {
   // console.log("Cart prop from productDetail page:", cart)
   const cartItems = Object.values(cart.items);
