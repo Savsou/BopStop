@@ -25,35 +25,35 @@ function Navigation() {
         </li>
         {user ? (
           <>
-            <li>
+            <li className="nav-right">
               <AddButton />
             </li>
-            <li>
+            <li className="nav-right">
               <NavLink to="/wishlist" className="nav-icon-link">
                 <FontAwesomeIcon icon={faHeart} className="nav-icon" />
               </NavLink>
             </li>
             {cartItems.length > 0 && ( // Only show if there are items in the cart
-              <li>
+              <li className="nav-right">
                 <NavLink to="/cart" className="nav-icon-link">
                   <FontAwesomeIcon icon={faShoppingCart} className="nav-icon" />
                 </NavLink>
               </li>
             )}
-            <li>
+            <li className="nav-right">
               <ProfileButton buttonClass="profile-button" />
             </li>
           </>
         ) : (
           <>
-            <li>
+            <li className="nav-right">
               <OpenModalMenuItem
                 itemText="Log In"
                 modalComponent={<LoginFormModal />}
                 buttonClass="login-button"
               />
             </li>
-            <li>
+            <li className="nav-right">
               <OpenModalMenuItem
                 itemText="Sign Up"
                 modalComponent={<SignupFormModal />}

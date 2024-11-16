@@ -74,7 +74,7 @@ ul {
   width: 100%;
 }
 
-li {
+.nav-right {
   display: flex;
   justify-content: left;
   list-style: none;
@@ -109,7 +109,7 @@ li a {
   max-height: 21px;
 }
 
-ul li button {
+/* ul li button {
   background: none;
   border: none;
   font-size: 14px;
@@ -117,7 +117,7 @@ ul li button {
   font-weight: 500;
   cursor: pointer;
   padding: 15px;
-}
+} */
 
 ul li button:hover {
   background-color: rgb(243, 243, 243);
@@ -157,7 +157,7 @@ li .nav-icon {
   color: #6046FE
 }
 
-.nav-right {
+ul.nav-right {
   display: flex;
   align-items: center;
   width: 100%;
