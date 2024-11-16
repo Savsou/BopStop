@@ -5,6 +5,7 @@ import "./CheckoutPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCcVisa, faCcMastercard, faCcDiscover } from "@fortawesome/free-brands-svg-icons";
 import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
+import ConfirmationModal from "../../context/ConfirmationModal";
 
 function CheckoutPage() {
     const navigate = useNavigate();
@@ -20,6 +21,8 @@ function CheckoutPage() {
     const [isSameBillingChecked, setIsSameBillingChecked] = useState(false);
     const [isSavePaymentChecked, setIsSavePaymentChecked] = useState(false);
     const [message, setMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
     const fetchCart = useCallback(async () => {
         try {
@@ -68,6 +71,9 @@ function CheckoutPage() {
             if (response.ok) {
                 const data = await response.json();
                 // setMessage(data.message);
+                setModalMessage(data.message);
+                setShowModal(true);
+
                 setCardNum("")
                 setExpiresMonth("")
                 setExpiresYear("")
@@ -76,9 +82,8 @@ function CheckoutPage() {
                 setLastName("")
                 setIsSameBillingChecked(false)
                 setIsSavePaymentChecked(false)
-                alert(data.message)
+                // alert(data.message)
                 // fetchCart()
-                navigate('/')
             } else {
                 setMessage("Something went wrong. Please try again.");
             }
@@ -246,6 +251,16 @@ function CheckoutPage() {
                 </div>
             </form>
             {message && <p>{message}</p>}
+            {showModal && (
+                <ConfirmationModal
+                    onClose={() => {
+                            setShowModal(false)
+                            navigate('/')
+                        }
+                    }
+                    message={modalMessage}
+                />
+            )}
         </div>
     )
 }

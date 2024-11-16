@@ -108,13 +108,9 @@ function EditProduct() {
     setShowConfirmModal(true);
   }
 
-  const handleConfirmModal = () => {
-    setShowConfirmModal(false);
-    handleSubmit();
-  }
-
   const handleCancelModal = () => {
     setShowConfirmModal(false);
+    handleSubmit();
   }
 
   return (
@@ -251,7 +247,7 @@ function EditProduct() {
       {showConfirmModal && (
         <ConfirmationModal
           onClose={handleCancelModal}
-          onConfirm={handleConfirmModal}
+          message={"You have updated this product!"}
         />
       )};
     </div>

@@ -1,22 +1,20 @@
 import React from 'react';
-import '../context/Modal.css'
+import '../context/ConfirmationModal.css'
 
-const ConfirmationModal = ({ onClose, onConfirm }) => {
+function ConfirmationModal({ onClose, message }) {
+  const handleCloseClick = (e) => {
+    if (e.target.className === "confirmation-modal-overlay") {
+      onClose();
+    }
+  }
+
   return (
-    <div id="modal">
-      <div id="modal-background" onClick={onClose}></div>
-      <div id="modal-content">
-        <h3 className="modal-title">Confirm Edit</h3>
-        <div className="modal-content">
-          <p>Are you sure?</p>
-          <div className="form-group">
-            <button onClick={onConfirm}>Yes</button>
-            <button onClick={onClose} style={{ backgroundColor: 'gray', marginLeft: '10px' }}>Cancel</button>
-          </div>
-        </div>
+    <div className="confirmation-modal-overlay" onClick={handleCloseClick}>
+      <div className="confirmation-modal-content">
+        <p>{message}</p>
       </div>
     </div>
   );
-};
+}
 
 export default ConfirmationModal;

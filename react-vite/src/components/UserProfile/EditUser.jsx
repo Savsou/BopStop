@@ -80,8 +80,8 @@ const EditUser = () => {
         setErrors(errorData.errors || { server: "Failed to update profile" });
       } else {
         const result = await response.json();
-        console.log(result.message);
-        alert(result.message);
+        // console.log(result.message);
+        // alert(result.message);
         setErrors({});
       }
     } catch (error) {
@@ -96,13 +96,9 @@ const EditUser = () => {
     setShowConfirmModal(true);
   }
 
-  const handleConfirmModal = () => {
-    setShowConfirmModal(false);
-    handleSubmit();
-  }
-
   const handleCancelModal = () => {
     setShowConfirmModal(false);
+    handleSubmit();
   }
 
   return (
@@ -181,7 +177,7 @@ const EditUser = () => {
       {showConfirmModal && (
         <ConfirmationModal
           onClose={handleCancelModal}
-          onConfirm={handleConfirmModal}
+          message={"You have edited your profile!"}
         />
       )};
     </div>

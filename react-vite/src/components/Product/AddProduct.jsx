@@ -73,7 +73,7 @@ function AddProduct() {
         setPrice("");
         setDescription("");
         setImageUrl(null);
-        alert("Product added successfuly");
+        // alert("Product added successfuly");
         navigate(`/profile/${sessionUser.id}`);
       }
     }
@@ -124,13 +124,9 @@ function AddProduct() {
     setShowConfirmModal(true);
   }
 
-  const handleConfirmModal = () => {
-    setShowConfirmModal(false);
-    handleSubmit();
-  }
-
   const handleCancelModal = () => {
     setShowConfirmModal(false);
+    handleSubmit();
   }
 
   return (
@@ -272,7 +268,7 @@ function AddProduct() {
       {showConfirmModal && (
         <ConfirmationModal
           onClose={handleCancelModal}
-          onConfirm={handleConfirmModal}
+          message={"You have added this product!"}
         />
       )};
     </div>
