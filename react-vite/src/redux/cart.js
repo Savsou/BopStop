@@ -91,7 +91,6 @@ function cartReducer(state = initialState, action){
   switch(action.type){
     case(LOAD_CART_ITEMS):{
       const {cartDetails, subtotal} = action.cart
-      console.log(action.cart)
       if(cartDetails.length <= 0) return initialState
       const cartItems = {}
       cartDetails.forEach(item => cartItems[item.productId] = item)

@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import {
+  thunkGetWishlist,
+  thunkRemoveWishlistItem,
+} from "../../redux/wishlist";
 import "./Wishlist.css";
-import { thunkGetWishlist, thunkRemoveWishlistItem } from '../../redux/wishlist';
-import { useDispatch } from 'react-redux';
 
 function Wishlist() {
   // const [wishlist, setWishlist] = useState([]);
   const dispatch = useDispatch();
-  const wishlist = useSelector((state) => state.wishlist.items)
+  const wishlist = useSelector((state) => state.wishlist.items);
   const [error, setError] = useState(null);
 
-  console.log("wishlist", JSON.stringify(wishlist))
+  console.log("wishlist", JSON.stringify(wishlist));
 
   useEffect(() => {
     // fetchWishlist();
     dispatch(thunkGetWishlist())
-  }, []);
+  }, [dispatch]);
 
   // const fetchWishlist = async () => {
   //   try {
@@ -52,31 +54,38 @@ function Wishlist() {
   //   }
   // };
 
-  const handleDelete = async(productId) => {
-    dispatch(thunkRemoveWishlistItem(productId))
-  }
+  const handleDelete = async (productId) => {
+    dispatch(thunkRemoveWishlistItem(productId));
+  };
 
   return (
-    <div className="wishlist-container">
-      <h2 className="wishlist-header">My Wishlist</h2>
+    <div className="wishlist-product-row">
+      {/* <h2 className="wishlist-header">My Wishlist</h2> */}
       {error && <p className="error">{error}</p>}
-      <ul className="wishlist-items">
+      <div className="wishlist-products">
         {Object.values(wishlist).map((product) => (
-          <li key={product.productId} className="wishlist-item">
+          <div key={product.productId} className="wishlist-product-card">
             <Link to={`/products/${product.productId}`}>
-              <img src={product.imageUrl} alt={product.productName} className='wishlist-image'/>
+              <img
+                src={product.imageUrl}
+                alt={product.productName}
+                className="wishlist-product-image"
+              />
             </Link>
-            <div className='wishlist-content'>
-              <h3 className='wishlist-item-name'>{product.productName}</h3>
-              <p>by {product.artistName}</p>
-              <p className='wishlist-item-price'>{product.price}</p>
+            <div className="wishlist-product-info">
+              <h3 className="wishlist-product-name">{product.productName}</h3>
+              <p className="wishlist-product-artist">by {product.artistName}</p>
+              {/* <p className='wishlist-item-price'>{product.price}</p> */}
             </div>
-            <button onClick={() => handleDelete(product.productId)} className="wishlist-item-remove">
-              <FontAwesomeIcon icon={faTrashAlt} /> Remove
+            <button
+              onClick={() => handleDelete(product.productId)}
+              className="wishlist-item-remove"
+            >
+              <FontAwesomeIcon icon={faTrashAlt} />
             </button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
       {/* <button onClick={() => addToWishlist(1)} className="wishlist-add-button">
         <FontAwesomeIcon icon={faHeart} /> Add Product 1 to Wishlist
       </button> */}

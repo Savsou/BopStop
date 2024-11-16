@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { deleteProductReview} from './products_pristine'
 
 const LOAD_USER_REVIEWS = 'reviews/load_user_reviews';
 const LOAD_EDITED_REVIEW = 'reviews/load_edited_review';
@@ -46,14 +47,17 @@ export const thunkGetUserReviews = () => async dispatch => {
   }
 }
 
-export const thunkRemoveReview = reviewId => async dispatch => {
+export const thunkRemoveReview = (reviewId, productId) => async dispatch => {
   try {
     const res = await fetch(`/api/reviews/${reviewId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     })
+
     if (res.ok) {
       dispatch(deleteReview(reviewId))
+      dispatch(thunkGetUserReviews())
+      dispatch(deleteProductReview({reviewId, productId}))
       // return await res.json() //If you want the delete message for frontend
     }
     else if (res.status < 500) {
@@ -103,7 +107,6 @@ const reviewReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_USER_REVIEWS: {
       const userReviews = {}
-      console.log(action)
       if (action.reviews) {
         const reviews = action.reviews
         reviews.forEach(review => {
