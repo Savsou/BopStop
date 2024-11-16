@@ -1,5 +1,5 @@
 // Navigation.jsx
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import OpenModalMenuItem from "./OpenModalMenuItem";
@@ -10,12 +10,16 @@ import logo from "../../../src/logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faShoppingCart  } from '@fortawesome/free-solid-svg-icons';
 import "./Navigation.css";
+import { useEffect } from "react";
+import { thunkGetCart } from "../../redux/cart";
 
 function Navigation() {
   const user = useSelector((store) => store.session.user);
   const cartItems = useSelector((store) => Object.values(store.cart.items));
-
-  console.log(cartItems)
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(thunkGetCart())
+  }, [dispatch])
 
   return (
     <nav>
