@@ -276,7 +276,7 @@ const ProductDetail = () => {
         </div>
         <div className="artist-column">
         {/* Conditionally render the Cart component if the product is in the cart */}
-      {(cart.subtotal > 0) && (
+      {(cart.subtotal > 0) && sessionUser &&(
         <Cart
           cart={cart}
           removeFromCart={removeFromCart}
