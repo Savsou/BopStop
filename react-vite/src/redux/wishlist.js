@@ -114,7 +114,7 @@ function wishlistReducer(state = initialState, action){
     case(DELETE_WISHLIST_ITEM): {
       const {itemId} = action
       const copyState = { ...state }
-      copyState.items[itemId]
+      delete copyState.items[itemId]
       return copyState
     }
 

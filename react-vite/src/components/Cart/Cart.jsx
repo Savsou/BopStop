@@ -14,7 +14,7 @@ function Cart({ cart, removeFromCart }) {
   // const [subtotal, setSubtotal] = useState(0);
   const [error, setError] = useState(null);
 
-  // console.log("cartItems", JSON.stringify(cartItems))
+  //console.log("cartItems", JSON.stringify(cartItems))
 
   // useEffect(() => {
   //   // fetchCartItems();

@@ -35,7 +35,8 @@ def all_products():
         "genre": product.genre,
         "price": round(product.price, 2),
         "description": product.description,
-        "imageUrl": product.imageUrl
+        "imageUrl": product.imageUrl,
+        "createdAt": product.createdAt,
       }
       for product in products
     ]
@@ -107,6 +108,8 @@ def product(productId):
     "name": product.name,
     "userId": product.userId,
     "artistName": product.user.artistName,
+    "profileImageUrl": product.user.profileImageUrl,
+    "bannerImageUrl": product.user.bannerImageUrl,
     "type": product.type,
     "genre": product.genre,
     "price": round(product.price, 2),
@@ -295,15 +298,24 @@ def update_product(productId):
 # REVIEWS Get all reviews by product's id
 @product_routes.route('/<int:productId>/reviews')
 def product_reviews(productId):
-  product = Product.query.get(productId)
-  productReviews = product.get_reviews
-  for index, review in enumerate(productReviews):
-    productReviews[index]["artistName"] = User.query.get(review['userId']).to_dict()['artistName']
-  if product:
-    # return {'reviews': product.get_reviews}
-    return {"reviews": productReviews}
-  else:
-    return {'message': 'Product could not be found!'}, 404
+  # Load product with reviews and user data in a single query
+  product = Product.query.options(
+      joinedload(Product.reviews).joinedload(Review.user)
+  ).filter_by(id=productId).first()
+
+  if not product:
+      return {'message': 'Product could not be found!'}, 404
+
+  product_reviews = [
+      {
+          **review.to_dict(),
+          "artistName": review.user.artistName,
+          "profileImageUrl": review.user.profileImageUrl
+      }
+      for review in product.reviews
+  ]
+
+  return jsonify({"reviews": product_reviews})
 
 # REVIEWS Create and return a review for a product by id
   """
@@ -318,7 +330,6 @@ def create_review(productId):
   if product is None:
     return {'message': 'Product could not be found!'}, 404
   data = request.get_json()
-  # return {"data in review route": data}
   newReview = Review(
     userId=current_user.id,
     review=data['review'],

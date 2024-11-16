@@ -71,23 +71,23 @@ const ProfilePage = () => {
   return (
     <div className="product-detail-page">
       {/* Banner Section */}
-      {user?.profileImageUrl && (
+      {user?.bannerImageUrl && (
         <div
           className="banner"
-          style={{ backgroundImage: `url(${user.profileImageUrl})` }}
+          style={{ backgroundImage: `url(${user.bannerImageUrl})` }}
         />
-      )} 
+      )}
       {/* Product List */}
         {user.products && user.products.length > 0 ? (
           user.products.map((product) => (
             <div key={product.productId} className="product-detail">
-              
+
               {/* Product Column */}
               <div className="product-column">
               <Link to={`/products/${product.productId}`} className="product-name-link">
                   <h2 className="product-name">{product.name}</h2>
                   </Link>
-                <p className="product-artist">by {product.artistName}</p>
+                {/* <p className="product-artist">by {product.artistName}</p> */}
                 <div className="product-meta">
                   <div className="product-info-column">
                     <p className="product-type">{product.type}</p>
@@ -98,8 +98,8 @@ const ProfilePage = () => {
                     <Link to={`/products/edit/${product.productId}`} className="product-detail-button">
                       <FontAwesomeIcon icon={faPenToSquare} /> Edit
                     </Link>
-                    <button 
-                      onClick={() => handleOpenModal(product.productId)} 
+                    <button
+                      onClick={() => handleOpenModal(product.productId)}
                       className="product-detail-button"
                     >
                       <FontAwesomeIcon icon={faTrash} /> Remove
@@ -127,10 +127,10 @@ const ProfilePage = () => {
 
       {/* Modals */}
       {showModal && (
-        <RemoveProductModal 
-          productId={productIdToDelete} 
-          onConfirm={handleDeleteProduct} 
-          onCancel={handleCloseModal} 
+        <RemoveProductModal
+          productId={productIdToDelete}
+          onConfirm={handleDeleteProduct}
+          onCancel={handleCloseModal}
         />
       )}
     </div>

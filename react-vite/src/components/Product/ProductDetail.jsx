@@ -5,7 +5,7 @@ import AddReviewModal from '../Review/AddReviewModal';
 import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
 import Cart from '../Cart/Cart';
-import { thunkRemoveReview, thunkEditReview } from '../../redux/reviews';
+import { thunkRemoveReview, thunkEditReview, thunkGetUserReviews } from '../../redux/reviews';
 import { thunkGetProductReviews, thunkAddAProductReview, thunkGetProductById  } from '../../redux/products_pristine';
 import { thunkAddWishlistItem } from '../../redux/wishlist';
 import { thunkGetCart, thunkAddCartItem, thunkRemoveCartItem } from '../../redux/cart';
@@ -27,19 +27,20 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(JSON.stringify(cart))
+  //console.log(JSON.stringify(cart))
 
   useEffect(() => {
     dispatch(thunkGetProductById(productId)).then(res => setProduct(res));
-  }, [productId])
+  }, [productId, dispatch])
 
   useEffect(() => {
+    dispatch(thunkGetUserReviews())
     dispatch(thunkGetProductReviews(productId)).then(res => setReviews(res.reviews))
-  },[currentReview])
+  },[currentReview, dispatch, productId])
 
     useEffect(() => {
-    dispatch(thunkGetCart())
-  }, [productId]);
+    if(sessionUser)dispatch(thunkGetCart())
+  }, [productId, sessionUser, dispatch]);
 
 
   // useEffect(() => {
@@ -121,7 +122,10 @@ const ProductDetail = () => {
   };
 
   const handleRemoveReview = async (reviewId) => {
-    dispatch(thunkRemoveReview(reviewId)).then(res => setCurrentReview(""))
+    dispatch(thunkRemoveReview(reviewId, productId)).then(res => {
+      console.log(res)
+      setCurrentReview("")
+    })
     closeModals()
     // try {
     //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
@@ -198,12 +202,12 @@ const ProductDetail = () => {
   return (
     <div className="product-detail-page">
       {/* Banner Section */}
-      {/* {user?.profileImageUrl && (
+      {product?.profileImageUrl && (
         <div
           className="banner"
-          style={{ backgroundImage: `url(${user.profileImageUrl})` }}
+          style={{ backgroundImage: `url(${product.profileImageUrl})` }}
         />
-      )}       */}
+      )}
       <div className="product-detail">
         <div className="product-column">
           <h2 className="product-name">{product.name}</h2>
@@ -215,16 +219,20 @@ const ProductDetail = () => {
               <p className="product-description">{product.description}</p>
               <p className="product-price">Price: ${product.price}</p>
               <p className="product-created-time">released {formatDate(product.createdAt)}</p>
-              <button onClick={() => addToCart(product.productId)} className="product-detail-button">
-                <FontAwesomeIcon icon={faCartPlus} className="nav-icon" /> Add to Cart
-              </button>
+              {sessionUser &&
+                <button onClick={() => addToCart(product.productId)} className="product-detail-button">
+                  <FontAwesomeIcon icon={faCartPlus} className="nav-icon" /> Add to Cart
+                </button>
+              }
             </div>
             <div className='product-image-column'>
               <img src={product.imageUrl} alt={product.name} className="product-image-big" />
               {/* Wishlist Button */}
-              <button onClick={() => addToWishlist(product.productId)} className="product-detail-button">
-                <FontAwesomeIcon icon={faHeart} className="nav-icon" /> Wishlist
-              </button>
+              {sessionUser &&
+                <button onClick={() => addToWishlist(product.productId)} className="product-detail-button">
+                  <FontAwesomeIcon icon={faHeart} className="nav-icon" /> Wishlist
+                </button>
+              }
               {/* Reviews Section */}
               <div className="reviews-section">
                 <p className="reviews-title">supported by</p>{
@@ -238,10 +246,10 @@ const ProductDetail = () => {
                   )
                 }
                 {reviews.length > 0 ? (
-                  reviews.map((review) => (
-                    <div className='review'>
+                  reviews.map((review, index) => (
+                    <div className='review' key={index}>
                       <div className='review-image'>
-                        {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
+                        <img src={review.profileImageUrl} alt={`${review.artistName}'s profile`} className="profile-image" />
                       </div>
                       <div className="review-info">
                         <p className='review-content'>
@@ -276,13 +284,13 @@ const ProductDetail = () => {
         </div>
         <div className="artist-column">
         {/* Conditionally render the Cart component if the product is in the cart */}
-      {(cart.subtotal > 0) && (
+      {(cart.subtotal > 0) && sessionUser &&(
         <Cart
           cart={cart}
           removeFromCart={removeFromCart}
         />
       )}
-          {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
+          <img src={product.profileImageUrl} alt={`${product.artistName}'s profile`} className="profile-image-small" />
           <img src={product.imageUrl} alt={product.name} className="product-image-small" />
           <p className="product-artist">{product.artistName}</p>
           <p className="product-name">{product.name}</p>

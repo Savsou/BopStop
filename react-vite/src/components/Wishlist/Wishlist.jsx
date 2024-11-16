@@ -19,8 +19,8 @@ function Wishlist() {
 
   useEffect(() => {
     // fetchWishlist();
-    dispatch(thunkGetWishlist());
-  }, []);
+    dispatch(thunkGetWishlist())
+  }, [dispatch]);
 
   // const fetchWishlist = async () => {
   //   try {
