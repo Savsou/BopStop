@@ -249,6 +249,7 @@ export const thunkGetProductReviews = productId => async dispatch => {
         const reviews = await res.json()
         if (reviews.errors) return reviews.errors
         dispatch(loadProductReviews(reviews['reviews']))
+        console.log("reviews:", reviews)
         return reviews
     } catch (err) {
         console.error(err)
