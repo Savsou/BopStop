@@ -108,6 +108,7 @@ def product(productId):
     "name": product.name,
     "userId": product.userId,
     "artistName": product.user.artistName,
+    "bannerImageUrl": product.user.bannerImageUrl,
     "type": product.type,
     "genre": product.genre,
     "price": round(product.price, 2),

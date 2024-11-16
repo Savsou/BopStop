@@ -198,10 +198,10 @@ const ProductDetail = () => {
   return (
     <div className="product-detail-page">
       {/* Banner Section */}
-      {sessionUser?.bannerImageUrl && (
+      {product?.bannerImageUrl && (
         <div
           className="banner"
-          style={{ backgroundImage: `url(${sessionUser.bannerImageUrl})` }}
+          style={{ backgroundImage: `url(${product.bannerImageUrl})` }}
         />
       )}
       <div className="product-detail">
