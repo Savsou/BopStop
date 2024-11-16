@@ -100,8 +100,11 @@ function CheckoutPage() {
                         <input
                             type="text"
                             value={cardNum}
-                            onChange={(e) => setCardNum(e.target.value)}
+                            onChange={(e) => setCardNum(e.target.value.replace(/\D/g, ''))}
                             className="input"
+                            pattern="[0-9]*"
+                            maxLength="16"
+                            required
                         />
                         <div className="icons">
                             <FontAwesomeIcon size="2x" icon={faCcVisa} style={{color: "#74C0FC",}} />
@@ -116,6 +119,7 @@ function CheckoutPage() {
                                 value={expiresMonth}
                                 onChange={(e) => setExpiresMonth(e.target.value)}
                                 className="select"
+                                required
                             >
                                 <option value="">Month</option>
                                 {months.map((month) => (
@@ -128,6 +132,7 @@ function CheckoutPage() {
                                 value={expiresYear}
                                 onChange={(e) => setExpiresYear(e.target.value)}
                                 className="select"
+                                required
                             >
                                 <option value="">Year</option>
                                 {years.map((year) => (
@@ -143,8 +148,9 @@ function CheckoutPage() {
                         <input
                             type="text"
                             value={securityCode}
-                            onChange={(e) => setSecurityCode(e.target.value)}
+                            onChange={(e) => setSecurityCode(e.target.value.replace(/\D/g, ''))}
                             className="input"
+                            required
                         />
                         <div className="icons">
                             <FontAwesomeIcon icon={faCreditCard} />
@@ -157,8 +163,9 @@ function CheckoutPage() {
                         <input
                             type="text"
                             value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            onChange={(e) => setFirstName(e.target.value.replace(/[^a-zA-Z]/g, ''))}
                             className="input"
+                            required
                         />
                     </div>
                     <div className="last-name">
@@ -166,8 +173,9 @@ function CheckoutPage() {
                         <input
                             type="text"
                             value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
+                            onChange={(e) => setLastName(e.target.value.replace(/[^a-zA-Z]/g, ''))}
                             className="input"
+                            required
                         />
                     </div>
                 </div>
