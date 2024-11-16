@@ -198,12 +198,12 @@ const ProductDetail = () => {
   return (
     <div className="product-detail-page">
       {/* Banner Section */}
-      {product?.bannerImageUrl && (
+      {/* {user?.profileImageUrl && (
         <div
           className="banner"
-          style={{ backgroundImage: `url(${product.bannerImageUrl})` }}
+          style={{ backgroundImage: `url(${user.profileImageUrl})` }}
         />
-      )}
+      )}       */}
       <div className="product-detail">
         <div className="product-column">
           <h2 className="product-name">{product.name}</h2>
@@ -241,7 +241,7 @@ const ProductDetail = () => {
                   reviews.map((review) => (
                     <div className='review'>
                       <div className='review-image'>
-                        <img src={review.profileImageUrl} alt={`${review.artistName}'s profile`} className="profile-image" />
+                        {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
                       </div>
                       <div className="review-info">
                         <p className='review-content'>
@@ -281,8 +281,8 @@ const ProductDetail = () => {
           cart={cart}
           removeFromCart={removeFromCart}
         />
-      {/* )} */}
-          <img src={product.profileImageUrl} alt={`${sessionUser.artistName}'s profile`} className="profile-image-small" />
+      )}
+          {/* <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image" /> */}
           <img src={product.imageUrl} alt={product.name} className="product-image-small" />
           <p className="product-artist">{product.artistName}</p>
           <p className="product-name">{product.name}</p>
