@@ -318,7 +318,7 @@ const ProductDetail = () => {
         <RemoveReviewModal
           review={currentReview}
           onClose={closeModals}
-          onConfirm={() => handleRemoveReview(currentReview.reviewId)}
+          onConfirm={() => handleRemoveReview(currentReview.id)}
         />
       )}
     </div>
