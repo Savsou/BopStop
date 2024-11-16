@@ -63,6 +63,10 @@
     font-weight: bold;
   }
 
+  .cart-checkout:hover {
+    cursor: pointer;
+  }
+
   .cart-container ul {
     margin: 0;
   }

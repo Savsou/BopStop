@@ -117,10 +117,10 @@ function AddProduct() {
   };
 
   return (
-    <div className="container">
+    <div className="container-add-product">
       {/* <h2 className="header">Add a New Product</h2> */}
       {/* {message && <p>{message}</p>} */}
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="add-product-form">
         <div className="album">
           <div className="ctas">
             <button type="submit" className="button submit">
@@ -142,7 +142,7 @@ function AddProduct() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="track name"
+              placeholder="product name"
               // required
               className="input name"
             />
@@ -184,7 +184,7 @@ function AddProduct() {
               style={{ display: "none" }} // Hide the original input
             />
             <label className="label imageurl">
-              <div className="upload-button">Upload Album Art</div>
+              <div className="upload-button">Upload Product Image</div>
               <p className="upload-notes">
                 <br></br>
                 1400 x 1400 pixels minimum <br></br>(bigger is better)
