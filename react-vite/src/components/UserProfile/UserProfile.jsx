@@ -87,7 +87,7 @@ const ProfilePage = () => {
               <Link to={`/products/${product.productId}`} className="product-name-link">
                   <h2 className="product-name">{product.name}</h2>
                   </Link>
-                <p className="product-artist">by {product.artistName}</p>
+                {/* <p className="product-artist">by {product.artistName}</p> */}
                 <div className="product-meta">
                   <div className="product-info-column">
                     <p className="product-type">{product.type}</p>
