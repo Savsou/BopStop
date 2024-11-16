@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
@@ -18,7 +18,7 @@ function Wishlist() {
   useEffect(() => {
     // fetchWishlist();
     dispatch(thunkGetWishlist())
-  }, []);
+  }, [dispatch]);
 
   // const fetchWishlist = async () => {
   //   try {
