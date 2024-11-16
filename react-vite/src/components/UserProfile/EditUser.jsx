@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import ConfirmationModal from "../../context/ConfirmationModal";
 import "./EditUser.css";
 
 const EditUser = () => {
@@ -13,6 +14,7 @@ const EditUser = () => {
   const [errors, setErrors] = useState({});
   const profileImageRef = useRef(null);
   const bannerImageRef = useRef(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -55,8 +57,8 @@ const EditUser = () => {
     navigate(-1); // Navigate to the previous page
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // e.preventDefault();
     const formData = new FormData();
     formData.append("artistName", artistName);
     formData.append("bio", bio);
@@ -88,10 +90,25 @@ const EditUser = () => {
     }
   };
 
+  //Confirmation Modals
+  const openConfirmModal = (e) => {
+    e.preventDefault();
+    setShowConfirmModal(true);
+  }
+
+  const handleConfirmModal = () => {
+    setShowConfirmModal(false);
+    handleSubmit();
+  }
+
+  const handleCancelModal = () => {
+    setShowConfirmModal(false);
+  }
+
   return (
     <div className="container-editUser">
       {errors.server && <div className="error">{errors.server}</div>}
-      <form onSubmit={handleSubmit} encType="multipart/form-data" className="edit-profile-form">
+      <form onSubmit={openConfirmModal} encType="multipart/form-data" className="edit-profile-form">
         <div className="uploadbannerimage" onClick={handleBannerImageClick} style={{ cursor: "pointer" }}>
           <input
             type="file"
@@ -160,6 +177,13 @@ const EditUser = () => {
           </div>
         </div>
       </form>
+
+      {showConfirmModal && (
+        <ConfirmationModal
+          onClose={handleCancelModal}
+          onConfirm={handleConfirmModal}
+        />
+      )};
     </div>
   );
 };

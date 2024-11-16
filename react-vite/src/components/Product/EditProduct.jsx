@@ -6,6 +6,7 @@ import {
   thunkGetProductById,
 } from "../../redux/products_pristine";
 import "./EditProduct.css";
+import ConfirmationModal from "../../context/ConfirmationModal";
 
 function EditProduct() {
   const { productId } = useParams();
@@ -21,6 +22,7 @@ function EditProduct() {
   const [imageUrl, setImageUrl] = useState(null);
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -54,8 +56,8 @@ function EditProduct() {
     navigate(-1); // Navigate to the previous page
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // e.preventDefault();
     if (sessionUser) {
       setErrors({});
 
@@ -90,7 +92,7 @@ function EditProduct() {
           setErrors(serverResponse);
         } else {
           // navigate(`/products/${productId}`);
-          alert("Product updated successfuly");
+          // alert("Product updated successfuly");
           navigate(`/profile/${sessionUser.id}`);
         }
       } catch (error) {
@@ -100,9 +102,24 @@ function EditProduct() {
     }
   };
 
+  //Confirmation Modals
+  const openConfirmModal = (e) => {
+    e.preventDefault();
+    setShowConfirmModal(true);
+  }
+
+  const handleConfirmModal = () => {
+    setShowConfirmModal(false);
+    handleSubmit();
+  }
+
+  const handleCancelModal = () => {
+    setShowConfirmModal(false);
+  }
+
   return (
     <div className="container-edit-product">
-      <form onSubmit={handleSubmit} encType="multipart/form-data" className="edit-product-form">
+      <form onSubmit={openConfirmModal} encType="multipart/form-data" className="edit-product-form">
         <div className="album">
           <div className="ctas">
             <button type="submit" className="button submit">
@@ -231,6 +248,12 @@ function EditProduct() {
           {errors.genre && <p className="error">{errors.genre}</p>}
         </div>
       </form>
+      {showConfirmModal && (
+        <ConfirmationModal
+          onClose={handleCancelModal}
+          onConfirm={handleConfirmModal}
+        />
+      )};
     </div>
   );
 }

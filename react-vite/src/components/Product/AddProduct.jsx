@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { thunkAddProduct } from "../../redux/products_pristine";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import ConfirmationModal from "../../context/ConfirmationModal";
 import "./AddProduct.css";
 
 function AddProduct() {
@@ -17,6 +18,7 @@ function AddProduct() {
   // const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null); // Ref for the hidden file input
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleDivClick = () => {
     fileInputRef.current.click(); // Trigger the hidden input when the div is clicked
@@ -30,8 +32,8 @@ function AddProduct() {
     navigate(-1); // Navigate to the previous page
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // e.preventDefault();
     if (sessionUser) {
       setErrors({});
 
@@ -116,11 +118,26 @@ function AddProduct() {
     // }
   };
 
+  //Confirmation Modals
+  const openConfirmModal = (e) => {
+    e.preventDefault();
+    setShowConfirmModal(true);
+  }
+
+  const handleConfirmModal = () => {
+    setShowConfirmModal(false);
+    handleSubmit();
+  }
+
+  const handleCancelModal = () => {
+    setShowConfirmModal(false);
+  }
+
   return (
     <div className="container-add-product">
       {/* <h2 className="header">Add a New Product</h2> */}
       {/* {message && <p>{message}</p>} */}
-      <form onSubmit={handleSubmit} encType="multipart/form-data" className="add-product-form">
+      <form onSubmit={openConfirmModal} encType="multipart/form-data" className="add-product-form">
         <div className="album">
           <div className="ctas">
             <button type="submit" className="button submit">
@@ -251,6 +268,13 @@ function AddProduct() {
           {errors.genre && <p>{errors.genre}</p>}
         </div>
       </form>
+
+      {showConfirmModal && (
+        <ConfirmationModal
+          onClose={handleCancelModal}
+          onConfirm={handleConfirmModal}
+        />
+      )};
     </div>
   );
 }
