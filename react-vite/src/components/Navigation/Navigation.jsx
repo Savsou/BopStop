@@ -13,7 +13,9 @@ import "./Navigation.css";
 
 function Navigation() {
   const user = useSelector((store) => store.session.user);
-  const cartItems = useSelector((store) => store.cart.items);
+  const cartItems = useSelector((store) => Object.values(store.cart.items));
+
+  console.log(cartItems)
 
   return (
     <nav>
@@ -35,7 +37,7 @@ function Navigation() {
             </li>
             {cartItems.length > 0 && ( // Only show if there are items in the cart
               <li className="nav-right">
-                <NavLink to="/cart" className="nav-icon-link">
+                <NavLink to={`/products/${cartItems[0].productId}`} className="nav-icon-link">
                   <FontAwesomeIcon icon={faShoppingCart} className="nav-icon" />
                 </NavLink>
               </li>
