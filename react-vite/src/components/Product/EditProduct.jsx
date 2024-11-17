@@ -125,7 +125,7 @@ function EditProduct() {
             onChange={(e) => setName(e.target.value)}
             className="input name"
           />
-          {errors.name && <p className="error">{errors.name}</p>}
+          {errors.name && <p className="error-message">{errors.name}</p>}
 
           <label className="label price">price:</label>
           <label className="label us-dollars">
@@ -139,7 +139,7 @@ function EditProduct() {
             />
             US Dollars
           </label>
-          {errors.price && <p className="error">{errors.price}</p>}
+          {errors.price && <p className="error-message">{errors.price}</p>}
 
           <label className="label description">description:</label>
           <textarea
@@ -147,7 +147,7 @@ function EditProduct() {
             onChange={(e) => setDescription(e.target.value)}
             className="input textarea description"
           />
-          {errors.description && <p className="error">{errors.description}</p>}
+          {errors.description && <p className="error-message">{errors.description}</p>}
           <div
             className="upload"
             onClick={handleDivClick}
@@ -173,7 +173,7 @@ function EditProduct() {
               </p>
             </label>
           </div>
-          {errors.imageUrl && <p className="error">{errors.imageUrl}</p>}
+          {errors.imageUrl && <p className="error-message">{errors.imageUrl}</p>}
 
           <label className="label type">type:</label>
           <select
@@ -207,7 +207,7 @@ function EditProduct() {
             <option value="bag">Bag</option>
             <option value="other">Other</option>
           </select>
-          {errors.type && <p className="error">{errors.type}</p>}
+          {errors.type && <p className="error-message">{errors.type}</p>}
 
           <label className="label genre">genre:</label>
           <select
@@ -227,7 +227,7 @@ function EditProduct() {
             <option value="pop">Pop</option>
             <option value="ambient">Ambient</option>
           </select>
-                  {errors.genre && <p className="error">{errors.genre}</p>}
+                  {errors.genre && <p className="error-message">{errors.genre}</p>}
                   <div className="ctas">
             <button type="submit" className="button submit">
               Update Product

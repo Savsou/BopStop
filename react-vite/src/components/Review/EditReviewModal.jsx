@@ -3,6 +3,7 @@ import '../../context/Modal.css';
 
 const EditReviewModal = ({ review, onClose, onSubmit }) => {
   const [reviewText, setReviewText] = useState('');
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     // Check if review object exists and has a valid review property
@@ -13,6 +14,7 @@ const EditReviewModal = ({ review, onClose, onSubmit }) => {
 
   const handleEdit = async () => {
     try {
+      setErrors({});
       await onSubmit(reviewText);  // Ensure `onSubmit` completes before proceeding
       onClose();                   // Close the modal only if edit is successful
     } catch (error) {
@@ -32,6 +34,7 @@ const EditReviewModal = ({ review, onClose, onSubmit }) => {
             placeholder="Edit your review..."
             style={{ width: '100%', height: '80px', padding: '10px' }}
           />
+          {errors.reviewText && <p className="error-message">{errors.reviewText}</p>}
           <div className="form-group">
             <button onClick={handleEdit}>Save</button>
             <button onClick={onClose} style={{ backgroundColor: 'gray', marginLeft: '10px' }}>Cancel</button>
