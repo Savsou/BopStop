@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./Cart.css";
 
-function Cart({ cart, removeFromCart }) {
+function Cart({ cart, removeFromCart}) {
   // console.log("Cart prop from productDetail page:", cart)
   const cartItems = Object.values(cart.items);
   const navigate = useNavigate();
@@ -13,74 +13,10 @@ function Cart({ cart, removeFromCart }) {
   // const [cartItems, setCartItems] = useState([...itemArray]);
   // const [subtotal, setSubtotal] = useState(0);
   const [error, setError] = useState(null);
+  const wiggle = useSelector((state) => state.cart.wiggle);
 
+  console.log(wiggle)
   //console.log("cartItems", JSON.stringify(cartItems))
-
-  // useEffect(() => {
-  //   // fetchCartItems();
-  // }, []);
-
-  // const fetchCartItems = async () => {
-  //   try {
-  //     const response = await fetch('/api/cart/session', {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       credentials: 'include',
-  //     });
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       setCartItems(data.cartDetails);
-  //       setSubtotal(data.subtotal);
-  //     } else {
-  //       setError(data.message || 'Failed to load cart items');
-  //     }
-  //   } catch (err) {
-  //     setError('Failed to load cart items');
-  //   }
-  // };
-
-  // const addToCart = async (productId, quantity = 1) => {
-  //   try {
-  //     const response = await fetch('/api/cart', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       credentials: 'include',
-  //       body: JSON.stringify({ productId, quantity }),
-  //     });
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       fetchCartItems();
-  //     } else {
-  //       setError(data.message || 'Failed to add product');
-  //     }
-  //   } catch (err) {
-  //     setError('Failed to add product');
-  //   }
-  // };
-
-  // const removeFromCart = async (productId) => {
-  //   try {
-  //     const response = await fetch(`/api/cart/${productId}`, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       credentials: 'include',
-  //     });
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       setCartItems(cartItems.filter(item => item.productId !== productId));
-  //       setSubtotal(prevSubtotal => prevSubtotal - data.price * data.quantity);
-  //     } else {
-  //       setError(data.message || 'Failed to remove product');
-  //     }
-  //   } catch (err) {
-  //     setError('Failed to remove product');
-  //   }
-  // };
 
   const handleCheckout = async () => {
     navigate("/checkout");
@@ -89,7 +25,10 @@ function Cart({ cart, removeFromCart }) {
   // if (!cartItems) return <p>Loading cart...</p>;
 
   return (
-    <div className="cart-container">
+    <div
+    className="cart-container"
+    wiggle={wiggle}
+    >
       <h3>Shopping Cart</h3>
       {error && <p className="error">{error}</p>}
       <ul className="cart-items-cart">

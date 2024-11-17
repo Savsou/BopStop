@@ -8,6 +8,25 @@
     margin-bottom: 6px;
     border-radius: 3px;
   }
+  .cart-container[wiggle="1"] {
+    animation: wiggle .8s 1;
+  }
+
+  @keyframes wiggle {
+    25% {
+      transform: rotate(-10deg);
+    }
+    50% {
+      transform: rotate(5deg);
+    }
+    75% {
+      transform: rotate(-5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
   .cart-container h3 {
     font-size: 12px;
     padding: 7px 0 5px 0;
@@ -15,7 +34,6 @@
     margin-block-end: 0;
   }
 
-  
   .cart-item-remove {
     color: #0687F5;
     border: none;
@@ -28,7 +46,7 @@
     padding-inline-end: 0px;
     padding-inline-start: 0px;
   }
-  
+
   .cart-subtotal {
     display: flex; /* Align items horizontally if they have multiple elements */
     justify-content: space-between; /* Adjusts spacing between product name and remove button */
@@ -43,7 +61,7 @@
   .cart-subtotal span {
     color: #0687F5 !important;
   }
-  
+
   .cart-notes {
     font-size: 10px;
     text-align: center;
@@ -78,7 +96,7 @@
     display: flex;
     flex-direction: column; /* Ensures vertical stacking */
   }
-  
+
   .cart-item-cart {
     display: flex; /* Align items horizontally if they have multiple elements */
     justify-content: space-between; /* Adjusts spacing between product name and remove button */
@@ -88,7 +106,7 @@
     min-width: 112px;
     margin-top: 5px;
   }
-  
+
   .ship-to {
     margin-top: 7px;
     font-size: 12px;
