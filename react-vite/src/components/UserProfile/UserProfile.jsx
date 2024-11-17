@@ -86,6 +86,10 @@ const ProfilePage = () => {
         </div>
         {/* Product List */}
         <h2 className="title">{user.artistName}'s Profile</h2>
+        <div className="artist-page-bio">
+          {/* <p>Bio:</p> */}
+          <p >{user.bio}</p>
+        </div>
         {user.products && user.products.length > 0 ? (
           user.products.map((product) => (
             <div key={product.productId} className="product-detail">

@@ -31,6 +31,7 @@ import {
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
 import "./ProductDetail.css";
+import ConfirmationModal from "../../context/ConfirmationModal";
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -42,6 +43,7 @@ const ProductDetail = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [currentReview, setCurrentReview] = useState("");
   const dispatch = useDispatch();
   // const navigate = useNavigate();
@@ -208,7 +210,8 @@ const ProductDetail = () => {
 
   const addToWishlist = async (productId) => {
     dispatch(thunkAddWishlistItem(productId));
-    alert("Added product to wishlist");
+    // alert("Added product to wishlist");
+    setShowConfirmModal(true);
   };
 
   const addToCart = (productId) => {
@@ -430,10 +433,8 @@ const ProductDetail = () => {
             <p className="US">US</p>
             <button className="follow">Follow</button>
             <p className="artist-bio">
-              {product.artistName} is a world music artist creating mystical
-              soundscapes and medicine songs.<br></br>
+              {product.artistBio}<br></br>
               <br></br>
-              As a song collector, {product.artistName} weaves his...{" "}
             </p>
             <p className="bio-more">
               more<br></br>
@@ -484,6 +485,14 @@ const ProductDetail = () => {
             onConfirm={() => handleRemoveReview(currentReview.id)}
           />
         )}
+        {showConfirmModal && (
+          <ConfirmationModal
+            onClose={() => {
+              setShowConfirmModal(false)
+            }}
+            message={"You have added the product to your wishlist!"}
+          />
+        )};
       </div>
     </div>
   );
