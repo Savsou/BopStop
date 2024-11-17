@@ -116,7 +116,6 @@ export const thunkGetLimitedProducts = (limit = 20) => async dispatch => {
         const res = await fetch(`/api/products?limit=${limit}`);
         if (res.ok) {
             const products = await res.json()
-            // console.log(`Testing thunkGetLimitedProducts: ${JSON.stringify(products)}`)
             if (products.errors) return products.errors
             dispatch(loadLimitedProducts(products["products"]))
         }
@@ -183,7 +182,6 @@ export const thunkAddProduct = (product) => async dispatch => {
         console.error("Error in thunkAddProduct:", e);
         return { server: "Something went wrong. Please try again" }
     }
-
 };
 
 export const thunkEditProduct = (product) => async dispatch => {
@@ -249,7 +247,6 @@ export const thunkGetProductReviews = productId => async dispatch => {
         const reviews = await res.json()
         if (reviews.errors) return reviews.errors
         dispatch(loadProductReviews(reviews['reviews']))
-        console.log("reviews:", reviews)
         return reviews
     } catch (err) {
         console.error(err)

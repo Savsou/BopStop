@@ -78,9 +78,11 @@ const ProductDetail = () => {
 
   const handleAddReview = async (reviewText) => {
     dispatch(thunkAddAProductReview(productId, { review: reviewText })).then(
-      (res) => setCurrentReview(res)
+      (res) => {
+        setCurrentReview(res)
+      }
     );
-    closeModals();
+    if(error)closeModals();
   };
 
   const handleEditReview = async (reviewId, reviewText) => {
