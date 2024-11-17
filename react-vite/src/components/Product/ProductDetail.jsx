@@ -33,6 +33,9 @@ import {
 import "./ProductDetail.css";
 import ConfirmationModal from "../../context/ConfirmationModal";
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const ProductDetail = () => {
   const { productId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
@@ -139,7 +142,15 @@ const ProductDetail = () => {
   };
 
   if (error) return <p>{error}</p>;
-  if (!product) return <p>Loading...</p>;
+  // if (!product) return <p>Loading...</p>;
+  if (!product) return (
+    <Backdrop
+      sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+      open
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
 
   return (
     <div className="product-detail-page">

@@ -7,6 +7,9 @@ import Navigation from "../components/Navigation/Navigation";
 import Footer from "../components/Footer/Footer";
 import "../index.css"
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 export default function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -19,7 +22,12 @@ export default function Layout() {
       <ModalProvider>
         <Navigation />
         <div className="main-content"> {/* Main content area */}
-          {isLoaded && <Outlet />}
+          {isLoaded ? <Outlet /> : <Backdrop
+            sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+            open
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>}
         </div>
         <Modal />
         <Footer /> {/* Footer stays at the bottom */}
