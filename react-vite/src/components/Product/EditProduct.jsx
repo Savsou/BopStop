@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   thunkEditProduct,
   thunkGetProductById,
-} from "../../redux/products_pristine";
+} from "../../redux/products";
 import "./EditProduct.css";
 import ConfirmationModal from "../../context/ConfirmationModal";
 

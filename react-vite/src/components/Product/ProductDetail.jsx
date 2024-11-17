@@ -14,7 +14,7 @@ import {
   thunkGetProductReviews,
   thunkAddAProductReview,
   thunkGetProductById,
-} from "../../redux/products_pristine";
+} from "../../redux/products";
 import { thunkAddWishlistItem } from "../../redux/wishlist";
 import {
   thunkGetCart,

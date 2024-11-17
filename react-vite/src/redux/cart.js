@@ -1,8 +1,10 @@
-import { thunkGetProductById } from "./products_pristine"
+import { thunkGetProductById } from "./products"
 
 const LOAD_CART_ITEMS = '/api/cart/load_cart_items'
 const LOAD_A_CART_ITEM = '/api/cart/load_a_cart_item'
 const DELETE_CART_ITEM = '/api/cart/delete_cart_item'
+const TRIGGER_WIGGLE = '/api/cart/trigger_wiggle';
+const RESET_WIGGLE = '/api/cart/reset_wiggle';
 
 export const loadCartItems = cart => (
   {
@@ -25,8 +27,16 @@ export const deleteCartItem = itemId => (
   }
 )
 
-export const thunkGetCart = () => async dispatch =>{
-  try{
+export const triggerWiggle = () => ({
+  type: TRIGGER_WIGGLE,
+});
+
+export const resetWiggle = () => ({
+  type: RESET_WIGGLE,
+});
+
+export const thunkGetCart = () => async dispatch => {
+  try {
     const res = await fetch('/api/cart/session')
     if (res.ok) {
       const cart = await res.json()
@@ -37,19 +47,19 @@ export const thunkGetCart = () => async dispatch =>{
       console.error("Validation Errors:", errorMessages);
       return errorMessages
     }
-  }catch(e){
+  } catch (e) {
     console.error(e)
     return { server: "Something went wrong. Please try again" }
   }
 }
 
-export const thunkAddCartItem = productId => async dispatch =>{
-  try{
+export const thunkAddCartItem = productId => async dispatch => {
+  try {
     const res = await fetch('/api/cart/session',
       {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({productId})
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId })
       }
     )
     if (res.ok) {
@@ -62,17 +72,17 @@ export const thunkAddCartItem = productId => async dispatch =>{
       const errorMessages = await res.json();
       return errorMessages
     }
-  }catch(e){
+  } catch (e) {
     console.error(e)
     return { "server": "Something went wrong. Please try again" }
   }
 }
 
-export const thunkRemoveCartItem = itemId => async dispatch =>{
+export const thunkRemoveCartItem = itemId => async dispatch => {
   const res = await fetch(`/api/cart/${itemId}`,
     {
-      method:'DELETE',
-      headers: {'Content-Type': 'application/json'}
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
     }
   )
   const deleted = await res.json();
@@ -84,14 +94,15 @@ export const thunkRemoveCartItem = itemId => async dispatch =>{
 
 const initialState = {
   items: {},
-  subtotal : 0
+  subtotal: 0,
+  wiggle: 0
 }
 
-function cartReducer(state = initialState, action){
-  switch(action.type){
-    case(LOAD_CART_ITEMS):{
-      const {cartDetails, subtotal} = action.cart
-      if(cartDetails.length <= 0) return initialState
+function cartReducer(state = initialState, action) {
+  switch (action.type) {
+    case (LOAD_CART_ITEMS): {
+      const { cartDetails, subtotal } = action.cart
+      if (cartDetails.length <= 0) return initialState
       const cartItems = {}
       cartDetails.forEach(item => cartItems[item.productId] = item)
       return {
@@ -100,23 +111,36 @@ function cartReducer(state = initialState, action){
       }
     }
 
-    case(LOAD_A_CART_ITEM):{
-      const {item} = action
+    case (LOAD_A_CART_ITEM): {
+      const { item } = action
       return {
         ...state,
-        items:{
+        items: {
           ...state.items,
           [item.productId]: item
         },
       }
     }
 
-    case(DELETE_CART_ITEM):{
-      const {itemId} = action
+    case (DELETE_CART_ITEM): {
+      const { itemId } = action
       const copyState = { ...state }
 
       delete copyState.items[itemId]
       return copyState;
+    }
+    case TRIGGER_WIGGLE: {
+      return {
+        ...state,
+        wiggle: 1,
+      };
+    }
+
+    case RESET_WIGGLE: {
+      return {
+        ...state,
+        wiggle: 0,
+      };
     }
     default:
       return state

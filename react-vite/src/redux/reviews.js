@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { deleteProductReview} from './products_pristine'
+import { deleteProductReview} from './products'
 
 const LOAD_USER_REVIEWS = 'reviews/load_user_reviews';
 const LOAD_EDITED_REVIEW = 'reviews/load_edited_review';
