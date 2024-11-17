@@ -103,22 +103,8 @@ function EditProduct() {
   return (
     <div className="container-edit-product">
       <form onSubmit={handleSubmit} encType="multipart/form-data" className="edit-product-form">
-        <div className="album">
-          <div className="ctas">
-            <button type="submit" className="button submit">
-              Update Product
-            </button>
-            <button
-              type="button"
-              className="button cancel"
-              onClick={handleCancel}
-            >
-              cancel
-            </button>
-          </div>
-        </div>
         <div className="product">
-          {/* <h2 className="header">Edit Product</h2> */}
+          <h2 className="header">Edit Product</h2>
           <label className="label name">{/* Name: */}</label>
           <input
             type="text"
@@ -228,7 +214,19 @@ function EditProduct() {
             <option value="pop">Pop</option>
             <option value="ambient">Ambient</option>
           </select>
-          {errors.genre && <p className="error">{errors.genre}</p>}
+                  {errors.genre && <p className="error">{errors.genre}</p>}
+                  <div className="ctas">
+            <button type="submit" className="button submit">
+              Update Product
+            </button>
+            <button
+              type="button"
+              className="button cancel"
+              onClick={handleCancel}
+            >
+              cancel
+            </button>
+          </div>
         </div>
       </form>
     </div>

@@ -1,12 +1,14 @@
 /* ProductDetail.css */
 
-.product-detail-page {
+.product-row {
     width: 975px;
     margin: auto;
     display: flex;
     flex-direction: column;
     font-family: Arial, sans-serif;
     color: #333;
+    border: solid 1px rgb(0, 0, 0, 0.1);
+    background-color: #fff;
   }
   
   .banner {
@@ -15,6 +17,10 @@
     background-size: cover;
     background-position: center;
     margin-bottom: 44px;
+  }
+
+  .banner-container {
+    width: 100%;
   }
   
   .product-detail {
@@ -44,13 +50,12 @@
   }
 
   .product-artist{
-    margin: 0 0 17px 0;
+    margin: 0 0 3px 0;
     font-size: 14px;
   }
 
   .product-meta {
     width: 100%;
-    margin: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -71,24 +76,33 @@
 
   .product-image-big {
     width: 350px;
-    height: auto;
+    height: 350px;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
   }
   
-  .product-genre,
   .product-price,
   .product-dates span {
     margin: 0;
     font-size: 14px;
   }
 
+  .product-genre {
+    color: #888;
+    font-size: 12px;
+  }
+
   .product-type {
     margin: 0 0 7px 0;
     font-size: 14px;
+    font-weight: bold;
   }
 
   .product-description {
     margin: 0;
     font-size: 14px;
+    line-height: 1.25em;
   }
 
   .product-price {
@@ -107,6 +121,8 @@
     height: 120px;
     object-fit: cover;
     object-position: center;
+    margin-bottom: 9px;
+    /* margin-top: 12px; */
   }
 
   .product-image-small {
@@ -124,6 +140,7 @@
     margin-block-start: 0;
     margin-block-end: 0;
     padding: 25px 0 10px 0;
+    margin-bottom: 10px;
   }
 
   .review {
@@ -131,7 +148,7 @@
     margin: auto;
     display: flex;
     justify-content: space-between;
-    padding: 10px 0 10px 0;
+    margin-bottom: 15px;
   }
 
   .profile-image {
@@ -165,7 +182,7 @@
     background-color: white;
     border: none;
     font-weight: 700;
-    color: #1da0c3;
+    color: #0687F5;
     padding-top: 18px;
     padding-inline-start: 0;
     padding-inline-end: 0;
@@ -176,7 +193,7 @@
     background-color: white;
     border: none;
     font-weight: 700;
-    color: #1da0c3;
+    color: #0687F5;
     cursor: pointer;
     text-decoration: underline;
   }
@@ -193,4 +210,122 @@
 
   .product-genre {
     margin-bottom: 7px;
+  }
+
+  .product-artist-name {
+    color: #0687F5;
+    font-weight: 300;
+  }
+
+  .product-play {
+    width: 316px;
+    padding: 24px 0 17px 0;
+  }
+
+  .download-available {
+    font-size: 12px;
+    margin: 10px 0;
+    color: #888;
+  }
+
+  .add-to-cart {
+    color: #0687F5;
+    margin-right: 10px;
+  }
+
+  .add-to-cart:hover {
+    cursor: pointer;
+  }
+  
+  .USD {
+    font-size: 12px;
+    color: #888;
+    margin: 0 8px 0 4px;
+  }
+
+  .or-more {
+    font-weight: 300;
+    font-size: 12px;
+    color: #888;
+  }
+
+  .lyric {
+    font-size: 12px;
+    color: #363636;
+    line-height: 15px;
+  }
+  
+  .US {
+    font-size: 12px;
+    color: #888;
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+
+  .follow {
+    color: #0687F5;
+    background-color: #fff;
+    border: solid 1px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    width: 120px;
+    height: 28px;
+    padding: 6px 5px 5px 5px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  .artist-bio {
+    font-size: 12px;
+    color: #363636;
+    line-height: 15px;
+  }
+
+  .artist-discography {
+    font-size: 14px;
+    font-weight: 300;
+    color: #363636;
+  }
+
+  .artist-contact {
+    font-size: 14px;
+    font-weight: 300;
+    color: #363636;
+    margin-top: 36px;
+  }
+
+  .product-name-small{
+    font-size: 12px;
+    font-weight: 300;
+    color: #0687F5;
+    line-height: 15px;
+  }
+
+  .tag-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #363636;
+    margin: 24px 0 7px 0;
+  }
+
+  .tags {
+    font-size: 12px;
+    color: #0687F5;
+    line-height: 18px;
+    font-weight: bold;
+  }
+
+  .more {
+    color: #0687F5;
+    font-size: 11px;
+    line-height: 14px;
+    margin-bottom: 15px;
+  }
+
+  .bio-more {
+    color: #0687F5;
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 21px;
+    font-weight: 300;
   }

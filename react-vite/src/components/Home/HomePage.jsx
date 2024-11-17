@@ -84,7 +84,7 @@ function HomePage() {
       </div>
       <div className="bandcamp-stats">
           Fans have paid artists{" "}
-          <span className="bold-text">$1.39 billion</span> using BobStop, and{" "}
+          <span className="bold-text">$1.39 billion</span> using BopStop, and{" "}
           <span className="bold-text">$193 million</span> in the last year.
         </div>
 

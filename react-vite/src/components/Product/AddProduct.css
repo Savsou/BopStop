@@ -6,16 +6,17 @@
     font-family:Arial, Helvetica, sans-serif;
     color: #333;
     display: flex;
+    justify-content: center;
   }
 
-  .album {
+  /* .album {
     width: 672.19px;
     background-color: rgba(0,0,0,0.0375);
     padding: 35px 20px 96px 20px;
-  }
+  } */
 
   .product {
-    width: 672.19px;
+    width: 975px;
     padding: 15px 10px 24px 20px;
   }
   
@@ -193,4 +194,9 @@
 .ctas {
   display: flex;
   justify-content: space-between;
+}
+
+.header {
+  color: #333;
+  font-size: 24px;
 }
