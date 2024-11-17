@@ -9,6 +9,9 @@ import {
 } from "../../redux/wishlist";
 import "./Wishlist.css";
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 function Wishlist() {
   // const [wishlist, setWishlist] = useState([]);
   const [user, setUser] = useState(null);
@@ -75,6 +78,15 @@ function Wishlist() {
   const handleDelete = async (productId) => {
     dispatch(thunkRemoveWishlistItem(productId));
   };
+
+  if (!wishlist || !user) return (
+    <Backdrop
+      sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+      open
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
 
   return (
     <div className="product-detail-page">

@@ -6,6 +6,9 @@ import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "../Product/ProductDetail.css";
 import "./UserProfile.css";
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
@@ -70,7 +73,16 @@ const ProfilePage = () => {
   };
 
   if (error) return <p>{error}</p>;
-  if (!user) return <p>Loading...</p>;
+  // if (!user) return <p>Loading...</p>;
+  if (!user) return (
+    <Backdrop
+      sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+      open
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
+
 
   return (
     <div className="product-detail-page">

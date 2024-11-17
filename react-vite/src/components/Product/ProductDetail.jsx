@@ -32,6 +32,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./ProductDetail.css";
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const ProductDetail = () => {
   const { productId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
@@ -63,34 +66,6 @@ const ProductDetail = () => {
     if (sessionUser) dispatch(thunkGetCart());
   }, [productId, sessionUser, dispatch]);
 
-  // useEffect(() => {
-
-  // const fetchProduct = async () => {
-  // try {
-  //   const response = await fetch(`/api/products/${productId}`);
-  //   if (!response.ok) throw new Error("Failed to fetch product details");
-  //   const data = await response.json();
-  //   setProduct(data);
-  // } catch (err) {
-  //   setError(err.message);
-  // }
-  // };
-
-  // const fetchReviews = async () => { //i don't think we have a thunk for this yet
-  //   try {
-  //     const response = await fetch(`/api/products/${productId}/reviews`);
-  //     if (!response.ok) throw new Error("Failed to fetch reviews");
-  //     const data = await response.json();
-  //     setReviews(data.reviews || []);
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
-
-  // fetchProduct();
-  // fetchReviews();
-  // }, [productId]);
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -105,19 +80,6 @@ const ProductDetail = () => {
       (res) => setCurrentReview(res)
     );
     closeModals();
-    // try {
-    //   const response = await fetch(`/api/products/${productId}/reviews`, {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ review: reviewText }),
-    //   });
-    //   if (!response.ok) throw new Error("Failed to add review");
-    //   const newReviewData = await response.json();
-    //   setReviews((prev) => [...prev, newReviewData]);
-    //   setShowAddModal(false);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
   };
 
   const handleEditReview = async (reviewId, reviewText) => {
@@ -125,23 +87,6 @@ const ProductDetail = () => {
       setCurrentReview(res)
     );
     closeModals();
-    //   try {
-    //     const response = await fetch(`/api/reviews/${reviewId}`, {
-    //       method: 'PUT',
-    //       headers: { 'Content-Type': 'application/json' },
-    //       body: JSON.stringify({ review: reviewText }),
-    //     });
-    //     if (!response.ok) throw new Error("Failed to edit review");
-    //     const updatedReview = await response.json();
-    //     setReviews((prev) =>
-    //       prev.map((review) => (review.id === reviewId ? updatedReview : review))
-    //     );
-    //     setShowEditModal(false);
-    //     // navigate(`/products/${productId}`);
-    //     // navigate(`/products/${productId}`);
-    //   } catch (err) {
-    //     setError(err.message);
-    //   }
   };
 
   const handleRemoveReview = async (reviewId) => {
@@ -150,24 +95,6 @@ const ProductDetail = () => {
       setCurrentReview("");
     });
     closeModals();
-    // try {
-    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
-    //   if (!response.ok) throw new Error("Failed to delete review");
-    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-    //   setShowRemoveModal(false);
-    //   navigate(`/products/${productId}`);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
-    // try {
-    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
-    //   if (!response.ok) throw new Error("Failed to delete review");
-    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-    //   setShowRemoveModal(false);
-    //   navigate(`/products/${productId}`);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
   };
 
   const openAddReviewModal = () => setShowAddModal(true);
@@ -187,25 +114,6 @@ const ProductDetail = () => {
     setCurrentReview(null);
   };
 
-  // const addToWishlist = async (productId) => {
-  //   try {
-  //     const response = await fetch('/api/wishlist/session', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ productId }),
-  //     });
-
-  //     if (!response.ok) throw new Error("Failed to add product to wishlist");
-
-  //     // Navigate to the wishlist page after successful addition
-  //     navigate('/wishlist');
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
-
   const addToWishlist = async (productId) => {
     dispatch(thunkAddWishlistItem(productId));
     alert("Added product to wishlist");
@@ -220,7 +128,15 @@ const ProductDetail = () => {
   };
 
   if (error) return <p>{error}</p>;
-  if (!product) return <p>Loading...</p>;
+  // if (!product) return <p>Loading...</p>;
+  if (!product) return (
+    <Backdrop
+      sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+      open
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
 
   return (
     <div className="product-detail-page">
