@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import ConfirmationModal from "../../context/ConfirmationModal";
 import "./EditUser.css";
 
@@ -15,6 +16,7 @@ const EditUser = () => {
   const profileImageRef = useRef(null);
   const bannerImageRef = useRef(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const sessionUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -179,6 +181,7 @@ const EditUser = () => {
         <ConfirmationModal
           onClose={() => {
             setShowConfirmModal(false)
+            navigate(`/profile/${sessionUser.id}`);
           }}
           message={"You have edited your profile!"}
         />
