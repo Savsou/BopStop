@@ -15,7 +15,7 @@ import {
   thunkAddAProductReview,
   thunkGetProductById,
 } from "../../redux/products";
-import { thunkAddWishlistItem } from "../../redux/wishlist";
+import { thunkAddWishlistItem, selectWishlistItem, thunkRemoveWishlistItem, thunkGetWishlist } from "../../redux/wishlist";
 import {
   thunkGetCart,
   thunkAddCartItem,
@@ -36,6 +36,7 @@ import ConfirmationModal from "../../context/ConfirmationModal";
 const ProductDetail = () => {
   const { productId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
+  const wishlist = useSelector(state => selectWishlistItem(state, productId))
   const cart = useSelector((state) => state.cart);
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -46,9 +47,8 @@ const ProductDetail = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [currentReview, setCurrentReview] = useState("");
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
-  //console.log(JSON.stringify(cart))
+
 
   useEffect(() => {
     dispatch(thunkGetProductById(productId)).then((res) => setProduct(res));
@@ -65,33 +65,9 @@ const ProductDetail = () => {
     if (sessionUser) dispatch(thunkGetCart());
   }, [productId, sessionUser, dispatch]);
 
-  // useEffect(() => {
-
-  // const fetchProduct = async () => {
-  // try {
-  //   const response = await fetch(`/api/products/${productId}`);
-  //   if (!response.ok) throw new Error("Failed to fetch product details");
-  //   const data = await response.json();
-  //   setProduct(data);
-  // } catch (err) {
-  //   setError(err.message);
-  // }
-  // };
-
-  // const fetchReviews = async () => { //i don't think we have a thunk for this yet
-  //   try {
-  //     const response = await fetch(`/api/products/${productId}/reviews`);
-  //     if (!response.ok) throw new Error("Failed to fetch reviews");
-  //     const data = await response.json();
-  //     setReviews(data.reviews || []);
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
-
-  // fetchProduct();
-  // fetchReviews();
-  // }, [productId]);
+  useEffect(() => {
+    if (sessionUser) dispatch(thunkGetWishlist())
+  }, [sessionUser, dispatch])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -107,19 +83,6 @@ const ProductDetail = () => {
       (res) => setCurrentReview(res)
     );
     closeModals();
-    // try {
-    //   const response = await fetch(`/api/products/${productId}/reviews`, {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ review: reviewText }),
-    //   });
-    //   if (!response.ok) throw new Error("Failed to add review");
-    //   const newReviewData = await response.json();
-    //   setReviews((prev) => [...prev, newReviewData]);
-    //   setShowAddModal(false);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
   };
 
   const handleEditReview = async (reviewId, reviewText) => {
@@ -127,23 +90,6 @@ const ProductDetail = () => {
       setCurrentReview(res)
     );
     closeModals();
-    //   try {
-    //     const response = await fetch(`/api/reviews/${reviewId}`, {
-    //       method: 'PUT',
-    //       headers: { 'Content-Type': 'application/json' },
-    //       body: JSON.stringify({ review: reviewText }),
-    //     });
-    //     if (!response.ok) throw new Error("Failed to edit review");
-    //     const updatedReview = await response.json();
-    //     setReviews((prev) =>
-    //       prev.map((review) => (review.id === reviewId ? updatedReview : review))
-    //     );
-    //     setShowEditModal(false);
-    //     // navigate(`/products/${productId}`);
-    //     // navigate(`/products/${productId}`);
-    //   } catch (err) {
-    //     setError(err.message);
-    //   }
   };
 
   const handleRemoveReview = async (reviewId) => {
@@ -152,24 +98,6 @@ const ProductDetail = () => {
       setCurrentReview("");
     });
     closeModals();
-    // try {
-    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
-    //   if (!response.ok) throw new Error("Failed to delete review");
-    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-    //   setShowRemoveModal(false);
-    //   navigate(`/products/${productId}`);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
-    // try {
-    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
-    //   if (!response.ok) throw new Error("Failed to delete review");
-    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-    //   setShowRemoveModal(false);
-    //   navigate(`/products/${productId}`);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
   };
 
   const openAddReviewModal = () => setShowAddModal(true);
@@ -189,30 +117,16 @@ const ProductDetail = () => {
     setCurrentReview(null);
   };
 
-  // const addToWishlist = async (productId) => {
-  //   try {
-  //     const response = await fetch('/api/wishlist/session', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ productId }),
-  //     });
-
-  //     if (!response.ok) throw new Error("Failed to add product to wishlist");
-
-  //     // Navigate to the wishlist page after successful addition
-  //     navigate('/wishlist');
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
-
   const addToWishlist = async (productId) => {
     dispatch(thunkAddWishlistItem(productId));
     // alert("Added product to wishlist");
     setShowConfirmModal(true);
   };
+
+  const removeFromWishlist = async (productId) => {
+    dispatch(thunkRemoveWishlistItem(productId));
+    alert("Removed product from wishlist");
+  }
 
   const addToCart = (productId) => {
     dispatch(thunkAddCartItem(productId));
@@ -328,9 +242,19 @@ const ProductDetail = () => {
                   / Embed
                 </button>
                 {/* Wishlist Button */}
-                {sessionUser && (
+                {sessionUser &&
+                (wishlist[productId] ?
                   <button
-                    onClick={() => addToWishlist(product.productId)}
+                    onClick={() => removeFromWishlist(productId)}
+                    className="product-detail-button"
+                    style={{color:'grey'}}
+                  >
+                    <FontAwesomeIcon icon={faHeart} className="nav-icon" />{" "}
+                    Wishlist
+                  </button>
+                  :
+                  <button
+                    onClick={() => addToWishlist(productId)}
                     className="product-detail-button"
                   >
                     <FontAwesomeIcon icon={faHeart} className="nav-icon" />{" "}

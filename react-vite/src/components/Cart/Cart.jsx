@@ -15,7 +15,6 @@ function Cart({ cart, removeFromCart}) {
   const [error, setError] = useState(null);
   const wiggle = useSelector((state) => state.cart.wiggle);
 
-  console.log(wiggle)
   //console.log("cartItems", JSON.stringify(cartItems))
 
   const handleCheckout = async () => {
