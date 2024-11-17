@@ -1,4 +1,5 @@
 import { thunkGetProductById } from "./products"
+import { createSelector } from "reselect"
 
 const LOAD_WISHLIST = '/api/cart/load_wishlist'
 const LOAD_A_WISHLIST_ITEM = '/api/cart/load_a_wishlist_item'
@@ -80,6 +81,10 @@ export const thunkRemoveWishlistItem = itemId => async dispatch =>{
   dispatch((thunkGetWishlist()))
   return deleted
 }
+
+export const selectWishlist = state => state.wishlist;
+export const selectWishlistItem = createSelector([selectWishlist, (state, id) => id],
+(wishlist, id) => wishlist.items);
 
 const initialState = {
   items: {},
