@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 //import { NavLink } from "react-router-dom";
-//import { thunkGetAllProducts, thunkGetLimitedProducts, thunkGetCurrentUserProducts } from "../../redux/products_pristine";
+//import { thunkGetAllProducts, thunkGetLimitedProducts, thunkGetCurrentUserProducts } from "../../redux/products";
 import { thunkGetCart, thunkAddCartItem, thunkRemoveCartItem} from "../../redux/cart"
 import { useDispatch, useSelector } from "react-redux";
 //import AddProduct from "./AddProduct";

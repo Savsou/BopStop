@@ -14,7 +14,7 @@ import {
   thunkGetProductReviews,
   thunkAddAProductReview,
   thunkGetProductById,
-} from "../../redux/products_pristine";
+} from "../../redux/products";
 import { thunkAddWishlistItem } from "../../redux/wishlist";
 import {
   thunkGetCart,
@@ -227,10 +227,10 @@ const ProductDetail = () => {
       <div className="product-row">
         <div className="banner-container">
           {/* Banner Section */}
-          {product?.profileImageUrl && (
+          {product?.bannerImageUrl && (
             <div
               className="banner"
-              style={{ backgroundImage: `url(${product.profileImageUrl})` }}
+              style={{ backgroundImage: `url(${product.bannerImageUrl})` }}
             />
           )}
         </div>

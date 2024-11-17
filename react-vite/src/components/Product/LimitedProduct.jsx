@@ -1,7 +1,7 @@
 // CombinedProductDisplay.jsx
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { thunkGetLimitedProducts, selectLtdProductsArry } from "../../redux/products_pristine";
+import { thunkGetLimitedProducts, selectLtdProductsArry } from "../../redux/products";
 import { useDispatch, useSelector } from "react-redux";
 import "./LimitedProduct.css";
 

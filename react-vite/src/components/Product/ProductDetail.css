@@ -10,19 +10,19 @@
     border: solid 1px rgb(0, 0, 0, 0.1);
     background-color: #fff;
   }
-  
+
   .banner {
     width: 100%;
     height: 180px;
-    background-size: cover;
-    background-position: center;
+    background-size: contain;
+    background-position: top;
     margin-bottom: 44px;
   }
 
   .banner-container {
     width: 100%;
   }
-  
+
   .product-detail {
     width: 915px;
     margin: auto;
@@ -81,7 +81,7 @@
     object-position: center;
     overflow: hidden;
   }
-  
+
   .product-price,
   .product-dates span {
     margin: 0;
@@ -110,7 +110,7 @@
     font-size: 18px;
     font-weight: 700;
   }
-  
+
   .product-created-time {
     font-size: 12px;
     color: #666;
@@ -174,10 +174,10 @@
     font-size: 12px;
     margin: 0;
     width: 100%;
-    white-space: normal; 
+    white-space: normal;
     overflow-wrap: break-word;
   }
-  
+
   .product-detail-button {
     background-color: white;
     border: none;
@@ -236,7 +236,7 @@
   .add-to-cart:hover {
     cursor: pointer;
   }
-  
+
   .USD {
     font-size: 12px;
     color: #888;
@@ -254,7 +254,7 @@
     color: #363636;
     line-height: 15px;
   }
-  
+
   .US {
     font-size: 12px;
     color: #888;

@@ -106,7 +106,7 @@ def transaction():
     #Class method that empties cart and commits the
     #change in model
     cart.empty_cart()
-    return {"message": f"Your transaction of {round(total, 2)} was successful"}
+    return {"message": f"Your transaction of ${round(total, 2)} was successful!"}
   else:
     return {"message": "Your cart is empty"}
 

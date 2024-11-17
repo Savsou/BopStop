@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ConfirmationModal from "../../context/ConfirmationModal";
 import "./EditUser.css";
 
 const EditUser = () => {
@@ -13,6 +15,8 @@ const EditUser = () => {
   const [errors, setErrors] = useState({});
   const profileImageRef = useRef(null);
   const bannerImageRef = useRef(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const sessionUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -78,8 +82,9 @@ const EditUser = () => {
         setErrors(errorData.errors || { server: "Failed to update profile" });
       } else {
         const result = await response.json();
-        console.log(result.message);
-        alert(result.message);
+        // console.log(result.message);
+        // alert(result.message);
+        setShowConfirmModal(true)
         setErrors({});
       }
     } catch (error) {
@@ -87,6 +92,17 @@ const EditUser = () => {
       console.error("Error updating profile:", error);
     }
   };
+
+  //Confirmation Modals
+  // const openConfirmModal = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirmModal(true);
+  // }
+
+  // const handleCancelModal = () => {
+  //   setShowConfirmModal(false);
+  //   handleSubmit();
+  // }
 
   return (
     <div className="container-editUser">
@@ -160,6 +176,16 @@ const EditUser = () => {
           </div>
         </div>
       </form>
+
+      {showConfirmModal && (
+        <ConfirmationModal
+          onClose={() => {
+            setShowConfirmModal(false)
+            navigate(`/profile/${sessionUser.id}`);
+          }}
+          message={"You have edited your profile!"}
+        />
+      )};
     </div>
   );
 };

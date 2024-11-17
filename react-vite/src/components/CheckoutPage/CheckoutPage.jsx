@@ -1,14 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./CheckoutPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCcVisa, faCcMastercard, faCcDiscover } from "@fortawesome/free-brands-svg-icons";
 import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
+import ConfirmationModal from "../../context/ConfirmationModal";
+import { thunkGetCart } from '../../redux/cart'
 
 function CheckoutPage() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const sessionUser = useSelector((state) => state.session.user);
+    const cart = useSelector((state) => Object.values(state.cart.items))
     const [cardNum, setCardNum] = useState("")
     const [expiresMonth, setExpiresMonth] = useState("");
     const [expiresYear, setExpiresYear] = useState("");
@@ -20,6 +24,8 @@ function CheckoutPage() {
     const [isSameBillingChecked, setIsSameBillingChecked] = useState(false);
     const [isSavePaymentChecked, setIsSavePaymentChecked] = useState(false);
     const [message, setMessage] = useState("");
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
     const fetchCart = useCallback(async () => {
         try {
@@ -67,7 +73,9 @@ function CheckoutPage() {
 
             if (response.ok) {
                 const data = await response.json();
-                // setMessage(data.message);
+                setModalMessage(data.message);
+                setShowConfirmModal(true);
+
                 setCardNum("")
                 setExpiresMonth("")
                 setExpiresYear("")
@@ -76,9 +84,8 @@ function CheckoutPage() {
                 setLastName("")
                 setIsSameBillingChecked(false)
                 setIsSavePaymentChecked(false)
-                alert(data.message)
-                // fetchCart()
-                navigate('/')
+                // alert(data.message)
+                dispatch(thunkGetCart())
             } else {
                 setMessage("Something went wrong. Please try again.");
             }
@@ -246,6 +253,15 @@ function CheckoutPage() {
                 </div>
             </form>
             {message && <p>{message}</p>}
+            {showConfirmModal && (
+                <ConfirmationModal
+                    onClose={() => {
+                        setShowConfirmModal(false)
+                        navigate('/')
+                    }}
+                    message={modalMessage}
+                />
+            )}
         </div>
     )
 }

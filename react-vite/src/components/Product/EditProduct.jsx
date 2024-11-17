@@ -4,8 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   thunkEditProduct,
   thunkGetProductById,
-} from "../../redux/products_pristine";
+} from "../../redux/products";
 import "./EditProduct.css";
+import ConfirmationModal from "../../context/ConfirmationModal";
 
 function EditProduct() {
   const { productId } = useParams();
@@ -21,6 +22,7 @@ function EditProduct() {
   const [imageUrl, setImageUrl] = useState(null);
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -90,8 +92,8 @@ function EditProduct() {
           setErrors(serverResponse);
         } else {
           // navigate(`/products/${productId}`);
-          alert("Product updated successfuly");
-          navigate(`/profile/${sessionUser.id}`);
+          // alert("Product updated successfuly");
+          setShowConfirmModal(true);
         }
       } catch (error) {
         setErrors({ server: error.message });
@@ -99,6 +101,17 @@ function EditProduct() {
       }
     }
   };
+
+  //Confirmation Modals
+  // const openConfirmModal = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirmModal(true);
+  // }
+
+  // const handleCancelModal = () => {
+  //   setShowConfirmModal(false);
+  //   handleSubmit();
+  // }
 
   return (
     <div className="container-edit-product">
@@ -169,7 +182,7 @@ function EditProduct() {
             className="input type"
             style={{ color: type === "" ? "#AAA" : "#333" }}
           >
-            <option value="">Select...</option>
+            <option value="">(Type)</option>
             <option value="music">--- Music ---</option>
             <option value="cd">Compact Disc (CD)</option>
             <option value="cassette">Cassette</option>
@@ -203,7 +216,7 @@ function EditProduct() {
             className="input genre"
             style={{ color: genre === "" ? "#AAA" : "#333" }}
           >
-            <option value="">Select...</option>
+            <option value="">(Optional)</option>
             <option value="electronic">Electronic</option>
             <option value="metal">Metal</option>
             <option value="rock">Rock</option>
@@ -229,6 +242,15 @@ function EditProduct() {
           </div>
         </div>
       </form>
+      {showConfirmModal && (
+        <ConfirmationModal
+          onClose={() => {
+            setShowConfirmModal(false)
+            navigate(`/profile/${sessionUser.id}`);
+          }}
+          message={"You have updated this product!"}
+        />
+      )};
     </div>
   );
 }

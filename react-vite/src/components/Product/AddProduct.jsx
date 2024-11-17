@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
-import { thunkAddProduct } from "../../redux/products_pristine";
+import { thunkAddProduct } from "../../redux/products";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import ConfirmationModal from "../../context/ConfirmationModal";
 import "./AddProduct.css";
 
 function AddProduct() {
@@ -17,6 +18,7 @@ function AddProduct() {
   // const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null); // Ref for the hidden file input
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleDivClick = () => {
     fileInputRef.current.click(); // Trigger the hidden input when the div is clicked
@@ -65,14 +67,15 @@ function AddProduct() {
       if (serverResponse) {
         setErrors(serverResponse);
       } else {
+        setShowConfirmModal(true);
         setName("");
         setType("");
         setGenre("");
         setPrice("");
         setDescription("");
         setImageUrl(null);
-        alert("Product added successfuly");
-        navigate(`/profile/${sessionUser.id}`);
+        // alert("Product added successfuly");
+        // navigate(`/profile/${sessionUser.id}`);
       }
     }
 
@@ -116,6 +119,17 @@ function AddProduct() {
     // }
   };
 
+  //Confirmation Modals
+  // const openConfirmModal = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirmModal(true);
+  // }
+
+  // const handleCancelModal = () => {
+  //   setShowConfirmModal(false);
+  //   handleSubmit();
+  // }
+
   return (
     <div className="container-add-product">
       {/* {message && <p>{message}</p>} */}
@@ -128,7 +142,7 @@ function AddProduct() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="product name"
+              placeholder="Product Name"
               // required
               className="input name"
             />
@@ -153,7 +167,7 @@ function AddProduct() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             // required
-            placeholder="(optional)"
+            placeholder="(Description here)"
             className="input textarea description"
           />
           {errors.description && <p>{errors.description}</p>}
@@ -190,7 +204,7 @@ function AddProduct() {
             className="input type"
             style={{ color: type === "" ? "#AAA" : "#333" }}
           >
-            <option value="">(optional)</option>
+            <option value="">(Type)</option>
             <option value="music">--- Music ---</option>
             <option value="cd">Compact Disc (CD)</option>
             <option value="cassette">Cassette</option>
@@ -223,7 +237,7 @@ function AddProduct() {
             className="input genre"
             style={{ color: genre === "" ? "#AAA" : "#333" }}
           >
-            <option value="">(optional)</option>
+            <option value="">(Optional)</option>
             <option value="electronic">Electronic</option>
             <option value="metal">Metal</option>
             <option value="rock">Rock</option>
@@ -249,6 +263,16 @@ function AddProduct() {
           </div>
         </div>
       </form>
+
+      {showConfirmModal && (
+        <ConfirmationModal
+          onClose={() => {
+            setShowConfirmModal(false)
+            navigate(`/profile/${sessionUser.id}`);
+          }}
+          message={"You have added this product!"}
+        />
+      )};
     </div>
   );
 }
