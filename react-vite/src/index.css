@@ -11,8 +11,13 @@ body {
     min-height: 100vh; /* Ensure the layout fills the viewport */
     background-color: #f8f8f8;
   }
-  
+
   .main-content {
     flex: 1; /* Allow content to grow and push footer down */
     padding-top: 53px;
+  }
+
+
+.error-message {
+    color: red;
   }

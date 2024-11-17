@@ -3,9 +3,11 @@ import '../../context/Modal.css';
 
 const AddReviewModal = ({ onClose, onSubmit }) => {
   const [reviewText, setReviewText] = useState('');
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async () => {
     try {
+      setErrors({});
       await onSubmit(reviewText);  // Ensure `onSubmit` completes before proceeding
       setReviewText('');  // Clear the text after successful submission
       onClose();          // Close the modal
@@ -26,6 +28,7 @@ const AddReviewModal = ({ onClose, onSubmit }) => {
             placeholder="Write your review here..."
             style={{ width: '100%', height: '80px', padding: '10px' }}
           />
+          {errors.reviewText && <p className="error-message">{errors.reviewText}</p>}
           <div className="form-group">
             <button onClick={handleSubmit}>Submit</button>
             <button onClick={onClose} style={{ backgroundColor: 'gray', marginLeft: '10px' }}>Cancel</button>
