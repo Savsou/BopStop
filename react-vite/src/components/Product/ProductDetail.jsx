@@ -44,7 +44,8 @@ const ProductDetail = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showWishlistConfirmModal, setShowWishlistConfirmModal] = useState(false);
+  const [showWishlistRemoveModal, setShowWishlistRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState("");
   const dispatch = useDispatch();
 
@@ -120,12 +121,13 @@ const ProductDetail = () => {
   const addToWishlist = async (productId) => {
     dispatch(thunkAddWishlistItem(productId));
     // alert("Added product to wishlist");
-    setShowConfirmModal(true);
+    setShowWishlistConfirmModal(true);
   };
 
   const removeFromWishlist = async (productId) => {
     dispatch(thunkRemoveWishlistItem(productId));
-    alert("Removed product from wishlist");
+    // alert("Removed product from wishlist");
+    setShowWishlistRemoveModal(true);
   }
 
   const addToCart = (productId) => {
@@ -409,14 +411,25 @@ const ProductDetail = () => {
             onConfirm={() => handleRemoveReview(currentReview.id)}
           />
         )}
-        {showConfirmModal && (
+
+        {showWishlistRemoveModal && (
           <ConfirmationModal
             onClose={() => {
-              setShowConfirmModal(false)
+              setShowWishlistRemoveModal(false);
+            }}
+            message={"You have removed the product to your wishlist!"}
+          />
+        )};
+
+        {showWishlistConfirmModal && (
+          <ConfirmationModal
+            onClose={() => {
+              setShowWishlistConfirmModal(false)
             }}
             message={"You have added the product to your wishlist!"}
           />
         )};
+
       </div>
     </div>
   );
