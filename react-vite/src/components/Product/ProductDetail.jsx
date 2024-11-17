@@ -50,7 +50,20 @@ const ProductDetail = () => {
   const [showWishlistConfirmModal, setShowWishlistConfirmModal] = useState(false);
   const [showWishlistRemoveModal, setShowWishlistRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalImage, setModalImage] = useState("");
   const dispatch = useDispatch();
+
+  const openModal = (imagePath) => {
+    setModalImage(imagePath);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setModalImage("");
+  };
+
 
 
 
@@ -154,6 +167,17 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail-page">
+      {/* Dynamic Modal */}
+      {showModal && (
+        <div className="confirmation-modal-overlay" onClick={closeModal}>
+          <div
+            className="confirmation-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img src={modalImage} alt="Modal Content" className="modal-image" />
+          </div>
+        </div>
+      )}
       <div className="product-row">
         <div className="banner-container">
           {/* Banner Section */}
@@ -171,15 +195,52 @@ const ProductDetail = () => {
                 <h2 className="product-name">{product.name}</h2>
                 <p className="product-artist">
                   by{" "}
-                  <span className="product-artist-name">
+                  <span
+                    className="product-artist-name"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openModal("/images/meme.jpg")}
+                  >
                     {product.artistName}
                   </span>
                 </p>
-                <img
-                  src="/images/play.png"
-                  alt="Product Image"
-                  className="product-play"
-                />
+                {[
+                  "music",
+                  "cd",
+                  "cassette",
+                  "vinyl_lp",
+                  "double_vinyl_lp",
+                  "vinyl_7",
+                  "vinyl_box_set",
+                  "other_vinyl",
+                  "CD",
+                  "Vinyl",
+                ].includes(product.type) && (
+                  <img
+                    src="/images/play.png"
+                    alt="Product Image"
+                    className="product-play"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openModal("/images/meme.jpg")}
+                  />
+                )}
+                {showModal && (
+                  <div
+                    className="confirmation-modal-overlay"
+                    onClick={closeModal}
+                  >
+                    <div
+                      className="confirmation-modal-content"
+                      onClick={(e) => e.stopPropagation()} // Prevents closing modal when clicking inside
+                    >
+                      <img
+                        src={modalImage}
+                        alt="Modal Content"
+                        className="modal-image"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <p className="product-type">{product.type}</p>
                 <p className="product-genre">
                   {product.genre ? product.genre : "Streaming + Download"}
@@ -234,7 +295,11 @@ const ProductDetail = () => {
                   all rights reserved<br></br>
                 </p>
                 <p className="tag-title">Tags</p>
-                <p className="tags">
+                <p
+                  className="tags"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => openModal("/images/meme.jpg")}
+                >
                   #world #medicinemusic world medicina medicine music medicine
                   songs world music Leipzig
                 </p>
@@ -250,7 +315,11 @@ const ProductDetail = () => {
                   alt={product.name}
                   className="product-image-big"
                 />
-                <button className="product-detail-button">
+                <button
+                  className="product-detail-button"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => openModal("/images/meme.jpg")}
+                >
                   <FontAwesomeIcon icon={faShare} className="nav-icon" /> Share
                   / Embed
                 </button>
@@ -326,13 +395,25 @@ const ProductDetail = () => {
                           </div>
                         </div>
                       ))}
-                      <p className="more">more...</p>
+                      <p
+                        className="more"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => openModal("/images/meme.jpg")}
+                      >
+                        more...
+                      </p>
                       <img
                         src="/images/supporters.png" // Update with the correct path to your image
                         alt="Supporter Icon"
                         className="supporter-image"
                       />
-                      <p className="more">more...</p>
+                      <p
+                        className="more"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => openModal("/images/meme.jpg")}
+                      >
+                        more...
+                      </p>
                     </>
                   ) : (
                     <p>No reviews available for this product.</p>
@@ -368,12 +449,22 @@ const ProductDetail = () => {
             />
             <p className="product-artist">{product.artistName}</p>
             <p className="US">US</p>
-            <button className="follow">Follow</button>
+            <button
+              className="follow"
+              style={{ cursor: "pointer" }}
+              onClick={() => openModal("/images/meme.jpg")}
+            >
+              Follow
+            </button>
             <p className="artist-bio">
               {product.artistBio}<br></br>
               <br></br>
             </p>
-            <p className="bio-more">
+            <p
+              className="bio-more"
+              style={{ cursor: "pointer" }}
+              onClick={() => openModal("/images/meme.jpg")}
+            >
               more<br></br>
               <br></br>aquario-music.com
             </p>
@@ -383,19 +474,27 @@ const ProductDetail = () => {
               alt={product.name}
               className="product-image-small"
             />
-            <p className="product-name-small">{product.name}</p>
+            <p
+              className="product-name-small"
+              style={{ cursor: "pointer" }}
+              onClick={() => openModal("/images/meme.jpg")}
+            >
+              {product.name}
+            </p>
             <p className="product-created-time">
               {formatDate(product.createdAt)}
             </p>
             <p className="artist-contact">contact / help</p>
-            <p className="bio-more">
+            <p
+              className="bio-more"
+              style={{ cursor: "pointer" }}
+              onClick={() => openModal("/images/meme.jpg")}
+            >
               <br></br>Contact {product.artistName}
               <br></br>
+              <br></br>Streaming and Download help
               <br></br>
-              Streaming and Download help
-              <br></br>
-              <br></br>
-              Report this album or account
+              <br></br>Report this album or account
             </p>
           </div>
         </div>
