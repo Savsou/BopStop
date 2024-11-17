@@ -11,3 +11,23 @@ a.product-detail-button {
 .product-name-link:hover {
   text-decoration: underline;
 }
+
+.product-artist-small {
+  font-size: 12px;
+}
+
+.body {
+  background-color: #f8f8f8;
+  height: 100vh;
+}
+
+.product-detail {
+  margin-top: 0;
+}
+
+.title {
+  padding-left: 30px;
+  padding-bottom: 44px;
+  color: #333;
+  font-size: 24px;
+}

@@ -90,13 +90,12 @@
   .wishlist-product-row {
     display: flex;
     flex-direction: column;
-    margin-top: 55px;
+    margin: 0 20px 0 20px;
   }
   
   .wishlist-products {
     display: flex; /* Or use display: grid if preferred */
     flex-wrap: wrap;
-    justify-content: center; /* Center-align items */
     width: 100%; /* Ensure container takes full width */
     max-width: 1106px; /* Set max width if needed to limit container */
     gap: 19px; /* Adjust gap as needed */
@@ -119,7 +118,7 @@
   .wishlist-item-remove {
     visibility: hidden;
     transition: opacity 0.3s ease;
-    color: #333;
+    color: #888;
     background-color: #fff;
     border: none;
     cursor: pointer;
@@ -129,4 +128,11 @@
     opacity: 1; /* Make the button visible */
     visibility: visible; /* Ensure the button is interactable */
     text-decoration: none;
+  }
+
+  .wishlist-header {
+    padding-left: 20px;
+    padding-bottom: 44px;
+    color: #333;
+    font-size: 24px;
   }

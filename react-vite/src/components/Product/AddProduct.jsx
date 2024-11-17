@@ -132,24 +132,10 @@ function AddProduct() {
 
   return (
     <div className="container-add-product">
-      {/* <h2 className="header">Add a New Product</h2> */}
       {/* {message && <p>{message}</p>} */}
       <form onSubmit={handleSubmit} encType="multipart/form-data" className="add-product-form">
-        <div className="album">
-          <div className="ctas">
-            <button type="submit" className="button submit">
-              Add Product
-            </button>
-            <button
-              type="button"
-              className="button cancel"
-              onClick={handleCancel}
-            >
-              cancel
-            </button>
-          </div>
-        </div>
         <div className="product">
+        <h2 className="header">Add a New Product</h2>
           <label className="label name">
             {/* Name: */}
             <input
@@ -263,6 +249,18 @@ function AddProduct() {
             <option value="ambient">Ambient</option>
           </select>
           {errors.genre && <p>{errors.genre}</p>}
+          <div className="ctas">
+            <button type="submit" className="button submit">
+              Add Product
+            </button>
+            <button
+              type="button"
+              className="button cancel"
+              onClick={handleCancel}
+            >
+              cancel
+            </button>
+          </div>
         </div>
       </form>
 
