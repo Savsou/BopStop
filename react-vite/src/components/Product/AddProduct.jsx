@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { thunkAddProduct } from "../../redux/products_pristine";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./AddProduct.css";
 
 function AddProduct() {

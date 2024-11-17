@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./Cart.css";
 
 function Cart({ cart, removeFromCart }) {
   // console.log("Cart prop from productDetail page:", cart)
   const cartItems = Object.values(cart.items);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // const [cartItems, setCartItems] = useState([...itemArray]);
   // const [subtotal, setSubtotal] = useState(0);
   const [error, setError] = useState(null);

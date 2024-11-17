@@ -24,7 +24,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
-  faCartPlus,
+  // faCartPlus,
   faPlus,
   faPenToSquare,
   faTrash,
@@ -44,7 +44,7 @@ const ProductDetail = () => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   //console.log(JSON.stringify(cart))
 

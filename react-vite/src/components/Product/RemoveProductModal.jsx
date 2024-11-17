@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import './RemoveProductModal.css';
 import '../../context/Modal.css'
 

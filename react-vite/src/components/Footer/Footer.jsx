@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import "./Footer.css"; // Optional: For custom styles
 import logowhite from "../../../src/logo-white.png";
 

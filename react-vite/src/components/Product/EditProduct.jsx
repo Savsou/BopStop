@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -12,7 +12,7 @@ function EditProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-  const currentProduct = useSelector((state) => state.products.currentProduct);
+  // const currentProduct = useSelector((state) => state.products.currentProduct);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [genre, setGenre] = useState("");
