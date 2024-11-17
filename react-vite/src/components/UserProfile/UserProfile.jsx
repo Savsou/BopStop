@@ -91,7 +91,7 @@ const ProfilePage = () => {
             <div key={product.productId} className="product-detail">
               {/* Product Column */}
               <div className="product-column">
-                {/* <p className="product-artist">by {product.artistName}</p> */}
+                {/* <p className="product-artist">by {user.artistName}</p> */}
                 <div className="product-meta">
                   <div className="product-info-column">
                     <Link
@@ -134,18 +134,18 @@ const ProfilePage = () => {
 
               {/* Artist Column */}
               <div className="artist-column">
-                {/* <img
+                <img
                   src={user.profileImageUrl}
                   alt={`${user.artistName}'s profile`}
                   className="profile-image-small"
                 />
-                <p className="product-artist">{product.artistName}</p> */}
+                <p className="product-artist">{user.artistName}</p>
                 <img
                   src={product.imageUrl}
                   alt={product.name}
                   className="profile-image-small"
                 />
-                <p className="product-name-smaill">{product.name}</p>
+                <p className="product-name-small">{product.name}</p>
                 <p className="product-created-time">
                   {formatDate(product.createdAt)}
                 </p>
