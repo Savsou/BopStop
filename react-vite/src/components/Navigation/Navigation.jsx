@@ -1,6 +1,6 @@
 // Navigation.jsx
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
@@ -8,12 +8,25 @@ import SignupFormModal from "../SignupFormModal";
 import AddButton from "./AddButton"
 import logo from "../../../src/logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faShoppingCart  } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import "./Navigation.css";
+import { useEffect, useState } from "react";
+import { thunkGetCart, triggerWiggle, resetWiggle } from "../../redux/cart";
 
 function Navigation() {
   const user = useSelector((store) => store.session.user);
-  const cartItems = useSelector((store) => store.cart.items);
+  const cartItems = useSelector((store) => Object.values(store.cart.items));
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(thunkGetCart())
+  }, [dispatch])
+
+  const handleCartIconClick = () => {
+    dispatch(triggerWiggle());
+    setTimeout(() => dispatch(resetWiggle()), 1000);
+  }
 
   return (
     <nav>
@@ -25,35 +38,42 @@ function Navigation() {
         </li>
         {user ? (
           <>
-            <li>
+            <li className="nav-right">
               <AddButton />
             </li>
-            <li>
+            <li className="nav-right">
               <NavLink to="/wishlist" className="nav-icon-link">
                 <FontAwesomeIcon icon={faHeart} className="nav-icon" />
               </NavLink>
             </li>
             {cartItems.length > 0 && ( // Only show if there are items in the cart
-              <li>
-                <NavLink to="/cart" className="nav-icon-link">
+              <li className="nav-right">
+                <NavLink to={`/products/${cartItems[0].productId}`} className="nav-icon-link">
+                <button
+                  type="button"
+                  className="nav-cart-button"
+                  onClick={handleCartIconClick}
+                >
                   <FontAwesomeIcon icon={faShoppingCart} className="nav-icon" />
+                </button>
+
                 </NavLink>
               </li>
             )}
-            <li>
+            <li className="nav-right">
               <ProfileButton buttonClass="profile-button" />
             </li>
           </>
         ) : (
           <>
-            <li>
+            <li className="nav-right">
               <OpenModalMenuItem
                 itemText="Log In"
                 modalComponent={<LoginFormModal />}
                 buttonClass="login-button"
               />
             </li>
-            <li>
+            <li className="nav-right">
               <OpenModalMenuItem
                 itemText="Sign Up"
                 modalComponent={<SignupFormModal />}

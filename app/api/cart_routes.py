@@ -37,7 +37,7 @@ def cart_products():
 #Add product to cart
   #only does one product at a time because product does not
   #as an attribute
-@cart_routes.route('/', methods=['POST'])
+@cart_routes.route('/session', methods=['POST'])
 @login_required
 def add_to_cart():
   data = request.get_json()
@@ -76,6 +76,8 @@ def add_to_cart():
 @cart_routes.route('/<int:productId>', methods=["DELETE"])
 @login_required
 def delete_from_cart(productId):
+    cart = current_user.cart
+
     cart_product = db.session.query(carts_products).filter_by(
       cartId=current_user.cart.id,
       productId=productId
@@ -89,6 +91,7 @@ def delete_from_cart(productId):
         )
       )
       db.session.commit()
+      cart.update_subtotal()
       return {"message": "Product removed from Cart"}
     else:
       return {"message": "Can't find product in Cart"}
@@ -103,7 +106,7 @@ def transaction():
     #Class method that empties cart and commits the
     #change in model
     cart.empty_cart()
-    return {"message": f"Your transaction of {round(total, 2)} was successful"}
+    return {"message": f"Your transaction of ${round(total, 2)} was successful!"}
   else:
     return {"message": "Your cart is empty"}
 

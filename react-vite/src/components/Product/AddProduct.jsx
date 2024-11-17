@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
-import { thunkAddProduct } from "../../redux/products_pristine";
+import { useState, useRef } from "react";
+import { thunkAddProduct } from "../../redux/products";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ConfirmationModal from "../../context/ConfirmationModal";
 import "./AddProduct.css";
 
 function AddProduct() {
@@ -17,6 +18,7 @@ function AddProduct() {
   // const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null); // Ref for the hidden file input
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleDivClick = () => {
     fileInputRef.current.click(); // Trigger the hidden input when the div is clicked
@@ -24,6 +26,10 @@ function AddProduct() {
 
   const handleFileChange = (e) => {
     setImageUrl(e.target.files[0]);
+  };
+
+  const handleCancel = () => {
+    navigate(-1); // Navigate to the previous page
   };
 
   const handleSubmit = async (e) => {
@@ -61,14 +67,15 @@ function AddProduct() {
       if (serverResponse) {
         setErrors(serverResponse);
       } else {
+        setShowConfirmModal(true);
         setName("");
         setType("");
         setGenre("");
         setPrice("");
         setDescription("");
         setImageUrl(null);
-        alert("Product added successfuly");
-        navigate(`/profile/${sessionUser.id}`);
+        // alert("Product added successfuly");
+        // navigate(`/profile/${sessionUser.id}`);
       }
     }
 
@@ -112,20 +119,30 @@ function AddProduct() {
     // }
   };
 
+  //Confirmation Modals
+  // const openConfirmModal = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirmModal(true);
+  // }
+
+  // const handleCancelModal = () => {
+  //   setShowConfirmModal(false);
+  //   handleSubmit();
+  // }
+
   return (
-    <div className="container">
-      <div className="album">
-      </div>
-      <div className="product">
-        {/* <h2 className="header">Add a New Product</h2> */}
-        {/* {message && <p>{message}</p>} */}
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className="container-add-product">
+      {/* {message && <p>{message}</p>} */}
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="add-product-form">
+        <div className="product">
+        <h2 className="header">Add a New Product</h2>
           <label className="label name">
             {/* Name: */}
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              placeholder="Product Name"
               // required
               className="input name"
             />
@@ -150,6 +167,7 @@ function AddProduct() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             // required
+            placeholder="(Description here)"
             className="input textarea description"
           />
           {errors.description && <p>{errors.description}</p>}
@@ -166,7 +184,7 @@ function AddProduct() {
               style={{ display: "none" }} // Hide the original input
             />
             <label className="label imageurl">
-              <div className="upload-button">Upload Album Art</div>
+              <div className="upload-button">Upload Product Image</div>
               <p className="upload-notes">
                 <br></br>
                 1400 x 1400 pixels minimum <br></br>(bigger is better)
@@ -184,8 +202,9 @@ function AddProduct() {
             onChange={(e) => setType(e.target.value)}
             // required
             className="input type"
+            style={{ color: type === "" ? "#AAA" : "#333" }}
           >
-            <option value="">Select...</option>
+            <option value="">(Type)</option>
             <option value="music">--- Music ---</option>
             <option value="cd">Compact Disc (CD)</option>
             <option value="cassette">Cassette</option>
@@ -211,13 +230,14 @@ function AddProduct() {
             <option value="other">Other</option>
           </select>
           {errors.type && <p>{errors.type}</p>}
-          <label className="label genre">Genre:</label>
+          <label className="label genre">genre:</label>
           <select
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
             className="input genre"
+            style={{ color: genre === "" ? "#AAA" : "#333" }}
           >
-            <option value="">Select...</option>
+            <option value="">(Optional)</option>
             <option value="electronic">Electronic</option>
             <option value="metal">Metal</option>
             <option value="rock">Rock</option>
@@ -229,11 +249,30 @@ function AddProduct() {
             <option value="ambient">Ambient</option>
           </select>
           {errors.genre && <p>{errors.genre}</p>}
-          <button type="submit" className="button submit">
-          Add Product
-          </button>
-        </form>
-      </div>
+          <div className="ctas">
+            <button type="submit" className="button submit">
+              Add Product
+            </button>
+            <button
+              type="button"
+              className="button cancel"
+              onClick={handleCancel}
+            >
+              cancel
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {showConfirmModal && (
+        <ConfirmationModal
+          onClose={() => {
+            setShowConfirmModal(false)
+            navigate(`/profile/${sessionUser.id}`);
+          }}
+          message={"You have added this product!"}
+        />
+      )};
     </div>
   );
 }

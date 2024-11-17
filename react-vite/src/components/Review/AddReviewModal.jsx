@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../../context/Modal.css';
 
 const AddReviewModal = ({ onClose, onSubmit }) => {

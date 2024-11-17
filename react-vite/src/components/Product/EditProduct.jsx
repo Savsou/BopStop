@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   thunkEditProduct,
   thunkGetProductById,
-} from "../../redux/products_pristine";
+} from "../../redux/products";
 import "./EditProduct.css";
+import ConfirmationModal from "../../context/ConfirmationModal";
 
 function EditProduct() {
   const { productId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-  const currentProduct = useSelector((state) => state.products.currentProduct);
+  // const currentProduct = useSelector((state) => state.products.currentProduct);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [genre, setGenre] = useState("");
@@ -21,6 +22,7 @@ function EditProduct() {
   const [imageUrl, setImageUrl] = useState(null);
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -48,6 +50,10 @@ function EditProduct() {
 
   const handleFileChange = (e) => {
     setImageUrl(e.target.files[0]); // Set selected file
+  };
+
+  const handleCancel = () => {
+    navigate(-1); // Navigate to the previous page
   };
 
   const handleSubmit = async (e) => {
@@ -86,8 +92,8 @@ function EditProduct() {
           setErrors(serverResponse);
         } else {
           // navigate(`/products/${productId}`);
-          alert("Product updated successfuly");
-          navigate(`/profile/${sessionUser.id}`);
+          // alert("Product updated successfuly");
+          setShowConfirmModal(true);
         }
       } catch (error) {
         setErrors({ server: error.message });
@@ -96,13 +102,22 @@ function EditProduct() {
     }
   };
 
+  //Confirmation Modals
+  // const openConfirmModal = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirmModal(true);
+  // }
+
+  // const handleCancelModal = () => {
+  //   setShowConfirmModal(false);
+  //   handleSubmit();
+  // }
+
   return (
-    <div className="container">
-      <div className="album">
-      </div>
-      <div className="product">
-        {/* <h2 className="header">Edit Product</h2> */}
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className="container-edit-product">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="edit-product-form">
+        <div className="product">
+          <h2 className="header">Edit Product</h2>
           <label className="label name">{/* Name: */}</label>
           <input
             type="text"
@@ -113,14 +128,17 @@ function EditProduct() {
           {errors.name && <p className="error">{errors.name}</p>}
 
           <label className="label price">price:</label>
-          <input
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            min="0.01"
-            className="input price"
-          />
+          <label className="label us-dollars">
+            <input
+              type="number"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              min="0.01"
+              className="input price"
+            />
+            US Dollars
+          </label>
           {errors.price && <p className="error">{errors.price}</p>}
 
           <label className="label description">description:</label>
@@ -144,7 +162,7 @@ function EditProduct() {
               style={{ display: "none" }}
             />
             <label className="label imageurl">
-              <div className="upload-button">Upload Album Art</div>
+              <div className="upload-button">Upload Product Image</div>
               <p className="upload-notes">
                 <br></br>
                 1400 x 1400 pixels minimum <br></br>(bigger is better)
@@ -162,8 +180,9 @@ function EditProduct() {
             value={type}
             onChange={(e) => setType(e.target.value)}
             className="input type"
+            style={{ color: type === "" ? "#AAA" : "#333" }}
           >
-            <option value="">Select...</option>
+            <option value="">(Type)</option>
             <option value="music">--- Music ---</option>
             <option value="cd">Compact Disc (CD)</option>
             <option value="cassette">Cassette</option>
@@ -195,8 +214,9 @@ function EditProduct() {
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
             className="input genre"
+            style={{ color: genre === "" ? "#AAA" : "#333" }}
           >
-            <option value="">Select...</option>
+            <option value="">(Optional)</option>
             <option value="electronic">Electronic</option>
             <option value="metal">Metal</option>
             <option value="rock">Rock</option>
@@ -207,12 +227,30 @@ function EditProduct() {
             <option value="pop">Pop</option>
             <option value="ambient">Ambient</option>
           </select>
-          {errors.genre && <p className="error">{errors.genre}</p>}
-          <button type="submit" className="button submit">
-          Update Product
-          </button>
-        </form>
-      </div>
+                  {errors.genre && <p className="error">{errors.genre}</p>}
+                  <div className="ctas">
+            <button type="submit" className="button submit">
+              Update Product
+            </button>
+            <button
+              type="button"
+              className="button cancel"
+              onClick={handleCancel}
+            >
+              cancel
+            </button>
+          </div>
+        </div>
+      </form>
+      {showConfirmModal && (
+        <ConfirmationModal
+          onClose={() => {
+            setShowConfirmModal(false)
+            navigate(`/profile/${sessionUser.id}`);
+          }}
+          message={"You have updated this product!"}
+        />
+      )};
     </div>
   );
 }

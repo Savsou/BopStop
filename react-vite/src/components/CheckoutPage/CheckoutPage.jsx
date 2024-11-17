@@ -1,14 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./CheckoutPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCcVisa, faCcMastercard, faCcDiscover } from "@fortawesome/free-brands-svg-icons";
 import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
+import ConfirmationModal from "../../context/ConfirmationModal";
+import { thunkGetCart } from '../../redux/cart'
 
 function CheckoutPage() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const sessionUser = useSelector((state) => state.session.user);
+    const cart = useSelector((state) => Object.values(state.cart.items))
     const [cardNum, setCardNum] = useState("")
     const [expiresMonth, setExpiresMonth] = useState("");
     const [expiresYear, setExpiresYear] = useState("");
@@ -20,6 +24,8 @@ function CheckoutPage() {
     const [isSameBillingChecked, setIsSameBillingChecked] = useState(false);
     const [isSavePaymentChecked, setIsSavePaymentChecked] = useState(false);
     const [message, setMessage] = useState("");
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
     const fetchCart = useCallback(async () => {
         try {
@@ -67,7 +73,9 @@ function CheckoutPage() {
 
             if (response.ok) {
                 const data = await response.json();
-                // setMessage(data.message);
+                setModalMessage(data.message);
+                setShowConfirmModal(true);
+
                 setCardNum("")
                 setExpiresMonth("")
                 setExpiresYear("")
@@ -76,9 +84,8 @@ function CheckoutPage() {
                 setLastName("")
                 setIsSameBillingChecked(false)
                 setIsSavePaymentChecked(false)
-                alert(data.message)
-                // fetchCart()
-                navigate('/')
+                // alert(data.message)
+                dispatch(thunkGetCart())
             } else {
                 setMessage("Something went wrong. Please try again.");
             }
@@ -100,8 +107,11 @@ function CheckoutPage() {
                         <input
                             type="text"
                             value={cardNum}
-                            onChange={(e) => setCardNum(e.target.value)}
+                            onChange={(e) => setCardNum(e.target.value.replace(/\D/g, ''))}
                             className="input"
+                            pattern="[0-9]*"
+                            maxLength="16"
+                            required
                         />
                         <div className="icons">
                             <FontAwesomeIcon size="2x" icon={faCcVisa} style={{color: "#74C0FC",}} />
@@ -116,6 +126,7 @@ function CheckoutPage() {
                                 value={expiresMonth}
                                 onChange={(e) => setExpiresMonth(e.target.value)}
                                 className="select"
+                                required
                             >
                                 <option value="">Month</option>
                                 {months.map((month) => (
@@ -128,6 +139,7 @@ function CheckoutPage() {
                                 value={expiresYear}
                                 onChange={(e) => setExpiresYear(e.target.value)}
                                 className="select"
+                                required
                             >
                                 <option value="">Year</option>
                                 {years.map((year) => (
@@ -143,8 +155,10 @@ function CheckoutPage() {
                         <input
                             type="text"
                             value={securityCode}
-                            onChange={(e) => setSecurityCode(e.target.value)}
+                            onChange={(e) => setSecurityCode(e.target.value.replace(/\D/g, ''))}
                             className="input"
+                            maxLength="3"
+                            required
                         />
                         <div className="icons">
                             <FontAwesomeIcon icon={faCreditCard} />
@@ -157,8 +171,9 @@ function CheckoutPage() {
                         <input
                             type="text"
                             value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            onChange={(e) => setFirstName(e.target.value.replace(/[^a-zA-Z]/g, ''))}
                             className="input"
+                            required
                         />
                     </div>
                     <div className="last-name">
@@ -166,8 +181,9 @@ function CheckoutPage() {
                         <input
                             type="text"
                             value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
+                            onChange={(e) => setLastName(e.target.value.replace(/[^a-zA-Z]/g, ''))}
                             className="input"
+                            required
                         />
                     </div>
                 </div>
@@ -237,6 +253,15 @@ function CheckoutPage() {
                 </div>
             </form>
             {message && <p>{message}</p>}
+            {showConfirmModal && (
+                <ConfirmationModal
+                    onClose={() => {
+                        setShowConfirmModal(false)
+                        navigate('/')
+                    }}
+                    message={modalMessage}
+                />
+            )}
         </div>
     )
 }

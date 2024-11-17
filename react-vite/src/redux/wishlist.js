@@ -1,4 +1,4 @@
-import { thunkGetProductById } from "./products_pristine"
+import { thunkGetProductById } from "./products"
 
 const LOAD_WISHLIST = '/api/cart/load_wishlist'
 const LOAD_A_WISHLIST_ITEM = '/api/cart/load_a_wishlist_item'
@@ -74,10 +74,10 @@ export const thunkRemoveWishlistItem = itemId => async dispatch =>{
     }
   )
 
-
   const deleted = await res.json();
   if (deleted.errors) return deleted.errors
-  dispatch(deleteWishlistItem(itemId))
+  await dispatch(deleteWishlistItem(itemId))
+  dispatch((thunkGetWishlist()))
   return deleted
 }
 
@@ -114,7 +114,7 @@ function wishlistReducer(state = initialState, action){
     case(DELETE_WISHLIST_ITEM): {
       const {itemId} = action
       const copyState = { ...state }
-      copyState.items[itemId]
+      delete copyState.items[itemId]
       return copyState
     }
 

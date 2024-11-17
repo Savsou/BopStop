@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import RemoveProductModal from '../Product/RemoveProductModal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import '../Product/ProductDetail.css';
-import './UserProfile.css';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import RemoveProductModal from "../Product/RemoveProductModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import "../Product/ProductDetail.css";
+import "./UserProfile.css";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch('/api/users/session');
+        const response = await fetch("/api/users/session");
         if (!response.ok) {
-          throw new Error('Failed to fetch user data');
+          throw new Error("Failed to fetch user data");
         }
         const data = await response.json();
         setUser(data);
@@ -41,14 +41,18 @@ const ProfilePage = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
+      const response = await fetch(`/api/products/${productId}`, {
+        method: "DELETE",
+      });
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete product');
+        throw new Error(errorData.message || "Failed to delete product");
       }
       setUser((prevUser) => ({
         ...prevUser,
-        products: prevUser.products.filter((product) => product.productId !== productId),
+        products: prevUser.products.filter(
+          (product) => product.productId !== productId
+        ),
       }));
       handleCloseModal();
     } catch (err) {
@@ -70,54 +74,81 @@ const ProfilePage = () => {
 
   return (
     <div className="product-detail-page">
-      {/* Banner Section */}
-      {user?.profileImageUrl && (
-        <div
-          className="banner"
-          style={{ backgroundImage: `url(${user.profileImageUrl})` }}
-        />
-      )} 
-      {/* Product List */}
+      <div className="product-row">
+        <div className="banner-container">
+          {/* Banner Section */}
+          {user?.bannerImageUrl && (
+            <div
+              className="banner"
+              style={{ backgroundImage: `url(${user.bannerImageUrl})` }}
+            />
+          )}
+        </div>
+        {/* Product List */}
+        <h2 className="title">{user.artistName}'s Profile</h2>
         {user.products && user.products.length > 0 ? (
           user.products.map((product) => (
             <div key={product.productId} className="product-detail">
-              
               {/* Product Column */}
               <div className="product-column">
-              <Link to={`/products/${product.productId}`} className="product-name-link">
-                  <h2 className="product-name">{product.name}</h2>
-                  </Link>
-                <p className="product-artist">by {product.artistName}</p>
+                {/* <p className="product-artist">by {product.artistName}</p> */}
                 <div className="product-meta">
                   <div className="product-info-column">
+                    <Link
+                      to={`/products/${product.productId}`}
+                      className="product-name-link"
+                    >
+                      <h2 className="product-name">{product.name}</h2>
+                    </Link>
                     <p className="product-type">{product.type}</p>
-                    {product.genre && <p className="product-genre">Genre: {product.genre}</p>}
+                    {product.genre && (
+                      <p className="product-genre">{product.genre}</p>
+                    )}
                     <p className="product-description">{product.description}</p>
                     <p className="product-price">Price: ${product.price}</p>
-                    <p className="product-created-time">Released {formatDate(product.createdAt)}</p>
-                    <Link to={`/products/edit/${product.productId}`} className="product-detail-button">
+                    <p className="product-created-time">
+                      Released {formatDate(product.createdAt)}
+                    </p>
+                    <Link
+                      to={`/products/edit/${product.productId}`}
+                      className="product-detail-button"
+                    >
                       <FontAwesomeIcon icon={faPenToSquare} /> Edit
                     </Link>
-                    <button 
-                      onClick={() => handleOpenModal(product.productId)} 
+                    <button
+                      onClick={() => handleOpenModal(product.productId)}
                       className="product-detail-button"
                     >
                       <FontAwesomeIcon icon={faTrash} /> Remove
                     </button>
                   </div>
                   <div className="product-image-column">
-                    <img src={product.imageUrl} alt={product.name} className="product-image-big" />
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="product-image-big"
+                    />
                   </div>
                 </div>
               </div>
 
               {/* Artist Column */}
               <div className="artist-column">
-              <img src={user.profileImageUrl} alt={`${user.artistName}'s profile`} className="profile-image-small" />
-                <p className="product-artist">by {product.artistName}</p>
-                <img src={product.imageUrl} alt={product.name} className="product-image" />
-                <p className="product-name">{product.name}</p>
-                <p className="product-created-time">{formatDate(product.createdAt)}</p>
+                {/* <img
+                  src={user.profileImageUrl}
+                  alt={`${user.artistName}'s profile`}
+                  className="profile-image-small"
+                />
+                <p className="product-artist">{product.artistName}</p> */}
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="profile-image-small"
+                />
+                <p className="product-name-smaill">{product.name}</p>
+                <p className="product-created-time">
+                  {formatDate(product.createdAt)}
+                </p>
               </div>
             </div>
           ))
@@ -125,14 +156,15 @@ const ProfilePage = () => {
           <p>No products listed.</p>
         )}
 
-      {/* Modals */}
-      {showModal && (
-        <RemoveProductModal 
-          productId={productIdToDelete} 
-          onConfirm={handleDeleteProduct} 
-          onCancel={handleCloseModal} 
-        />
-      )}
+        {/* Modals */}
+        {showModal && (
+          <RemoveProductModal
+            productId={productIdToDelete}
+            onConfirm={handleDeleteProduct}
+            onCancel={handleCloseModal}
+          />
+        )}
+      </div>
     </div>
   );
 };

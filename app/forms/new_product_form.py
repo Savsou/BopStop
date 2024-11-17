@@ -11,7 +11,7 @@ class NewProductForm(FlaskForm):
   type = SelectField(
         'type',
         choices=[
-            ('', 'Select...'),
+            ('', '(Type)'),
             ('music', '--- Music ---'),
             ('cd', 'Compact Disc (CD)'),
             ('cassette', 'Cassette'),
@@ -43,7 +43,7 @@ class NewProductForm(FlaskForm):
   genre = SelectField(
         'genre',
         choices=[
-            ('', 'Select...'),
+            ('', '(Optional)'),
             ('electronic', 'Electronic'),
             ('metal', 'Metal'),
             ('rock', 'Rock'),
@@ -53,9 +53,9 @@ class NewProductForm(FlaskForm):
             ('punk', 'Punk'),
             ('pop', 'Pop'),
             ('ambient', 'Ambient'),
-        ]
+        ],
     )
   price = DecimalField('price', validators=[DataRequired(message="Please enter a price."), NumberRange(min=0.01, message='Price must be a positive number!')])
   description = StringField('description', validators=[DataRequired(message="Please provide a description for this item.")])
   # imageUrl = URLField('imageUrl', validators=[DataRequired(message="Please provide an image of this item."), URL()])
-  imageUrl = FileField('imageUrl', validators=[FileRequired(), FileAllowed(list(ALLOWED_EXTENSIONS))])
+  imageUrl = FileField('imageUrl', validators=[FileRequired(message="Please provide an image."), FileAllowed(list(ALLOWED_EXTENSIONS))])

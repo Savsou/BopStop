@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import '../../context/Modal.css';
 
 const RemoveReviewModal = ({ review, onClose, onConfirm }) => {

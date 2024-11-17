@@ -1,0 +1,30 @@
+.footer {
+    background-color: #333; /* Light background */
+    color: #fff; /* Dark text color */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.logo{
+    height: 18px;
+}
+
+.footer-content {
+    width: 1576px;
+    padding: 22px 40px;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    justify-content:right;
+}
+
+.link {
+    margin-right: 20px;
+}

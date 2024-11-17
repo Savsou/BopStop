@@ -1,7 +1,7 @@
 // CombinedProductDisplay.jsx
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { thunkGetAllProducts, selectAllProductsArry } from "../../redux/products_pristine";
+import { thunkGetAllProducts, selectAllProductsArry } from "../../redux/products";
 import { useDispatch, useSelector } from "react-redux";
 import "./AllProduct.css";
 

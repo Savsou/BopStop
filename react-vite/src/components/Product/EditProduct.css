@@ -1,11 +1,12 @@
 /* AddProduct.css */
-.container {
+.container-edit-product {
     width: 1344.280px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
     color: #333;
     display: flex;
+    justify-content: center;
   }
 
   .album {
@@ -36,27 +37,12 @@
     border: 1px solid #ccc;
     border-radius: 0px;
     font-size: 14px;
+    padding: 3px;
   }
   
   .textarea {
     resize: vertical;
     height: 80px;
-  }
-  
-  .button {
-    background-color: #1da0c3;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 15px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #6046fe;
   }
   
   .input.name{
@@ -95,7 +81,7 @@
 
   .input.description {
     border-radius: 0px;
-    width: 400px;
+    width: 390px;
     height: 48px;
   }
 
@@ -128,8 +114,10 @@
 
   .input.type{
     border-radius: 0px;
-    width: 400px;
+    width: 408px;
     height: 22px;
+    padding: 0;
+    font-size: 12px;
   }
 
   .label.type {
@@ -140,8 +128,10 @@
 
   .input.genre {
     border-radius: 0px;
-    width: 400px;
+    width: 408px;
     height: 22px;
+    padding: 0;
+    font-size: 12px;
   }
 
   .label.genre {
@@ -158,4 +148,33 @@
     font-size: 14px;
   }
   
-  
+  .edit-product-form {
+    display: flex;
+  }
+
+  .button.cancel {
+    color: #0687f5;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 12px;
+    padding: 0;
+  }
+
+  .button {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    background-color: none;
+}
+
+.button:hover {
+    text-decoration: underline;
+}
+
+.ctas {
+  display: flex;
+  justify-content: space-between;
+}
