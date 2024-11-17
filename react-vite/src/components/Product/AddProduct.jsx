@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { thunkAddProduct } from "../../redux/products_pristine";
+import { thunkAddProduct } from "../../redux/products";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../context/ConfirmationModal";

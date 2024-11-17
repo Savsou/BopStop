@@ -1,4 +1,4 @@
-import { thunkGetProductById } from "./products_pristine"
+import { thunkGetProductById } from "./products"
 
 const LOAD_CART_ITEMS = '/api/cart/load_cart_items'
 const LOAD_A_CART_ITEM = '/api/cart/load_a_cart_item'

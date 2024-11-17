@@ -6,7 +6,7 @@ import EditReviewModal from '../Review/EditReviewModal';
 import RemoveReviewModal from '../Review/RemoveReviewModal';
 import Cart from '../Cart/Cart';
 import { thunkRemoveReview, thunkEditReview, thunkGetUserReviews } from '../../redux/reviews';
-import { thunkGetProductReviews, thunkAddAProductReview, thunkGetProductById  } from '../../redux/products_pristine';
+import { thunkGetProductReviews, thunkAddAProductReview, thunkGetProductById  } from '../../redux/products';
 import { thunkAddWishlistItem } from '../../redux/wishlist';
 import { thunkGetCart, thunkAddCartItem, thunkRemoveCartItem } from '../../redux/cart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
