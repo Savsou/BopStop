@@ -12,7 +12,6 @@ function CheckoutPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const sessionUser = useSelector((state) => state.session.user);
-    const cart = useSelector((state) => Object.values(state.cart.items))
     const [cardNum, setCardNum] = useState("")
     const [expiresMonth, setExpiresMonth] = useState("");
     const [expiresYear, setExpiresYear] = useState("");
@@ -84,7 +83,6 @@ function CheckoutPage() {
                 setLastName("")
                 setIsSameBillingChecked(false)
                 setIsSavePaymentChecked(false)
-                // alert(data.message)
                 dispatch(thunkGetCart())
             } else {
                 setMessage("Something went wrong. Please try again.");

@@ -8,7 +8,6 @@ import "./AllProduct.css";
 function AllProduct() {
   const dispatch = useDispatch();
   const allProduct = useSelector(selectAllProductsArry)
-  // const [allProduct, setAllProduct] = useState([]);
 
   useEffect(() => {
     dispatch(thunkGetAllProducts());
@@ -19,24 +18,6 @@ function AllProduct() {
       <h1>Loading all products...</h1>
     )
   }
-
-  // console.log(`Testing allProduct from state: ${JSON.stringify(allProduct)}`)
-
-  // Tiff's OG fetch:
-  // useEffect(() => {
-  //   fetch("/api/products/")
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error("Failed to fetch all products");
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setAllProduct(data.products || []);
-  //     })
-  //     .catch((error) => console.error("Error fetching all products:", error));
-  // }, []);
-
 
     return (
         <div className="all-product-row">

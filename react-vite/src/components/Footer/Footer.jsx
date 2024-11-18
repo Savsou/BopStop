@@ -1,5 +1,5 @@
 // import React from "react";
-import "./Footer.css"; // Optional: For custom styles
+import "./Footer.css"; 
 import logowhite from "../../../src/logo-white.png";
 
 const Footer = () => {

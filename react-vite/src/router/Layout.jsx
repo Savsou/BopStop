@@ -18,10 +18,10 @@ export default function Layout() {
   }, [dispatch]);
 
   return (
-    <div className="layout-container"> {/* Flexbox parent */}
+    <div className="layout-container">
       <ModalProvider>
         <Navigation />
-        <div className="main-content"> {/* Main content area */}
+        <div className="main-content">
           {isLoaded ? <Outlet /> : <Backdrop
             sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
             open
@@ -30,7 +30,7 @@ export default function Layout() {
           </Backdrop>}
         </div>
         <Modal />
-        <Footer /> {/* Footer stays at the bottom */}
+        <Footer /> 
       </ModalProvider>
     </div>
   );

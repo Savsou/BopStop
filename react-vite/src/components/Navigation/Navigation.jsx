@@ -1,6 +1,6 @@
 // Navigation.jsx
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
@@ -10,7 +10,7 @@ import logo from "../../../src/logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import "./Navigation.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { thunkGetCart, triggerWiggle, resetWiggle } from "../../redux/cart";
 
 function Navigation() {
@@ -18,7 +18,6 @@ function Navigation() {
   const items = useSelector((store) => store.cart.items);
   const cartItems = items ? Object.values(items) : []
   const dispatch = useDispatch()
-  const navigate = useNavigate();
   useEffect(() => {
     dispatch(thunkGetCart())
   }, [dispatch])
@@ -46,7 +45,8 @@ function Navigation() {
                 <FontAwesomeIcon icon={faHeart} className="nav-icon" />
               </NavLink>
             </li>
-            {cartItems.length > 0 && ( // Only show if there are items in the cart
+            {/* Only show if there are items in the cart */}
+            {cartItems.length > 0 && (
               <li className="nav-right">
                 <NavLink to={`/products/${cartItems[0].productId}`}>
                 <button

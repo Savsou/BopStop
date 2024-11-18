@@ -1,27 +1,15 @@
-import { useState } from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./Cart.css";
 
 function Cart({ cart, removeFromCart}) {
-  // console.log("Cart prop from productDetail page:", cart)
   const cartItems = Object.values(cart.items);
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  // const [cartItems, setCartItems] = useState([...itemArray]);
-  // const [subtotal, setSubtotal] = useState(0);
-  const [error, setError] = useState(null);
   const wiggle = useSelector((state) => state.cart.wiggle);
-
-  //console.log("cartItems", JSON.stringify(cartItems))
 
   const handleCheckout = async () => {
     navigate("/checkout");
   };
-
-  // if (!cartItems) return <p>Loading cart...</p>;
 
   return (
     <div
@@ -29,7 +17,6 @@ function Cart({ cart, removeFromCart}) {
     wiggle={wiggle}
     >
       <h3>Shopping Cart</h3>
-      {error && <p className="error">{error}</p>}
       <ul className="cart-items-cart">
         {cartItems.map((item) => (
           <li key={item.productId} className="cart-item-cart">

@@ -8,7 +8,6 @@ import "./LimitedProduct.css";
 function LimitedProduct() {
   const dispatch = useDispatch();
   const limitedProducts = useSelector(selectLtdProductsArry)
-  // const [limitedProducts, setLimitedProducts] = useState([]);
 
   useEffect(() => {
     dispatch(thunkGetLimitedProducts());
@@ -19,24 +18,6 @@ function LimitedProduct() {
       <h1>Loading first 20 products...</h1>
     )
   }
-
-  // console.log(`Testing limitedProduct from state: ${JSON.stringify(limitedProducts)}`)
-
-
-  // Tiff's OG fetch:
-  // useEffect(() => {
-  //   fetch("/api/products/limited")
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error("Failed to fetch limited products");
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setLimitedProducts(data.products || []);
-  //     })
-  //     .catch((error) => console.error("Error fetching limited products:", error));
-  // }, []);
 
   const calculateDaysAgo = (date) => {
     const createdDate = new Date(date);

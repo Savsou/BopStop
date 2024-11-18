@@ -28,7 +28,6 @@ function ArtistDetail() {
       .catch((error) => console.error("Error fetching products:", error));
   }, [artistId]);
 
-  // if (!artist) return <p>Loading artist details...</p>;
   if (!artist) return (
     <Backdrop
       sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}

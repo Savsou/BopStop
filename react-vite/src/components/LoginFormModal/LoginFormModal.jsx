@@ -2,9 +2,8 @@ import { useState } from "react";
 import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import '../../../src/index.css';
-// import '../../context/Modal.css';
-import '../../context/FormModal.css';
+import "../../../src/index.css";
+import "../../context/FormModal.css";
 import "./LoginForm.css";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +17,7 @@ function LoginFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({}); // Reset errors before each submission
+    setErrors({});
 
     const newErrors = {};
 
@@ -45,33 +44,33 @@ function LoginFormModal() {
 
     if (serverResponse) {
       setErrors({
-        general: "Login failed. Please check your credentials and try again."
+        general: "Login failed. Please check your credentials and try again.",
       });
     } else {
       closeModal();
-      navigate('/')
+      navigate("/");
     }
   };
 
   const demoUserLogin = async (e) => {
     e.preventDefault();
 
-    setErrors({}); // Reset errors before demo login
+    setErrors({});
 
     const serverResponse = await dispatch(
       thunkLogin({
         email_or_username: "beyonce_knowles",
-        password: "hashedpassword4"
+        password: "hashedpassword4",
       })
     );
 
     if (serverResponse) {
       setErrors({
-        general: "Login failed. Please check your credentials and try again."
+        general: "Login failed. Please check your credentials and try again.",
       });
     } else {
       closeModal();
-      navigate('/')
+      navigate("/");
     }
   };
 
@@ -80,34 +79,44 @@ function LoginFormModal() {
       <p className="modal-title">Log In</p>
       <form className="modal-content" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Username / Email</label>
-          <input
-            type="text"
-            value={usernameOrEmail}
-            onChange={(e) => setUsernameOrEmail(e.target.value)}
-            // required
-          />
-          {errors.usernameOrEmail && <p className="error-message">{errors.usernameOrEmail}</p>}
+          <label className="label-name">Username / Email</label>
+          <div className="input-error">
+            <input
+              type="text"
+              value={usernameOrEmail}
+              onChange={(e) => setUsernameOrEmail(e.target.value)}
+              />
+
+            {errors.usernameOrEmail && (
+              <p className="error-message">{errors.usernameOrEmail}</p>
+            )}
+          </div>
         </div>
 
         <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            // required
-          />
-          {errors.password && <p className="error-message">{errors.password}</p>}
+          <label className="label-name">Password</label>
+          <div className="input-error">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              />
+
+            {errors.password && (
+              <p className="error-message">{errors.password}</p>
+            )}
+          </div>
         </div>
 
-          {errors.general && <p className="error-message">{errors.general}</p>}
+        {errors.general && <p className="error-message">{errors.general}</p>}
 
         <div className="form-group">
           <button type="submit">Log In</button>
         </div>
         <div className="form-group">
-          <button type="button" onClick={demoUserLogin}>Demo Login</button>
+          <button type="button" onClick={demoUserLogin}>
+            Demo Login
+          </button>
         </div>
       </form>
     </>

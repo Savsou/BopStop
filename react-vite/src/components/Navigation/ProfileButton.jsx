@@ -15,7 +15,8 @@ function ProfileButton() {
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+    // Keep from bubbling up to document and triggering closeMenu
+    e.stopPropagation();
     setShowMenu(!showMenu);
   };
 
@@ -52,7 +53,7 @@ function ProfileButton() {
     navigate('/')
   };
 
-  if (!user) return null; // If not logged in, don't render the button
+  if (!user) return null;
 
   return (
     <>
@@ -63,7 +64,6 @@ function ProfileButton() {
           {user ? (
             <>
               <li onClick={handleViewProfile} className="username">{user.username}</li>
-              {/* <li onClick={handleViewProfile}>{user.email}</li> */}
               <li>
                 <button onClick={handleEditProfile} className="edit-profile">Edit Profile</button>
               </li>

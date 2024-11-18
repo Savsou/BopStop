@@ -1,11 +1,11 @@
 /* Main styling for the product card */
 .product-card {
-  width: 126px; /* Set the desired width */
-  height: auto; /* Let height adjust to content */
-  border: none; /* Remove border */
-  border-radius: 0; /* Remove border radius */
-  margin: 0; /* Remove margin if you want cards to align closely */
-  box-sizing: border-box; /* Include padding within the width */
+  width: 126px;
+  height: auto;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  box-sizing: border-box; 
 }
 
 .product-card a {

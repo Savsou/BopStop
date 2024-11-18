@@ -65,16 +65,16 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    align-items: flex-start;
     width: 460px;
-    align-items: center;
     margin-top: 12px;
     margin-bottom: 12px;
   }
   
-  .form-group label{
+  .label-name{
     color: rgb(51, 51, 51);
     width: 155px;
-    text-align: right;
+    text-align: left;
     margin-right: 16px;
     font-size: 16px;
     line-height: 1.25;
@@ -82,7 +82,7 @@
   }
   
   .form-group input{
-    width: 300px;
+    width: 262px;
     height: 31px;
     border: 1px solid rgb(204, 204, 204);
     outline-color: rgb(51, 51, 51);
@@ -104,7 +104,7 @@
     font-size: 16px;
     font-weight: 700px;
     text-align: center;
-    width: 294.79px;
+    width: 100%;
     height: 36px;
   }
   
@@ -112,4 +112,21 @@
     cursor: pointer;
   }
   
+  .error-message {
+    color: red; /* Or any color for the error */
+    font-size: 0.875rem; /* Adjust size as needed */
+    margin-top: 4px; /* Add spacing from the input field */
+  }
   
+  .form-group input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  
+  .input-error {
+    display: flex; /* Ensure label and input are aligned horizontally */
+    flex-direction: column;
+    align-items: flex-start; /* Align children to the left */
+    width: 276px; /* Ensure it spans the full width */
+  }

@@ -22,7 +22,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
-  // faCartPlus,
   faPlus,
   faPenToSquare,
   faTrash,
@@ -61,9 +60,6 @@ const ProductDetail = () => {
     setModalImage("");
   };
 
-
-
-
   useEffect(() => {
     dispatch(thunkGetProductById(productId)).then((res) => setProduct(res));
   }, [productId, dispatch]);
@@ -92,15 +88,6 @@ const ProductDetail = () => {
     });
   };
 
-  // const handleAddReview = async (reviewText) => {
-  //     dispatch(thunkAddAProductReview(productId, { review: reviewText })).then(
-  //       (res) => {
-  //         res.review ? setError(res.review) : setCurrentReview(res)});
-  //     if(!error) closeModals();
-  // };
-
-
-
   const handleRemoveReview = async (reviewId) => {
     dispatch(thunkRemoveReview(reviewId, productId)).then(() => setCurrentReview(""));
     closeModals();
@@ -125,13 +112,11 @@ const ProductDetail = () => {
 
   const addToWishlist = async (productId) => {
     dispatch(thunkAddWishlistItem(productId));
-    // alert("Added product to wishlist");
     setShowWishlistConfirmModal(true);
   };
 
   const removeFromWishlist = async (productId) => {
     dispatch(thunkRemoveWishlistItem(productId));
-    // alert("Removed product from wishlist");
     setShowWishlistRemoveModal(true);
   }
 
@@ -143,8 +128,6 @@ const ProductDetail = () => {
     dispatch(thunkRemoveCartItem(productId));
   };
 
-  // if (error) return <p>{error}</p>;
-  // if (!product) return <p>Loading...</p>;
   if (!product) return (
     <Backdrop
       sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
@@ -219,7 +202,7 @@ const ProductDetail = () => {
                   >
                     <div
                       className="confirmation-modal-content"
-                      onClick={(e) => e.stopPropagation()} // Prevents closing modal when clicking inside
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <img
                         src={modalImage}
@@ -243,9 +226,8 @@ const ProductDetail = () => {
                     <span
                       onClick={() => addToCart(product.productId)}
                       className="add-to-cart"
-                      style={{ cursor: "pointer" }} // Optional: To show it's clickable
+                      style={{ cursor: "pointer" }}
                     >
-                      {/* <FontAwesomeIcon icon={faCartPlus} className="nav-icon" />{" "} */}
                       Add to Cart
                     </span>
                   )}
@@ -253,9 +235,6 @@ const ProductDetail = () => {
                   <span className="USD">USD</span>
                   <span className="or-more">or more</span>
                 </p>
-                {/* <p className="product-created-time">
-                released {formatDate(product.createdAt)}
-              </p> */}
                 <p className="lyric">
                   {product.artistName} ๏ vocals, guitars, charango, cellos,
                   percussions
@@ -292,11 +271,6 @@ const ProductDetail = () => {
                   #world #medicinemusic world medicina medicine music medicine
                   songs world music Leipzig
                 </p>
-                {/* {sessionUser &&
-                <button onClick={() => addToCart(product.productId)} className="product-detail-button">
-                  <FontAwesomeIcon icon={faCartPlus} className="nav-icon" /> Add to Cart
-                </button>
-              } */}
               </div>
               <div className="product-image-column">
                 <img
@@ -392,7 +366,7 @@ const ProductDetail = () => {
                         more...
                       </p>
                       <img
-                        src="/images/supporters.png" // Update with the correct path to your image
+                        src="/images/supporters.png"
                         alt="Supporter Icon"
                         className="supporter-image"
                       />
@@ -427,7 +401,6 @@ const ProductDetail = () => {
             </div>
           </div>
           <div className="artist-column">
-            {/* Conditionally render the Cart component if the product is in the cart */}
             {cart.subtotal > 0 && sessionUser && (
               <Cart cart={cart} removeFromCart={removeFromCart} />
             )}
