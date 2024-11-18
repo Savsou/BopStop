@@ -170,8 +170,10 @@ ul.nav-right {
 }
 
 li.nav-right {
-  padding-right: 15px;
-}.profile-dropdown {
+  padding-top: 2px;
+}
+
+.profile-dropdown {
   position: absolute;
   top: 46px;
   right: 0;
@@ -224,7 +226,7 @@ li.nav-right {
   color: white; /* Adjust color for visibility */
   font-size: 14px;
   cursor: pointer;
-  margin: 12px 0 12px;
+  margin: 12px 20px 12px;
 }
 
 .profile-button:hover{
@@ -257,6 +259,16 @@ ul {
 
 .nav-cart-button {
   border: none;
+  background-color: #fff;
+  color: #1DA0C3;
+  padding-top: 3.5px;
+}
+
+.nav-cart-button:hover {
+  border: none;
+  background-color: #fff;
+  color: #6046FE;
+  cursor: pointer;
 }
 
 li:hover {
@@ -273,6 +285,7 @@ li a {
   justify-content: center;
   align-items: center;
   margin-right: auto;
+  padding-left: 20px;
 }
 
 .nav-logo a {
@@ -303,15 +316,6 @@ ul li button:hover {
   background-color: rgb(243, 243, 243);
 }
 
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0px 1px 0px 0px rgb(238, 238, 238);
-  height: 53px;
-  padding: 0 20px;
-}
-
 body {
   margin-top: 0px;
 }
@@ -331,6 +335,7 @@ li .nav-icon {
 .nav-icon-link{
   color: #1DA0C3;
   margin: 0;
+  padding-top: 2px;
 }
 
 .nav-icon-link:hover{

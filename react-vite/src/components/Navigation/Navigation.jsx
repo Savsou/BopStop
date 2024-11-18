@@ -48,13 +48,13 @@ function Navigation() {
             </li>
             {cartItems.length > 0 && ( // Only show if there are items in the cart
               <li className="nav-right">
-                <NavLink to={`/products/${cartItems[0].productId}`} className="nav-icon-link">
+                <NavLink to={`/products/${cartItems[0].productId}`}>
                 <button
                   type="button"
                   className="nav-cart-button"
                   onClick={handleCartIconClick}
                 >
-                  <FontAwesomeIcon icon={faShoppingCart} className="nav-icon" />
+                  <FontAwesomeIcon icon={faShoppingCart}/>
                 </button>
 
                 </NavLink>
