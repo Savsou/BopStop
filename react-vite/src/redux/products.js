@@ -249,7 +249,6 @@ export const thunkGetProductReviews = productId => async dispatch => {
         const reviews = await res.json()
         if (reviews.errors) return reviews.errors
         dispatch(loadProductReviews(reviews['reviews']))
-        console.log("reviews:", reviews)
         return reviews
     } catch (err) {
         console.error(err)
@@ -284,7 +283,6 @@ export const thunkAddAProductReview = (productId, review) => async dispatch => {
 export const selectProduct = state => state.products;
 export const selectAllProductsArry = createSelector(selectProduct, products => Object.values(products.allProducts));
 export const selectLtdProductsArry = createSelector(selectProduct, products => Object.values(products.ltdProducts));
-
 
 //reducer
 const initialState = {
@@ -348,7 +346,7 @@ function productsReducer(state = initialState, action) {
             if (reviews.length > 0) {
                 productId = reviews[0].productId
                 reviews.forEach(review => {
-                    allReviews[review.reviewId] = review
+                    allReviews[review.id] = review
                 })
                 return {
                     ...state,
@@ -367,12 +365,13 @@ function productsReducer(state = initialState, action) {
             const { productId } = action.review
             const review = action.review
             const currentReviews = state.allProducts[productId]?.reviews || {};
+            console.log("testing:", state.allProducts[productId].reviews)
             return {
                 ...state,
                 allProducts: {
                     [productId]: {
                         ...state.allProducts[productId],
-                        reviews: { ...currentReviews, [review.id]: review }
+                        reviews: { ...currentReviews, [review.reviewId]: review }
                     }
                 }
             }

@@ -1,18 +1,26 @@
 import { useState } from 'react';
 import '../../context/Modal.css';
+import { useDispatch } from 'react-redux';
+import {
+  thunkAddAProductReview,
+} from "../../redux/products";
 
-const AddReviewModal = ({ onClose, onSubmit }) => {
+const AddReviewModal = ({ onClose, setCurrentReview, productId }) => {
   const [reviewText, setReviewText] = useState('');
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch()
 
   const handleSubmit = async () => {
-    try {
-      setErrors({});
-      await onSubmit(reviewText);  // Ensure `onSubmit` completes before proceeding
-      setReviewText('');  // Clear the text after successful submission
-      onClose();          // Close the modal
-    } catch (error) {
-      console.error("Failed to add review:", error);  // Log if there’s an error
+    setErrors({})
+    await dispatch(thunkAddAProductReview(productId, { review: reviewText })).then(
+      async (res) => {
+        await res.review ? setErrors(res) : setCurrentReview(res)
+      });
+
+    if(reviewText) {
+      setCurrentReview(reviewText)
+      setReviewText('');
+      onClose();
     }
   };
 
@@ -28,10 +36,14 @@ const AddReviewModal = ({ onClose, onSubmit }) => {
             placeholder="Write your review here..."
             style={{ width: '100%', height: '80px', padding: '10px' }}
           />
-          {errors.reviewText && <p className="error-message">{errors.reviewText}</p>}
+          {errors.review && <p className="error-message">{errors.review}</p>}
           <div className="form-group">
             <button onClick={handleSubmit}>Submit</button>
-            <button onClick={onClose} style={{ backgroundColor: 'gray', marginLeft: '10px' }}>Cancel</button>
+            <button onClick={()=>{
+              setErrors({})
+              onClose()
+            }
+            } style={{ backgroundColor: 'gray', marginLeft: '10px' }}>Cancel</button>
           </div>
         </div>
       </div>

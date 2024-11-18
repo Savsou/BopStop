@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from "../Review/AddReviewModal";
 import EditReviewModal from "../Review/EditReviewModal";
@@ -7,12 +7,10 @@ import RemoveReviewModal from "../Review/RemoveReviewModal";
 import Cart from "../Cart/Cart";
 import {
   thunkRemoveReview,
-  thunkEditReview,
   thunkGetUserReviews,
 } from "../../redux/reviews";
 import {
   thunkGetProductReviews,
-  thunkAddAProductReview,
   thunkGetProductById,
 } from "../../redux/products";
 import { thunkAddWishlistItem, selectWishlistItem, thunkRemoveWishlistItem, thunkGetWishlist } from "../../redux/wishlist";
@@ -43,7 +41,6 @@ const ProductDetail = () => {
   const cart = useSelector((state) => state.cart);
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [error, setError] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -95,25 +92,17 @@ const ProductDetail = () => {
     });
   };
 
-  const handleAddReview = async (reviewText) => {
-    dispatch(thunkAddAProductReview(productId, { review: reviewText })).then(
-      (res) => setCurrentReview(res)
-    );
-    closeModals();
-  };
+  // const handleAddReview = async (reviewText) => {
+  //     dispatch(thunkAddAProductReview(productId, { review: reviewText })).then(
+  //       (res) => {
+  //         res.review ? setError(res.review) : setCurrentReview(res)});
+  //     if(!error) closeModals();
+  // };
 
-  const handleEditReview = async (reviewId, reviewText) => {
-    dispatch(thunkEditReview(reviewId, { review: reviewText })).then((res) =>
-      setCurrentReview(res)
-    );
-    closeModals();
-  };
+
 
   const handleRemoveReview = async (reviewId) => {
-    dispatch(thunkRemoveReview(reviewId, productId)).then((res) => {
-      console.log(res);
-      setCurrentReview("");
-    });
+    dispatch(thunkRemoveReview(reviewId, productId)).then(() => setCurrentReview(""));
     closeModals();
   };
 
@@ -154,7 +143,7 @@ const ProductDetail = () => {
     dispatch(thunkRemoveCartItem(productId));
   };
 
-  if (error) return <p>{error}</p>;
+  // if (error) return <p>{error}</p>;
   // if (!product) return <p>Loading...</p>;
   if (!product) return (
     <Backdrop
@@ -501,16 +490,15 @@ const ProductDetail = () => {
 
         {/* Modals */}
         {showAddModal && (
-          <AddReviewModal onClose={closeModals} onSubmit={handleAddReview} />
+          <AddReviewModal onClose={closeModals}
+          setCurrentReview={setCurrentReview} productId={productId}/>
         )}
 
         {showEditModal && currentReview && (
           <EditReviewModal
             review={currentReview}
             onClose={closeModals}
-            onSubmit={(reviewText) =>
-              handleEditReview(currentReview.id, reviewText)
-            }
+            setCurrentReview={setCurrentReview}
           />
         )}
 
