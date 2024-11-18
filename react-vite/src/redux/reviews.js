@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { deleteProductReview} from './products'
+import { deleteProductReview } from './products'
 
 const LOAD_USER_REVIEWS = 'reviews/load_user_reviews';
 const LOAD_EDITED_REVIEW = 'reviews/load_edited_review';
@@ -88,7 +88,7 @@ export const thunkEditReview = (reviewId, reviewText) => async dispatch => {
     else if (res.status < 500) {
       const errorMessages = await res.json();
       console.error("Validation Errors:", errorMessages);
-      return errorMessages
+      return {errors: errorMessages}
     }
   } catch (e) {
     console.error("Error in thunkEditReview:", e);

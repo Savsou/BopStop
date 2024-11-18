@@ -116,6 +116,7 @@ export const thunkGetLimitedProducts = (limit = 20) => async dispatch => {
         const res = await fetch(`/api/products?limit=${limit}`);
         if (res.ok) {
             const products = await res.json()
+            // console.log(`Testing thunkGetLimitedProducts: ${JSON.stringify(products)}`)
             if (products.errors) return products.errors
             dispatch(loadLimitedProducts(products["products"]))
         }
@@ -182,6 +183,7 @@ export const thunkAddProduct = (product) => async dispatch => {
         console.error("Error in thunkAddProduct:", e);
         return { server: "Something went wrong. Please try again" }
     }
+
 };
 
 export const thunkEditProduct = (product) => async dispatch => {
@@ -282,7 +284,6 @@ export const selectProduct = state => state.products;
 export const selectAllProductsArry = createSelector(selectProduct, products => Object.values(products.allProducts));
 export const selectLtdProductsArry = createSelector(selectProduct, products => Object.values(products.ltdProducts));
 
-
 //reducer
 const initialState = {
     ltdProducts: {},
@@ -345,7 +346,7 @@ function productsReducer(state = initialState, action) {
             if (reviews.length > 0) {
                 productId = reviews[0].productId
                 reviews.forEach(review => {
-                    allReviews[review.reviewId] = review
+                    allReviews[review.id] = review
                 })
                 return {
                     ...state,
@@ -364,12 +365,13 @@ function productsReducer(state = initialState, action) {
             const { productId } = action.review
             const review = action.review
             const currentReviews = state.allProducts[productId]?.reviews || {};
+            console.log("testing:", state.allProducts[productId].reviews)
             return {
                 ...state,
                 allProducts: {
                     [productId]: {
                         ...state.allProducts[productId],
-                        reviews: { ...currentReviews, [review.id]: review }
+                        reviews: { ...currentReviews, [review.reviewId]: review }
                     }
                 }
             }
