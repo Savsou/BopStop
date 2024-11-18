@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from app.models import Product, Review, db, User
 from app.forms import EditProductForm
 from app.forms import NewProductForm
+from app.forms import NewReviewForm
 from app.aws_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3, update_file_on_s3
 from sqlalchemy.orm import joinedload
 
@@ -108,6 +109,7 @@ def product(productId):
     "name": product.name,
     "userId": product.userId,
     "artistName": product.user.artistName,
+    "artistBio": product.user.bio,
     "profileImageUrl": product.user.profileImageUrl,
     "bannerImageUrl": product.user.bannerImageUrl,
     "type": product.type,
@@ -263,7 +265,7 @@ def update_product(productId):
     # return {"message": "Product updated successfully.", "product": updated_product.to_dict()}, 200
 
   if form.errors:
-          return form.errors, 400
+    return form.errors, 400
 
   #just in case in other errors
   return {"errors": "Invalid requests"}, 400
@@ -326,15 +328,20 @@ def product_reviews(productId):
 @product_routes.route('/<int:productId>/reviews', methods=["POST"])
 @login_required
 def create_review(productId):
+
   product = Product.query.get(productId)
   if product is None:
     return {'message': 'Product could not be found!'}, 404
-  data = request.get_json()
-  newReview = Review(
-    userId=current_user.id,
-    review=data['review'],
-    productId=productId,
-  )
-  db.session.add(newReview)
-  db.session.commit()
-  return {"review": newReview.to_dict()}
+  form = NewReviewForm()
+  form['csrf_token'].data = request.cookies['csrf_token']
+  if form.validate_on_submit():
+    newReview = Review(
+      userId = current_user.id,
+      review = form.review.data,
+      productId = productId,
+    )
+    db.session.add(newReview)
+    db.session.commit()
+    return {"review": newReview.to_dict()}
+  if form.errors:
+    return form.errors, 400

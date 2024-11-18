@@ -5,6 +5,9 @@ import ProductCard from "../Product/ProductCard";
 import "./ArtistDetail.css";
 import "../Product/ProductCard.css";
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 function ArtistDetail() {
   const { artistId } = useParams();
   const [artist, setArtist] = useState(null);
@@ -25,7 +28,15 @@ function ArtistDetail() {
       .catch((error) => console.error("Error fetching products:", error));
   }, [artistId]);
 
-  if (!artist) return <p>Loading artist details...</p>;
+  // if (!artist) return <p>Loading artist details...</p>;
+  if (!artist) return (
+    <Backdrop
+      sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+      open
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
 
   return (
     <div className="artist-detail">
@@ -33,7 +44,7 @@ function ArtistDetail() {
       <button onClick={() => navigate(-1)} className="go-back-button">
         Go Back
       </button>
-      
+
       {/* Artist Information */}
       <h2>{artist.artistName}</h2>
       <p>{artist.bio}</p>

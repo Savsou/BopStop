@@ -6,6 +6,9 @@ import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "../Product/ProductDetail.css";
 import "./UserProfile.css";
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
@@ -70,7 +73,16 @@ const ProfilePage = () => {
   };
 
   if (error) return <p>{error}</p>;
-  if (!user) return <p>Loading...</p>;
+  // if (!user) return <p>Loading...</p>;
+  if (!user) return (
+    <Backdrop
+      sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+      open
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
+
 
   return (
     <div className="product-detail-page">
@@ -86,12 +98,16 @@ const ProfilePage = () => {
         </div>
         {/* Product List */}
         <h2 className="title">{user.artistName}'s Profile</h2>
+        <div className="artist-page-bio">
+          {/* <p>Bio:</p> */}
+          <p >{user.bio}</p>
+        </div>
         {user.products && user.products.length > 0 ? (
           user.products.map((product) => (
             <div key={product.productId} className="product-detail">
               {/* Product Column */}
               <div className="product-column">
-                {/* <p className="product-artist">by {product.artistName}</p> */}
+                {/* <p className="product-artist">by {user.artistName}</p> */}
                 <div className="product-meta">
                   <div className="product-info-column">
                     <Link
@@ -134,18 +150,18 @@ const ProfilePage = () => {
 
               {/* Artist Column */}
               <div className="artist-column">
-                {/* <img
+                <img
                   src={user.profileImageUrl}
                   alt={`${user.artistName}'s profile`}
                   className="profile-image-small"
                 />
-                <p className="product-artist">{product.artistName}</p> */}
+                <p className="product-artist">{user.artistName}</p>
                 <img
                   src={product.imageUrl}
                   alt={product.name}
                   className="profile-image-small"
                 />
-                <p className="product-name-smaill">{product.name}</p>
+                <p className="product-name-small">{product.name}</p>
                 <p className="product-created-time">
                   {formatDate(product.createdAt)}
                 </p>

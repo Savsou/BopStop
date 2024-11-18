@@ -11,7 +11,7 @@
     padding-top: 5%;
   }
 
-  .confirmation-modal-content {
+  .confirmation-modal-overlay .confirmation-modal-content {
     background: white;
     padding: 20px;
     border-radius: 8px;

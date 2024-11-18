@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import '../../context/Modal.css';
+import { thunkEditReview } from '../../redux/reviews';
+import { useDispatch } from 'react-redux';
 
-const EditReviewModal = ({ review, onClose, onSubmit }) => {
+const EditReviewModal = ({ review, onClose, setCurrentReview}) => {
   const [reviewText, setReviewText] = useState('');
+  const [errors, setErrors] = useState(null);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     // Check if review object exists and has a valid review property
@@ -12,11 +16,12 @@ const EditReviewModal = ({ review, onClose, onSubmit }) => {
   }, [review]);
 
   const handleEdit = async () => {
-    try {
-      await onSubmit(reviewText);  // Ensure `onSubmit` completes before proceeding
-      onClose();                   // Close the modal only if edit is successful
-    } catch (error) {
-      console.error("Failed to edit review:", error);  // Log if there’s an error
+    setErrors({});
+    const res = await dispatch(thunkEditReview(review.id, { review: reviewText }))
+    if (res.errors) setErrors(res.errors);
+    else {
+      setCurrentReview(res)
+      onClose()
     }
   };
 
@@ -32,6 +37,7 @@ const EditReviewModal = ({ review, onClose, onSubmit }) => {
             placeholder="Edit your review..."
             style={{ width: '100%', height: '80px', padding: '10px' }}
           />
+          {errors && <p className="error-message">{errors.review}</p>}
           <div className="form-group">
             <button onClick={handleEdit}>Save</button>
             <button onClick={onClose} style={{ backgroundColor: 'gray', marginLeft: '10px' }}>Cancel</button>

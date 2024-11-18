@@ -61,7 +61,7 @@ function SignupFormModal() {
             // required
           />
 
-          {errors.artistName && <p>{errors.artistName}</p>}
+          {errors.artistName && <p className="error-message">{errors.artistName}</p>}
         </div>
       <div className="form-group">
         <label>
@@ -74,7 +74,7 @@ function SignupFormModal() {
             // required
           />
 
-          {errors.email && <p>{errors.email}</p>}
+          {errors.email && <p className="error-message">{errors.email}</p>}
         </div>
         <div className="form-group">
         <label>
@@ -87,7 +87,7 @@ function SignupFormModal() {
             // required
           />
 
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className="error-message">{errors.username}</p>}
       </div>
       <div className="form-group">
         <label>
@@ -100,7 +100,7 @@ function SignupFormModal() {
             // required
           />
 
-          {errors.password && <p>{errors.password}</p>}
+          {errors.password && <p className="error-message">{errors.password}</p>}
         </div>
         <div className="form-group">
         <label>
@@ -113,7 +113,7 @@ function SignupFormModal() {
             // required
           />
 
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
       </div>
       <div className="form-group">
           <button type="submit">Sign Up</button>

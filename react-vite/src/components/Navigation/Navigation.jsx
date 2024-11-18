@@ -15,10 +15,10 @@ import { thunkGetCart, triggerWiggle, resetWiggle } from "../../redux/cart";
 
 function Navigation() {
   const user = useSelector((store) => store.session.user);
-  const cartItems = useSelector((store) => Object.values(store.cart.items));
+  const items = useSelector((store) => store.cart.items);
+  const cartItems = items ? Object.values(items) : []
   const dispatch = useDispatch()
   const navigate = useNavigate();
-
   useEffect(() => {
     dispatch(thunkGetCart())
   }, [dispatch])
@@ -48,13 +48,13 @@ function Navigation() {
             </li>
             {cartItems.length > 0 && ( // Only show if there are items in the cart
               <li className="nav-right">
-                <NavLink to={`/products/${cartItems[0].productId}`} className="nav-icon-link">
+                <NavLink to={`/products/${cartItems[0].productId}`}>
                 <button
                   type="button"
                   className="nav-cart-button"
                   onClick={handleCartIconClick}
                 >
-                  <FontAwesomeIcon icon={faShoppingCart} className="nav-icon" />
+                  <FontAwesomeIcon icon={faShoppingCart}/>
                 </button>
 
                 </NavLink>

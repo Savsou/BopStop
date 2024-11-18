@@ -1,8 +1,9 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
 from app.models import Review, db
-from app.forms import EditProductForm
-from app.forms import NewProductForm
+from app.forms import EditReviewForm
+
+
 
 
 review_routes = Blueprint('reviews', __name__)
@@ -16,9 +17,13 @@ def edit_review(reviewId):
     return {'message': 'Review could not be found!'}, 404
   if(review.get_userId != current_user.id):
     return {'message': 'Requires proper authorization!'}, 403
-  data = request.get_json()
-  if "review" in data:
-    review.review = data["review"]
+
+  form = EditReviewForm()
+  form['csrf_token'].data = request.cookies['csrf_token']
+  if form.validate_on_submit():
+    review.review = form.review.data
+  if(form.errors):
+    return form.errors, 400
   try:
     db.session.commit()
     return {'review': review.to_dict()}

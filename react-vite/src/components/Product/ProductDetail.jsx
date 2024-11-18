@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from "../Review/AddReviewModal";
 import EditReviewModal from "../Review/EditReviewModal";
@@ -7,15 +7,13 @@ import RemoveReviewModal from "../Review/RemoveReviewModal";
 import Cart from "../Cart/Cart";
 import {
   thunkRemoveReview,
-  thunkEditReview,
   thunkGetUserReviews,
 } from "../../redux/reviews";
 import {
   thunkGetProductReviews,
-  thunkAddAProductReview,
   thunkGetProductById,
 } from "../../redux/products";
-import { thunkAddWishlistItem } from "../../redux/wishlist";
+import { thunkAddWishlistItem, selectWishlistItem, thunkRemoveWishlistItem, thunkGetWishlist } from "../../redux/wishlist";
 import {
   thunkGetCart,
   thunkAddCartItem,
@@ -31,22 +29,40 @@ import {
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
 import "./ProductDetail.css";
+import ConfirmationModal from "../../context/ConfirmationModal";
+
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
+  const wishlist = useSelector(state => selectWishlistItem(state, productId))
   const cart = useSelector((state) => state.cart);
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [error, setError] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [showWishlistConfirmModal, setShowWishlistConfirmModal] = useState(false);
+  const [showWishlistRemoveModal, setShowWishlistRemoveModal] = useState(false);
   const [currentReview, setCurrentReview] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalImage, setModalImage] = useState("");
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
-  //console.log(JSON.stringify(cart))
+  const openModal = (imagePath) => {
+    setModalImage(imagePath);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setModalImage("");
+  };
+
+
+
 
   useEffect(() => {
     dispatch(thunkGetProductById(productId)).then((res) => setProduct(res));
@@ -63,33 +79,9 @@ const ProductDetail = () => {
     if (sessionUser) dispatch(thunkGetCart());
   }, [productId, sessionUser, dispatch]);
 
-  // useEffect(() => {
-
-  // const fetchProduct = async () => {
-  // try {
-  //   const response = await fetch(`/api/products/${productId}`);
-  //   if (!response.ok) throw new Error("Failed to fetch product details");
-  //   const data = await response.json();
-  //   setProduct(data);
-  // } catch (err) {
-  //   setError(err.message);
-  // }
-  // };
-
-  // const fetchReviews = async () => { //i don't think we have a thunk for this yet
-  //   try {
-  //     const response = await fetch(`/api/products/${productId}/reviews`);
-  //     if (!response.ok) throw new Error("Failed to fetch reviews");
-  //     const data = await response.json();
-  //     setReviews(data.reviews || []);
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
-
-  // fetchProduct();
-  // fetchReviews();
-  // }, [productId]);
+  useEffect(() => {
+    if (sessionUser) dispatch(thunkGetWishlist())
+  }, [sessionUser, dispatch])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -100,74 +92,18 @@ const ProductDetail = () => {
     });
   };
 
-  const handleAddReview = async (reviewText) => {
-    dispatch(thunkAddAProductReview(productId, { review: reviewText })).then(
-      (res) => setCurrentReview(res)
-    );
-    closeModals();
-    // try {
-    //   const response = await fetch(`/api/products/${productId}/reviews`, {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ review: reviewText }),
-    //   });
-    //   if (!response.ok) throw new Error("Failed to add review");
-    //   const newReviewData = await response.json();
-    //   setReviews((prev) => [...prev, newReviewData]);
-    //   setShowAddModal(false);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
-  };
+  // const handleAddReview = async (reviewText) => {
+  //     dispatch(thunkAddAProductReview(productId, { review: reviewText })).then(
+  //       (res) => {
+  //         res.review ? setError(res.review) : setCurrentReview(res)});
+  //     if(!error) closeModals();
+  // };
 
-  const handleEditReview = async (reviewId, reviewText) => {
-    dispatch(thunkEditReview(reviewId, { review: reviewText })).then((res) =>
-      setCurrentReview(res)
-    );
-    closeModals();
-    //   try {
-    //     const response = await fetch(`/api/reviews/${reviewId}`, {
-    //       method: 'PUT',
-    //       headers: { 'Content-Type': 'application/json' },
-    //       body: JSON.stringify({ review: reviewText }),
-    //     });
-    //     if (!response.ok) throw new Error("Failed to edit review");
-    //     const updatedReview = await response.json();
-    //     setReviews((prev) =>
-    //       prev.map((review) => (review.id === reviewId ? updatedReview : review))
-    //     );
-    //     setShowEditModal(false);
-    //     // navigate(`/products/${productId}`);
-    //     // navigate(`/products/${productId}`);
-    //   } catch (err) {
-    //     setError(err.message);
-    //   }
-  };
+
 
   const handleRemoveReview = async (reviewId) => {
-    dispatch(thunkRemoveReview(reviewId, productId)).then((res) => {
-      console.log(res);
-      setCurrentReview("");
-    });
+    dispatch(thunkRemoveReview(reviewId, productId)).then(() => setCurrentReview(""));
     closeModals();
-    // try {
-    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
-    //   if (!response.ok) throw new Error("Failed to delete review");
-    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-    //   setShowRemoveModal(false);
-    //   navigate(`/products/${productId}`);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
-    // try {
-    //   const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
-    //   if (!response.ok) throw new Error("Failed to delete review");
-    //   setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-    //   setShowRemoveModal(false);
-    //   navigate(`/products/${productId}`);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
   };
 
   const openAddReviewModal = () => setShowAddModal(true);
@@ -187,29 +123,17 @@ const ProductDetail = () => {
     setCurrentReview(null);
   };
 
-  // const addToWishlist = async (productId) => {
-  //   try {
-  //     const response = await fetch('/api/wishlist/session', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ productId }),
-  //     });
-
-  //     if (!response.ok) throw new Error("Failed to add product to wishlist");
-
-  //     // Navigate to the wishlist page after successful addition
-  //     navigate('/wishlist');
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
-
   const addToWishlist = async (productId) => {
     dispatch(thunkAddWishlistItem(productId));
-    alert("Added product to wishlist");
+    // alert("Added product to wishlist");
+    setShowWishlistConfirmModal(true);
   };
+
+  const removeFromWishlist = async (productId) => {
+    dispatch(thunkRemoveWishlistItem(productId));
+    // alert("Removed product from wishlist");
+    setShowWishlistRemoveModal(true);
+  }
 
   const addToCart = (productId) => {
     dispatch(thunkAddCartItem(productId));
@@ -219,11 +143,30 @@ const ProductDetail = () => {
     dispatch(thunkRemoveCartItem(productId));
   };
 
-  if (error) return <p>{error}</p>;
-  if (!product) return <p>Loading...</p>;
+  // if (error) return <p>{error}</p>;
+  // if (!product) return <p>Loading...</p>;
+  if (!product) return (
+    <Backdrop
+      sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+      open
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
 
   return (
     <div className="product-detail-page">
+      {/* Dynamic Modal */}
+      {showModal && (
+        <div className="confirmation-modal-overlay" onClick={closeModal}>
+          <div
+            className="confirmation-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img src={modalImage} alt="Modal Content" className="modal-image" />
+          </div>
+        </div>
+      )}
       <div className="product-row">
         <div className="banner-container">
           {/* Banner Section */}
@@ -241,15 +184,52 @@ const ProductDetail = () => {
                 <h2 className="product-name">{product.name}</h2>
                 <p className="product-artist">
                   by{" "}
-                  <span className="product-artist-name">
+                  <span
+                    className="product-artist-name"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openModal("/images/meme.jpg")}
+                  >
                     {product.artistName}
                   </span>
                 </p>
-                <img
-                  src="/images/play.png"
-                  alt="Product Image"
-                  className="product-play"
-                />
+                {[
+                  "music",
+                  "cd",
+                  "cassette",
+                  "vinyl_lp",
+                  "double_vinyl_lp",
+                  "vinyl_7",
+                  "vinyl_box_set",
+                  "other_vinyl",
+                  "CD",
+                  "Vinyl",
+                ].includes(product.type) && (
+                  <img
+                    src="/images/play.png"
+                    alt="Product Image"
+                    className="product-play"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openModal("/images/meme.jpg")}
+                  />
+                )}
+                {showModal && (
+                  <div
+                    className="confirmation-modal-overlay"
+                    onClick={closeModal}
+                  >
+                    <div
+                      className="confirmation-modal-content"
+                      onClick={(e) => e.stopPropagation()} // Prevents closing modal when clicking inside
+                    >
+                      <img
+                        src={modalImage}
+                        alt="Modal Content"
+                        className="modal-image"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <p className="product-type">{product.type}</p>
                 <p className="product-genre">
                   {product.genre ? product.genre : "Streaming + Download"}
@@ -304,7 +284,11 @@ const ProductDetail = () => {
                   all rights reserved<br></br>
                 </p>
                 <p className="tag-title">Tags</p>
-                <p className="tags">
+                <p
+                  className="tags"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => openModal("/images/meme.jpg")}
+                >
                   #world #medicinemusic world medicina medicine music medicine
                   songs world music Leipzig
                 </p>
@@ -320,14 +304,28 @@ const ProductDetail = () => {
                   alt={product.name}
                   className="product-image-big"
                 />
-                <button className="product-detail-button">
+                <button
+                  className="product-detail-button"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => openModal("/images/meme.jpg")}
+                >
                   <FontAwesomeIcon icon={faShare} className="nav-icon" /> Share
                   / Embed
                 </button>
                 {/* Wishlist Button */}
-                {sessionUser && (
+                {sessionUser &&
+                (wishlist[productId] ?
                   <button
-                    onClick={() => addToWishlist(product.productId)}
+                    onClick={() => removeFromWishlist(productId)}
+                    className="product-detail-button"
+                    style={{color:'grey'}}
+                  >
+                    <FontAwesomeIcon icon={faHeart} className="nav-icon" />{" "}
+                    Wishlist
+                  </button>
+                  :
+                  <button
+                    onClick={() => addToWishlist(productId)}
                     className="product-detail-button"
                   >
                     <FontAwesomeIcon icon={faHeart} className="nav-icon" />{" "}
@@ -386,13 +384,25 @@ const ProductDetail = () => {
                           </div>
                         </div>
                       ))}
-                      <p className="more">more...</p>
+                      <p
+                        className="more"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => openModal("/images/meme.jpg")}
+                      >
+                        more...
+                      </p>
                       <img
                         src="/images/supporters.png" // Update with the correct path to your image
                         alt="Supporter Icon"
                         className="supporter-image"
                       />
-                      <p className="more">more...</p>
+                      <p
+                        className="more"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => openModal("/images/meme.jpg")}
+                      >
+                        more...
+                      </p>
                     </>
                   ) : (
                     <p>No reviews available for this product.</p>
@@ -428,14 +438,22 @@ const ProductDetail = () => {
             />
             <p className="product-artist">{product.artistName}</p>
             <p className="US">US</p>
-            <button className="follow">Follow</button>
+            <button
+              className="follow"
+              style={{ cursor: "pointer" }}
+              onClick={() => openModal("/images/meme.jpg")}
+            >
+              Follow
+            </button>
             <p className="artist-bio">
-              {product.artistName} is a world music artist creating mystical
-              soundscapes and medicine songs.<br></br>
+              {product.artistBio}<br></br>
               <br></br>
-              As a song collector, {product.artistName} weaves his...{" "}
             </p>
-            <p className="bio-more">
+            <p
+              className="bio-more"
+              style={{ cursor: "pointer" }}
+              onClick={() => openModal("/images/meme.jpg")}
+            >
               more<br></br>
               <br></br>aquario-music.com
             </p>
@@ -445,35 +463,42 @@ const ProductDetail = () => {
               alt={product.name}
               className="product-image-small"
             />
-            <p className="product-name-small">{product.name}</p>
+            <p
+              className="product-name-small"
+              style={{ cursor: "pointer" }}
+              onClick={() => openModal("/images/meme.jpg")}
+            >
+              {product.name}
+            </p>
             <p className="product-created-time">
               {formatDate(product.createdAt)}
             </p>
             <p className="artist-contact">contact / help</p>
-            <p className="bio-more">
+            <p
+              className="bio-more"
+              style={{ cursor: "pointer" }}
+              onClick={() => openModal("/images/meme.jpg")}
+            >
               <br></br>Contact {product.artistName}
               <br></br>
+              <br></br>Streaming and Download help
               <br></br>
-              Streaming and Download help
-              <br></br>
-              <br></br>
-              Report this album or account
+              <br></br>Report this album or account
             </p>
           </div>
         </div>
 
         {/* Modals */}
         {showAddModal && (
-          <AddReviewModal onClose={closeModals} onSubmit={handleAddReview} />
+          <AddReviewModal onClose={closeModals}
+          setCurrentReview={setCurrentReview} productId={productId}/>
         )}
 
         {showEditModal && currentReview && (
           <EditReviewModal
             review={currentReview}
             onClose={closeModals}
-            onSubmit={(reviewText) =>
-              handleEditReview(currentReview.id, reviewText)
-            }
+            setCurrentReview={setCurrentReview}
           />
         )}
 
@@ -484,6 +509,25 @@ const ProductDetail = () => {
             onConfirm={() => handleRemoveReview(currentReview.id)}
           />
         )}
+
+        {showWishlistRemoveModal && (
+          <ConfirmationModal
+            onClose={() => {
+              setShowWishlistRemoveModal(false);
+            }}
+            message={"You have removed the product to your wishlist!"}
+          />
+        )};
+
+        {showWishlistConfirmModal && (
+          <ConfirmationModal
+            onClose={() => {
+              setShowWishlistConfirmModal(false)
+            }}
+            message={"You have added the product to your wishlist!"}
+          />
+        )};
+
       </div>
     </div>
   );
