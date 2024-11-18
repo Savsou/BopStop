@@ -58,7 +58,6 @@ export const thunkRemoveReview = (reviewId, productId) => async dispatch => {
       dispatch(deleteReview(reviewId))
       dispatch(thunkGetUserReviews())
       dispatch(deleteProductReview({reviewId, productId}))
-      // return await res.json() //If you want the delete message for frontend
     }
     else if (res.status < 500) {
       const errorMessages = await res.json();

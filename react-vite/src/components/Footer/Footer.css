@@ -1,6 +1,6 @@
 .footer {
-    background-color: #333; /* Light background */
-    color: #fff; /* Dark text color */
+    background-color: #333;
+    color: #fff; 
     width: 100%;
     display: flex;
     align-items: center;

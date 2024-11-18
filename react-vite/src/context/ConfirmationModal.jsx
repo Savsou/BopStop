@@ -1,4 +1,3 @@
-import React from 'react';
 import '../context/ConfirmationModal.css'
 
 function ConfirmationModal({ onClose, message }) {

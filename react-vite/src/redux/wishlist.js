@@ -84,7 +84,7 @@ export const thunkRemoveWishlistItem = itemId => async dispatch =>{
 
 export const selectWishlist = state => state.wishlist;
 export const selectWishlistItem = createSelector([selectWishlist, (state, id) => id],
-(wishlist, id) => wishlist.items);
+(wishlist) => wishlist.items);
 
 const initialState = {
   items: {},

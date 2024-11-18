@@ -73,7 +73,6 @@ const ProfilePage = () => {
   };
 
   if (error) return <p>{error}</p>;
-  // if (!user) return <p>Loading...</p>;
   if (!user) return (
     <Backdrop
       sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
@@ -97,7 +96,7 @@ const ProfilePage = () => {
           )}
         </div>
         {/* Product List */}
-        <h2 className="title">{user.artistName}'s Profile</h2>
+        <h2 className="title">{user.artistName}&apos;s Profile</h2>
         <div className="artist-page-bio">
           {/* <p>Bio:</p> */}
           <p >{user.bio}</p>

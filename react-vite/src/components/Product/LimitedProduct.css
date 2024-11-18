@@ -1,20 +1,18 @@
-/* CombinedProductDisplay.css */
-
 /* Main styling for the product card */
 .limited-product-card {
-    width: 126px; /* Set the desired width */
-    height: auto; /* Let height adjust to content */
-    border: none; /* Remove border */
-    border-radius: 0; /* Remove border radius */
-    margin: 0; /* Remove margin if you want cards to align closely */
-    box-sizing: border-box; /* Include padding within the width */
+    width: 126px;
+    height: auto;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    box-sizing: border-box;
   }
-  
+
   .limited-product-card-link {
     text-decoration: none;
     color: inherit;
   }
-  
+
   /* Image styling for the top of the card */
   .limited-product-image {
     width: 126px;
@@ -22,13 +20,13 @@
     object-fit: cover;
     border-radius: 4px;
   }
-  
+
   /* Container for product info */
   .limited-product-info {
     text-align: left;
     padding: 9px 0;
   }
-  
+
   /* Product name styling */
   .limited-product-name {
     font-size: 11px;
@@ -36,38 +34,38 @@
     color: #333;
     margin: 4px 0;
   }
-  
+
   .limited-product-artist,
   .limited-product-price {
     font-size: 11px;
     color: #333;
     margin: 4px 0;
   }
-  
+
   /* Created time styling */
   .limited-product-created-time {
     font-size: 11px;
     color: #999;
     margin: 4px 0;
   }
-  
+
   /* Container styling for the product row */
   .limited-product-row {
     display: flex;
     flex-direction: column;
-    max-width: 1120px; /* Set max width if needed to limit container */
-    justify-content: center; /* Center-align items */
-    width: 100%; /* Ensure container takes full width */
-    margin: 0 auto; /* Center the container */
+    max-width: 1120px;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
   }
-  
+
   .limited-products {
-    display: flex; /* Or use display: grid if preferred */
+    display: flex;
     flex-wrap: wrap;
-    gap: 14px; /* Adjust gap as needed */
+    gap: 14px; 
     padding-bottom: 28px;
   }
-  
+
   .limited-products-heading {
     text-transform: uppercase;
     font-size: 14px;
@@ -75,4 +73,3 @@
     margin: 0 0 18px;
     color: #408ea3;
   }
-  

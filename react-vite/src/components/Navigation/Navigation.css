@@ -48,7 +48,7 @@
   border: none;
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
-  color: white; /* Adjust color for visibility */
+  color: white;
   font-size: 14px;
   cursor: pointer;
   margin: 12px 0 12px;
@@ -223,7 +223,7 @@ li.nav-right {
   border: none;
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
-  color: white; /* Adjust color for visibility */
+  color: white; 
   font-size: 14px;
   cursor: pointer;
   margin: 12px 20px 12px;

@@ -3,7 +3,6 @@ import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import '../../../src/index.css';
-// import '../../context/Modal.css';
 import '../../context/FormModal.css';
 import "./LoginForm.css";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +17,7 @@ function LoginFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({}); // Reset errors before each submission
+    setErrors({});
 
     const newErrors = {};
 
@@ -56,7 +55,7 @@ function LoginFormModal() {
   const demoUserLogin = async (e) => {
     e.preventDefault();
 
-    setErrors({}); // Reset errors before demo login
+    setErrors({});
 
     const serverResponse = await dispatch(
       thunkLogin({
@@ -85,7 +84,6 @@ function LoginFormModal() {
             type="text"
             value={usernameOrEmail}
             onChange={(e) => setUsernameOrEmail(e.target.value)}
-            // required
           />
           {errors.usernameOrEmail && <p className="error-message">{errors.usernameOrEmail}</p>}
         </div>
@@ -96,7 +94,6 @@ function LoginFormModal() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            // required
           />
           {errors.password && <p className="error-message">{errors.password}</p>}
         </div>
