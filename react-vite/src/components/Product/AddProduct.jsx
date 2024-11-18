@@ -15,13 +15,12 @@ function AddProduct() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
-  // const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
-  const fileInputRef = useRef(null); // Ref for the hidden file input
+  const fileInputRef = useRef(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleDivClick = () => {
-    fileInputRef.current.click(); // Trigger the hidden input when the div is clicked
+    fileInputRef.current.click();
   };
 
   const handleFileChange = (e) => {
@@ -29,22 +28,13 @@ function AddProduct() {
   };
 
   const handleCancel = () => {
-    navigate(-1); // Navigate to the previous page
+    navigate(-1);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (sessionUser) {
       setErrors({});
-
-      // const newProduct = {
-      //   name,
-      //   type,
-      //   genre,
-      //   price,
-      //   description,
-      //   imageUrl: image,
-      // };
 
       const formData = new FormData();
       formData.append("name", name);
@@ -58,10 +48,6 @@ function AddProduct() {
         console.log(`${pair[0]}: ${pair[1]}`);
       }
 
-      // const serverResponse = await dispatch(
-      //   thunkAddProduct(newProduct)
-      // )
-
       const serverResponse = await dispatch(thunkAddProduct(formData));
 
       if (serverResponse) {
@@ -74,76 +60,23 @@ function AddProduct() {
         setPrice("");
         setDescription("");
         setImageUrl(null);
-        // alert("Product added successfuly");
-        // navigate(`/profile/${sessionUser.id}`);
       }
     }
-
-    // Tiff's work without redux thunk
-    // const newProduct = {
-    //   name,
-    //   type,
-    //   genre,
-    //   price,
-    //   description,
-    //   imageUrl,
-    // };
-
-    // try {
-    //   const response = await fetch("/api/products/", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(newProduct),
-    //   });
-
-    //   if (response.ok) {
-    //     setMessage("Product added successfully!");
-    //     setName("");
-    //     setType("");
-    //     setGenre("");
-    //     setPrice("");
-    //     setDescription("");
-    //     setImageUrl("");
-    //   } else {
-    //     const error = await response.json();
-    //     if (error?.errors) {
-    //       setErrors(error.errors);
-    //     }
-    //     setMessage(error.message || "Failed to add product.");
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   setMessage("An error occurred.");
-    // }
   };
-
-  //Confirmation Modals
-  // const openConfirmModal = (e) => {
-  //   e.preventDefault();
-  //   setShowConfirmModal(true);
-  // }
-
-  // const handleCancelModal = () => {
-  //   setShowConfirmModal(false);
-  //   handleSubmit();
-  // }
 
   return (
     <div className="container-add-product">
-      {/* {message && <p>{message}</p>} */}
       <form onSubmit={handleSubmit} encType="multipart/form-data" className="add-product-form">
         <div className="product">
         <h2 className="header">Add a New Product</h2>
           <label className="label name">
+            {/* took out name to match bandcamp's styling */}
             {/* Name: */}
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Product Name"
-              // required
               className="input name"
             />
           </label>
@@ -156,7 +89,6 @@ function AddProduct() {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               min="0.01"
-              // required
               className="input price"
             />
             US Dollars
@@ -166,7 +98,6 @@ function AddProduct() {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            // required
             placeholder="(Description here)"
             className="input textarea description"
           />
@@ -181,7 +112,7 @@ function AddProduct() {
               accept="image/*"
               onChange={handleFileChange}
               ref={fileInputRef}
-              style={{ display: "none" }} // Hide the original input
+              style={{ display: "none" }}
             />
             <label className="label imageurl">
               <div className="upload-button">Upload Product Image</div>
@@ -200,7 +131,6 @@ function AddProduct() {
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            // required
             className="input type"
             style={{ color: type === "" ? "#AAA" : "#333" }}
           >

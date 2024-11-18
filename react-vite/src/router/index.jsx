@@ -12,7 +12,6 @@ import Cart from '../components/Cart/Cart';
 import CheckoutPage from "../components/CheckoutPage/CheckoutPage";
 import Layout from './Layout';
 
-import ReduxTest from '../components/Product/ReduxTest';//redux test component
 import EditProduct from '../components/Product/EditProduct';
 
 export const router = createBrowserRouter([
@@ -62,10 +61,6 @@ export const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
-      },
-      {
-        path: "redux/test",
-        element: <ReduxTest />
       },
       {
         path: "checkout",

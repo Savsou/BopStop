@@ -9,7 +9,6 @@ const EditReviewModal = ({ review, onClose, setCurrentReview}) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // Check if review object exists and has a valid review property
     if (review && review.review) {
       setReviewText(review.review);
     }

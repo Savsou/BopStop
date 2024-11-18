@@ -2,15 +2,12 @@ import { createSelector } from 'reselect';
 
 const LOAD_ALL_PRODUCTS = 'products/load_all_products';
 const LOAD_LIMITED_PRODUCTS = 'products/load_limited_products';
-// const LOAD_CURRENT_USER_PRODUCTS = 'products/load_current_user_products';
 const LOAD_PRODUCT_BY_ID = 'products/load_product_by_id';
 const LOAD_PRODUCT_REVIEWS = 'products/load_product_reviews';
 const CREATE_PRODUCT_REVIEW = 'products/create_product_review';
 const CREATE_PRODUCT = 'products/create_product';
 const DELETE_PRODUCT = 'products/delete_product';
 const DELETE_PRODUCT_REVIEW = 'products/delete_product_review';
-// const LOAD_ALL_PRODUCTS_REQUEST = 'products/load_all_products_request';
-// const LOAD_LIMITED_PRODUCTS_REQUEST = 'products/load_limited_products_request';
 
 //action creators
 export const loadAllProducts = products => (
@@ -26,25 +23,6 @@ export const loadLimitedProducts = products => (
         products
     }
 )
-
-// export const loadAllProductsReq = () => (
-//   {
-//     type: LOAD_ALL_PRODUCTS_REQUEST
-//   }
-// )
-
-// export const loadLimitedProductsReq = () => (
-//   {
-//     type: LOAD_LIMITED_PRODUCTS_REQUEST
-//   }
-// )
-
-// export const loadCurrentUserProducts = products => (
-//     {
-//         type: LOAD_CURRENT_USER_PRODUCTS,
-//         products
-//     }
-// )
 
 export const loadProductById = product => (
     {
@@ -86,12 +64,8 @@ export const deleteProductReview = review => (
     }
 )
 
-
 //thunk action creators
-
 export const thunkGetAllProducts = () => async dispatch => {
-    // dispatch(loadAllProductsReq())
-
     try {
         const res = await fetch('/api/products');
         if (res.ok) {
@@ -111,12 +85,10 @@ export const thunkGetAllProducts = () => async dispatch => {
 }
 
 export const thunkGetLimitedProducts = (limit = 20) => async dispatch => {
-    // dispatch(loadLimitedProductsReq())
     try {
         const res = await fetch(`/api/products?limit=${limit}`);
         if (res.ok) {
             const products = await res.json()
-            // console.log(`Testing thunkGetLimitedProducts: ${JSON.stringify(products)}`)
             if (products.errors) return products.errors
             dispatch(loadLimitedProducts(products["products"]))
         }
@@ -131,21 +103,11 @@ export const thunkGetLimitedProducts = (limit = 20) => async dispatch => {
     }
 }
 
-// export const thunkGetCurrentUserProducts = () => async dispatch => {
-//     const res = await fetch('/api/products/current');
-//     if (res.ok) {
-//         const products = await res.json()
-//         if (products.errors) return products.errors
-//         dispatch(loadCurrentUserProducts(products["products"]))
-//     }
-// }
-
 export const thunkGetProductById = productId => async dispatch => {
     try {
         const res = await fetch(`/api/products/${productId}`);
         if (res.ok) {
             const product = await res.json()
-            // console.log(`Testing thunkGetProductById: ${JSON.stringify(product)}`)
             if (product.errors) return product.errors
             dispatch(loadProductById(product))
             return product
@@ -166,8 +128,8 @@ export const thunkAddProduct = (product) => async dispatch => {
         const res = await fetch("/api/products/", {
             method: "POST",
             // headers: { "Content-Type": "application/json" },
-            // need to stringify body rather than write directly when in backend because its python going to js
             // body: JSON.stringify(product)
+            // this is different because of AWS
             body: product
         });
         if (res.ok) {
@@ -188,7 +150,6 @@ export const thunkAddProduct = (product) => async dispatch => {
 
 export const thunkEditProduct = (product) => async dispatch => {
     try {
-        // console.log(`Testing product payload before fetch: ${JSON.stringify(product)}`)
         const productId = product.get("id");
 
         const editRes = await fetch(`/api/products/edit/${productId}`,
@@ -196,14 +157,13 @@ export const thunkEditProduct = (product) => async dispatch => {
                 method: 'PUT',
                 // headers: { 'Content-Type': 'application/json' },
                 // body: JSON.stringify(product)
+                // this is different because of AWS
                 body: product
             }
         )
         if (editRes.ok) {
             const editProduct = await editRes.json()
-            // console.log(`Testing thunkEditProduct data from dispatch: ${JSON.stringify(editProduct)}`)
             dispatch(loadProductById(editProduct))
-            // return editProduct; //might not need this
         } else if (editRes.status < 500) {
             const errorMessages = await editRes.json();
             console.error("Validation Errors:", errorMessages);
@@ -288,22 +248,14 @@ export const selectLtdProductsArry = createSelector(selectProduct, products => O
 const initialState = {
     ltdProducts: {},
     allProducts: {},
-    // currentUserProducts: {},
-    // currentProduct: null,//might get rid of this later
     loading: false,
 };
 
 function productsReducer(state = initialState, action) {
     switch (action.type) {
-        // case LOAD_ALL_PRODUCTS_REQUEST:
-        // case LOAD_LIMITED_PRODUCTS_REQUEST:
-        //   return {
-        //     ...state,
-        //     loading: true
-        //   }
         case LOAD_ALL_PRODUCTS: {
             const allProducts = {};
-            action.products.forEach(product => allProducts[product.productId] = product)//we are referencing the product.to_dict() function
+            action.products.forEach(product => allProducts[product.productId] = product)
             return {
                 ...state,
                 loading: false,
@@ -319,15 +271,6 @@ function productsReducer(state = initialState, action) {
                 ltdProducts,
             };
         }
-        // case LOAD_CURRENT_USER_PRODUCTS: {
-        //     const currentUserProducts = {};
-        //     action.products.forEach(product => currentUserProducts[product.productId] = product)
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         currentUserProducts,
-        //     };
-        // }
         case LOAD_PRODUCT_BY_ID: {
             const product = action.product
             return {
@@ -336,7 +279,6 @@ function productsReducer(state = initialState, action) {
                     ...state.allProducts,
                     [product.productId]: product
                 },
-                // currentProduct: product//might get rid of this later
             };
         }
         case LOAD_PRODUCT_REVIEWS: {
@@ -386,19 +328,19 @@ function productsReducer(state = initialState, action) {
                 }
             };
         }
-        case DELETE_PRODUCT:{
-            const {productId} = action
-            copyState = {...state}
+        case DELETE_PRODUCT: {
+            const { productId } = action
+            const copyState = { ...state }
             delete copyState.allProducts[productId]
-            if(copyState.ltdProducts[productId]){
+            if (copyState.ltdProducts[productId]) {
                 delete copyState.ltdProducts[productId]
             }
             return copyState
         }
 
-        case DELETE_PRODUCT_REVIEW:{
-            const {productId, reviewId} = action.review
-            const copyState = {...state}
+        case DELETE_PRODUCT_REVIEW: {
+            const { productId, reviewId } = action.review
+            const copyState = { ...state }
             delete copyState.allProducts[productId].reviews[reviewId]
             return copyState
         }

@@ -13,7 +13,6 @@ function EditProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-  // const currentProduct = useSelector((state) => state.products.currentProduct);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [genre, setGenre] = useState("");
@@ -27,8 +26,6 @@ function EditProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       const productData = await dispatch(thunkGetProductById(productId));
-      // console.log(`Testing currentProduct from state: ${JSON.stringify(currentProduct)}`)
-      // console.log(`Testing thunkGetProductById: ${JSON.stringify(productData)}`)
       if (productData) {
         setName(productData.name);
         setType(productData.type);
@@ -45,33 +42,21 @@ function EditProduct() {
   }, [dispatch, productId, navigate]);
 
   const handleDivClick = () => {
-    fileInputRef.current.click(); // Open file input on div click
+    fileInputRef.current.click();
   };
 
   const handleFileChange = (e) => {
-    setImageUrl(e.target.files[0]); // Set selected file
+    setImageUrl(e.target.files[0]);
   };
 
   const handleCancel = () => {
-    navigate(-1); // Navigate to the previous page
+    navigate(-1);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (sessionUser) {
       setErrors({});
-
-      // const updatedProduct = {
-      //   id: productId,
-      //   name,
-      //   type,
-      //   genre,
-      //   price,
-      //   description,
-      //   imageUrl,
-      // };
-
-      // console.log(`Testing updated product data: ${JSON.stringify(updatedProduct)}`)
 
       const formData = new FormData();
       formData.append("id", productId);
@@ -84,15 +69,12 @@ function EditProduct() {
 
       try {
         const serverResponse = await dispatch(
-          // thunkEditProduct(updatedProduct)
           thunkEditProduct(formData)
         );
 
         if (serverResponse) {
           setErrors(serverResponse);
         } else {
-          // navigate(`/products/${productId}`);
-          // alert("Product updated successfuly");
           setShowConfirmModal(true);
         }
       } catch (error) {
@@ -101,17 +83,6 @@ function EditProduct() {
       }
     }
   };
-
-  //Confirmation Modals
-  // const openConfirmModal = (e) => {
-  //   e.preventDefault();
-  //   setShowConfirmModal(true);
-  // }
-
-  // const handleCancelModal = () => {
-  //   setShowConfirmModal(false);
-  //   handleSubmit();
-  // }
 
   return (
     <div className="container-edit-product">
@@ -188,7 +159,7 @@ function EditProduct() {
             <option value="cassette">Cassette</option>
             <option value="vinyl_lp">Vinyl LP</option>
             <option value="double_vinyl_lp">2 x Vinyl LP</option>
-            <option value="vinyl_7">7" Vinyl</option>
+            <option value="vinyl_7">7&ldquo; Vinyl</option>
             <option value="vinyl_box_set">Vinyl Box Set</option>
             <option value="other_vinyl">Other Vinyl</option>
             <option value="apparel">--- Apparel ---</option>

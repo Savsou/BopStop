@@ -56,7 +56,7 @@ const EditUser = () => {
   };
 
   const handleCancel = () => {
-    navigate(-1); // Navigate to the previous page
+    navigate(-1);
   };
 
   const handleSubmit = async (e) => {
@@ -81,9 +81,6 @@ const EditUser = () => {
         const errorData = await response.json();
         setErrors(errorData.errors || { server: "Failed to update profile" });
       } else {
-        const result = await response.json();
-        // console.log(result.message);
-        // alert(result.message);
         setShowConfirmModal(true)
         setErrors({});
       }
@@ -92,17 +89,6 @@ const EditUser = () => {
       console.error("Error updating profile:", error);
     }
   };
-
-  //Confirmation Modals
-  // const openConfirmModal = (e) => {
-  //   e.preventDefault();
-  //   setShowConfirmModal(true);
-  // }
-
-  // const handleCancelModal = () => {
-  //   setShowConfirmModal(false);
-  //   handleSubmit();
-  // }
 
   return (
     <div className="container-editUser">

@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
 import "../../../src/index.css";
-// import '../../context/Modal.css';
 import "../../context/FormModal.css";
 import "./SignupForm.css";
 
@@ -56,8 +55,7 @@ function SignupFormModal() {
               type="text"
               value={artistName}
               onChange={(e) => setArtistName(e.target.value)}
-              // required
-            />
+              />
 
             {errors.artistName && (
               <p className="error-message">{errors.artistName}</p>
@@ -71,8 +69,7 @@ function SignupFormModal() {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              // required
-            />
+              />
 
             {errors.email && <p className="error-message">{errors.email}</p>}
           </div>
@@ -84,8 +81,7 @@ function SignupFormModal() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              // required
-            />
+              />
 
             {errors.username && (
               <p className="error-message">{errors.username}</p>
@@ -99,8 +95,7 @@ function SignupFormModal() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              // required
-            />
+              />
 
             {errors.password && (
               <p className="error-message">{errors.password}</p>
@@ -114,8 +109,7 @@ function SignupFormModal() {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              // required
-            />
+              />
 
             {errors.confirmPassword && (
               <p className="error-message">{errors.confirmPassword}</p>
