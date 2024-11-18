@@ -221,7 +221,7 @@ function EditProduct() {
           }}
           message={"You have updated this product!"}
         />
-      )};
+      )}
     </div>
   );
 }

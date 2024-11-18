@@ -202,7 +202,7 @@ function AddProduct() {
           }}
           message={"You have added this product!"}
         />
-      )};
+      )}
     </div>
   );
 }
