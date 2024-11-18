@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
-import '../../../src/index.css';
+import "../../../src/index.css";
 // import '../../context/Modal.css';
-import '../../context/FormModal.css';
+import "../../context/FormModal.css";
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -33,7 +33,7 @@ function SignupFormModal() {
         email,
         username,
         password,
-        confirm_password: confirmPassword
+        confirm_password: confirmPassword,
       })
     );
 
@@ -46,78 +46,85 @@ function SignupFormModal() {
 
   return (
     <>
-
       <p className="modal-title">Sign Up</p>
       {errors.server && <p>{errors.server}</p>}
       <form className="modal-content" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label>
-        Artist Name
-          </label>
-          <input
-            type="text"
-            value={artistName}
-            onChange={(e) => setArtistName(e.target.value)}
-            // required
-          />
-
-          {errors.artistName && <p className="error-message">{errors.artistName}</p>}
-        </div>
-      <div className="form-group">
-        <label>
-          Email
-          </label>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            // required
-          />
-
-          {errors.email && <p className="error-message">{errors.email}</p>}
-        </div>
         <div className="form-group">
-        <label>
-          Username
-          </label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            // required
-          />
+          <label className="label-name">Artist Name</label>
+          <div className="input-error">
+            <input
+              type="text"
+              value={artistName}
+              onChange={(e) => setArtistName(e.target.value)}
+              // required
+            />
 
-        {errors.username && <p className="error-message">{errors.username}</p>}
-      </div>
-      <div className="form-group">
-        <label>
-          Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            // required
-          />
-
-          {errors.password && <p className="error-message">{errors.password}</p>}
-        </div>
-        <div className="form-group">
-        <label>
-          Confirm Password
-          </label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            // required
-          />
-
-        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
-      </div>
-      <div className="form-group">
-          <button type="submit">Sign Up</button>
+            {errors.artistName && (
+              <p className="error-message">{errors.artistName}</p>
+            )}
           </div>
+        </div>
+        <div className="form-group">
+          <label className="label-name">Email</label>
+          <div className="input-error">
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              // required
+            />
+
+            {errors.email && <p className="error-message">{errors.email}</p>}
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="label-name">Username</label>
+          <div className="input-error">
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              // required
+            />
+
+            {errors.username && (
+              <p className="error-message">{errors.username}</p>
+            )}
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="label-name">Password</label>
+          <div className="input-error">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              // required
+            />
+
+            {errors.password && (
+              <p className="error-message">{errors.password}</p>
+            )}
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="label-name">Confirm Password</label>
+          <div className="input-error">
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              // required
+            />
+
+            {errors.confirmPassword && (
+              <p className="error-message">{errors.confirmPassword}</p>
+            )}
+          </div>
+        </div>
+        <div className="form-group">
+          <button type="submit">Sign Up</button>
+        </div>
       </form>
     </>
   );
