@@ -37,7 +37,7 @@ BopStop is a full stack partial clone of the e-commerce website Bandcamp. This p
 
 ### Wishlist
 
-![Demo Animation](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDI3c3J6MmpvNXc1emJkN3VyOXRlaXZmdWJyaWh0MHFvb3EyamgybCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0is7DrMSkXPxZEH3vy/giphy.gif)
+![Demo Animation](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnNmOTVveHp5MndpZnRnd2dqdTV5b2ZoOXE0ejRkcnBic3RwbnJqYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V95hhGkt3aoyg9ImIc/giphy.gif)
 
 ### Cart
 
