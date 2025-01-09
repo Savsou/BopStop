@@ -25,7 +25,7 @@ BopStop is a full stack partial clone of the e-commerce website Bandcamp. This p
 
 ### Index
 
-[[Feature List](https://github.com/Savsou/BopStop/blob/main/api_docs/feature_list.md)]| [[Database Schema](https://github.com/Savsou/BopStop/blob/main/api_docs/database_schema.md)] | [[User Stories](https://github.com/Savsou/BopStop/blob/main/api_docs/user_stories.md)]
+[Feature List](https://github.com/Savsou/BopStop/blob/main/api_docs/feature_list.md)|[Database Schema](https://github.com/Savsou/BopStop/blob/main/api_docs/database_schema.md)|[User Stories](https://github.com/Savsou/BopStop/blob/main/api_docs/user_stories.md)
 
 ### Landing Page
 
