@@ -490,7 +490,7 @@ const ProductDetail = () => {
             }}
             message={"You have removed the product to your wishlist!"}
           />
-        )};
+        )}
 
         {showWishlistConfirmModal && (
           <ConfirmationModal
@@ -499,7 +499,7 @@ const ProductDetail = () => {
             }}
             message={"You have added the product to your wishlist!"}
           />
-        )};
+        )}
 
       </div>
     </div>
