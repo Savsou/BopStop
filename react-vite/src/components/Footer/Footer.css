@@ -1,13 +1,14 @@
 .footer {
     background-color: #333;
-    color: #fff; 
+    color: #fff;
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
+}
 
-.logo{
+.logo {
     height: 18px;
 }
 
@@ -16,15 +17,38 @@
     padding: 22px 40px;
     display: flex;
     align-items: center;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
 .links {
     display: flex;
     align-items: center;
-    justify-content:right;
+    justify-content: right;
 }
 
 .link {
     margin-right: 20px;
+}
+
+.social-medias {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.socials {
+    display: flex;
+    align-items: center;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+}
+
+.github-icon {
+    filter: invert(1)
 }
