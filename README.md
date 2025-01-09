@@ -1,3 +1,68 @@
+## Tech Stack
+
+### Frameworks and Libraries
+<div style="display: flex; align-items: center; gap: 10px;">
+  <img src="https://img.shields.io/badge/-Python-3776ab?logo=python&logoColor=FFFF66&logoWidth=20" alt="Python" height="25">
+  <img src="https://img.shields.io/badge/-Flask-000000?logo=flask&logoColor=white&logoWidth=20" alt="Flask" height="25">
+  <img src="https://img.shields.io/badge/-Javascript-41454A?logo=javascript&logoColor=F7DF1E&logoWidth=20" alt="Javascript" height="25">
+  <img src="https://img.shields.io/badge/-React-263238?logo=react&logoColor=61DAFB&logoWidth=20" alt="React" height="25">
+  <img src="https://img.shields.io/badge/-Redux-764ABC?logo=redux&logoColor=white&logoWidth=20" alt="Redux" height="25">
+  <img src="https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white&logoWidth=20" alt="CSS3" height="25">
+  <img src="https://img.shields.io/badge/-HTML5-E34F26?logo=HTML5&logoColor=white&logoWidth=20" alt="HTML5" height="25">
+</div>
+
+### Database:
+
+<img src="https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white&logoWidth=20" alt="PostgreSQL" height="25">
+
+### Hosting:
+
+<img src="https://img.shields.io/badge/-Render-23c43e?logo=render&logoColor=white&logoWidth=20" alt="Render" height="25">
+
+### Connect With Us:
+
+Savannah Sou's Socials:
+
+[<img align="left" alt="SavonnaSou | LinkedIn" width="22px" src="./logos/linkedin-logo.png" style="margin: 5px;" />][savannah-linkedin]
+
+[savannah-linkedin]: https://www.linkedin.com/in/savannah-sou/
+
+[<img align="left" alt="SavonnaSou | Gmail" width="22px" src="./logos/email.png" style="margin: 5px;" />][savannah-email]<br>
+
+[savannah-email]: mailto:savonna.sou@gmail.com
+
+Zechariah Dominguez's Socials:
+
+[<img align="left" alt="ZechariahDominguez | LinkedIn" width="22px" src="./logos/linkedin-logo.png" style="margin: 5px;" />][zechariah-linkedin]
+
+[zechariah-linkedin]: https://www.linkedin.com/in/zechariah-dominguez/
+
+[<img align="left" alt="ZechariahDominguez | Gmail" width="22px" src="./logos/email.png" style="margin: 5px;" />][zechariah-email]<br>
+
+[zechariah-email]: https://www.linkedin.com/in/zechariah-dominguez/
+
+Pristine Shin's Socials:
+
+[<img align="left" alt="PristineShin | LinkedIn" width="22px" src="./logos/linkedin-logo.png" style="margin: 5px;" />][pristine-linkedin]
+
+[pristine-linkedin]: https://www.linkedin.com/in/pristine-shin/
+
+[<img align="left" alt="ZechariahDominguez | Gmail" width="22px" src="./logos/email.png" style="margin: 5px;" />][pristine-email]<br>
+
+[pristine-email]: https://www.linkedin.com/in/pristine-shin/
+
+Tiffany Tseng's Socials:
+
+[<img align="left" alt="TiffanyTseng | LinkedIn" width="22px" src="./logos/linkedin-logo.png" style="margin: 5px;" />][tiffany-linkedin]
+
+[tiffany-linkedin]: https://www.linkedin.com/in/ittseng/
+
+[<img align="left" alt="TiffanyTseng | Gmail" width="22px" src="./logos/email.png" style="margin: 5px;" />][tiffany-email]<br>
+
+[tiffany-email]: https://www.linkedin.com/in/ittseng/
+
+<br></br>
+
 # Flask React Project
 
 This is the starter for the Flask React project.
