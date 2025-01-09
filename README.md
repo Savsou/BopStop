@@ -23,6 +23,26 @@ BopStop is a full stack partial clone of the e-commerce website Bandcamp. This p
 
 <img src="https://img.shields.io/badge/-Render-23c43e?logo=render&logoColor=white&logoWidth=20" alt="Render" height="25">
 
+### Index
+
+[Feature List]: https://github.com/Savsou/BopStop/blob/main/api_docs/feature_list.md | [Database Schema]: https://github.com/Savsou/BopStop/blob/main/api_docs/database_schema.md | [User Stories]: https://github.com/Savsou/BopStop/blob/main/api_docs/user_stories.md
+
+### Landing Page
+
+https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXUyZDNwb2kwYmxhYmR1NXUzdGs4MWF6cm0ybnEycGw4aXA3dXdnaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e1GYvVtKPPbRCF3A8D/giphy.gif
+
+### Product Page
+
+https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGExcGlzbGpja3E0OTJtNmFxazN3Nm0wbjY0bWQzcGR3d3p2azJ6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Y5iGXr36XEWLgBjaaJ/giphy.gif
+
+### Wishlist
+
+https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDI3c3J6MmpvNXc1emJkN3VyOXRlaXZmdWJyaWh0MHFvb3EyamgybCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0is7DrMSkXPxZEH3vy/giphy.gif
+
+### Cart
+
+https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGhxbnU2dHNndmppY3RpdzI2cHk4Y29vaTRjMmdyd3p4cWl5eWNrOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UmhJWC3rs3C4WHi7FL/giphy.gif
+
 ### Connect With Team BopStop:
 
 #### Savannah Sou:
