@@ -18,12 +18,15 @@ const Footer = () => {
           <p className="link">Acceptable Use & Moderation Policy</p>
         </div>
       </div>
-      <a href="https://github.com/Savsou/BopStop">
-        <img src={githubLogo} alt="github-logo" className="social-icon github-icon" />
-      </a>
       <div className="social-medias">
+        <a href="https://github.com/Savsou/BopStop">
+          <img src={githubLogo} alt="github-logo" className="social-icon github-icon" />
+        </a>
+        <p className="socials">Connect with Team BopStop:</p>
+      {/* </div>
+      <div className="social-medias"> */}
         <div className="socials">
-          <p>Pristine&apos;s Socials:</p>
+          <p>Pristine Shin</p>
           <a
             href="https://www.linkedin.com/in/pristine-shin/"
             target="_blank"
@@ -33,7 +36,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="socials">
-          <p>Tiffany&apos;s Socials:</p>
+          <p>Tiffany Tseng</p>
           <a
             href="https://www.linkedin.com/in/ittseng/"
             target="_blank"
@@ -43,7 +46,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="socials">
-          <p>Zechariah&apos;s Socials:</p>
+          <p>Zechariah Dominguez</p>
           <a
             href="https://www.linkedin.com/in/zechariah-dominguez/"
             target="_blank"
@@ -53,7 +56,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="socials">
-          <p>Savannah&apos;s Socials:</p>
+          <p>Savannah Sou</p>
           <a
             href="https://www.linkedin.com/in/pristine-shin/"
             target="_blank"

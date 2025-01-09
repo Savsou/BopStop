@@ -13,8 +13,8 @@
 }
 
 .footer-content {
-    width: 1576px;
-    padding: 22px 40px;
+    width: 98%;
+    padding: 22px 22px 10px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -32,10 +32,11 @@
 
 .social-medias {
     display: flex;
-    justify-content: space-between;
-    width: 85%;
-    padding: 20px;
+    justify-content: flex-end;
+    width: 98%;
+    padding: 10px;
     box-sizing: border-box;
+    gap: 10px;
 }
 
 .socials {
@@ -44,9 +45,9 @@
 }
 
 .social-icon {
-    width: 30px;
-    height: 30px;
-    margin: 0 10px;
+    width: 20px;
+    height: 20px;
+    margin: 3px 5px 0px 5px;
 }
 
 .github-icon {

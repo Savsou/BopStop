@@ -1,3 +1,7 @@
+# BopStop
+
+BopStop is a full stack partial clone of the e-commerce website Bandcamp. This platform serves as a hub for music creators and fans, enabling artists to share and sell their music while fostering a community of listeners who can explore, purchase, and support their favorite sounds and merchandise.
+
 ## Tech Stack
 
 ### Frameworks and Libraries
@@ -19,9 +23,9 @@
 
 <img src="https://img.shields.io/badge/-Render-23c43e?logo=render&logoColor=white&logoWidth=20" alt="Render" height="25">
 
-### Connect With Us:
+### Connect With Team BopStop:
 
-Savannah Sou's Socials:
+#### Savannah Sou:
 
 [<img align="left" alt="SavonnaSou | LinkedIn" width="22px" src="./logos/linkedin-logo.png" style="margin: 5px;" />][savannah-linkedin]
 
@@ -31,7 +35,8 @@ Savannah Sou's Socials:
 
 [savannah-email]: mailto:savonna.sou@gmail.com
 
-Zechariah Dominguez's Socials:
+
+#### Zechariah Dominguez:
 
 [<img align="left" alt="ZechariahDominguez | LinkedIn" width="22px" src="./logos/linkedin-logo.png" style="margin: 5px;" />][zechariah-linkedin]
 
@@ -39,9 +44,10 @@ Zechariah Dominguez's Socials:
 
 [<img align="left" alt="ZechariahDominguez | Gmail" width="22px" src="./logos/email.png" style="margin: 5px;" />][zechariah-email]<br>
 
-[zechariah-email]: https://www.linkedin.com/in/zechariah-dominguez/
+[zechariah-email]: mailto:zechariahd@gmail.com
 
-Pristine Shin's Socials:
+
+#### Pristine Shin:
 
 [<img align="left" alt="PristineShin | LinkedIn" width="22px" src="./logos/linkedin-logo.png" style="margin: 5px;" />][pristine-linkedin]
 
@@ -49,9 +55,10 @@ Pristine Shin's Socials:
 
 [<img align="left" alt="ZechariahDominguez | Gmail" width="22px" src="./logos/email.png" style="margin: 5px;" />][pristine-email]<br>
 
-[pristine-email]: https://www.linkedin.com/in/pristine-shin/
+[pristine-email]: mailto:shin.pristine@gmail.com
 
-Tiffany Tseng's Socials:
+
+#### Tiffany Tseng:
 
 [<img align="left" alt="TiffanyTseng | LinkedIn" width="22px" src="./logos/linkedin-logo.png" style="margin: 5px;" />][tiffany-linkedin]
 
@@ -59,7 +66,8 @@ Tiffany Tseng's Socials:
 
 [<img align="left" alt="TiffanyTseng | Gmail" width="22px" src="./logos/email.png" style="margin: 5px;" />][tiffany-email]<br>
 
-[tiffany-email]: https://www.linkedin.com/in/ittseng/
+[tiffany-email]: mailto:tifny7574@gmail.com
+
 
 <br></br>
 
