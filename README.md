@@ -29,21 +29,18 @@ BopStop is a full stack partial clone of the e-commerce website Bandcamp. This p
 
 ### Landing Page
 
-<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXUyZDNwb2kwYmxhYmR1NXUzdGs4MWF6cm0ybnEycGw4aXA3dXdnaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e1GYvVtKPPbRCF3A8D/giphy.gif" alt="Demo Animation" width="500">
-
-![Demo Animation](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXUyZDNwb2kwYmxhYmR1NXUzdGs4MWF6cm0ybnEycGw4aXA3dXdnaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e1GYvVtKPPbRCF3A8D/giphy.gif)
+<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXUyZDNwb2kwYmxhYmR1NXUzdGs4MWF6cm0ybnEycGw4aXA3dXdnaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e1GYvVtKPPbRCF3A8D/giphy.gif" alt="Demo Animation" width="830">
 
 ### Product Page
 
-![Demo Animation](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGExcGlzbGpja3E0OTJtNmFxazN3Nm0wbjY0bWQzcGR3d3p2azJ6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Y5iGXr36XEWLgBjaaJ/giphy.gif)
+<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGExcGlzbGpja3E0OTJtNmFxazN3Nm0wbjY0bWQzcGR3d3p2azJ6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Y5iGXr36XEWLgBjaaJ/giphy.gif" alt="Demo Animation" width="830">
 
 ### Wishlist
 
-![Demo Animation](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnNmOTVveHp5MndpZnRnd2dqdTV5b2ZoOXE0ejRkcnBic3RwbnJqYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V95hhGkt3aoyg9ImIc/giphy.gif)
+<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnNmOTVveHp5MndpZnRnd2dqdTV5b2ZoOXE0ejRkcnBic3RwbnJqYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V95hhGkt3aoyg9ImIc/giphy.gif" alt="Demo Animation" width="830">
 
 ### Cart
-
-![Demo Animation](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGhxbnU2dHNndmppY3RpdzI2cHk4Y29vaTRjMmdyd3p4cWl5eWNrOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UmhJWC3rs3C4WHi7FL/giphy.gif)
+<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGhxbnU2dHNndmppY3RpdzI2cHk4Y29vaTRjMmdyd3p4cWl5eWNrOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UmhJWC3rs3C4WHi7FL/giphy.gif" alt="Demo Animation" width="830">
 
 ### Connect With Team BopStop:
 
