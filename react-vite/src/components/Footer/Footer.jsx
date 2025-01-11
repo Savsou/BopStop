@@ -23,7 +23,7 @@ const Footer = () => {
           <img src={githubLogo} alt="github-logo" className="social-icon github-icon" />
         </a>
         <p className="socials">Connect with Team BopStop:</p>
-      {/* </div>
+        {/* </div>
       <div className="social-medias"> */}
         <div className="socials">
           <p>Pristine Shin</p>
@@ -58,7 +58,7 @@ const Footer = () => {
         <div className="socials">
           <p>Savannah Sou</p>
           <a
-            href="https://www.linkedin.com/in/pristine-shin/"
+            href="https://www.linkedin.com/in/savannah-sou/"
             target="_blank"
             rel="noopener noreferrer"
           >
