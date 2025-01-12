@@ -33,7 +33,7 @@ https://bopstop.onrender.com/
 
 ### Landing Page
 
-<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXUyZDNwb2kwYmxhYmR1NXUzdGs4MWF6cm0ybnEycGw4aXA3dXdnaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e1GYvVtKPPbRCF3A8D/giphy.gif" alt="Demo Animation" width="830">
+<img src="https://github.com/Savsou/BopStop/blob/dev/assets/ezgif-7-02ffb16eda.gif" alt="Demo Animation" width="830">
 
 ### Product Page
 
