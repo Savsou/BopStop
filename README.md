@@ -37,14 +37,14 @@ https://bopstop.onrender.com/
 
 ### Product Page
 
-<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGExcGlzbGpja3E0OTJtNmFxazN3Nm0wbjY0bWQzcGR3d3p2azJ6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Y5iGXr36XEWLgBjaaJ/giphy.gif" alt="Demo Animation" width="830">
+<img src="https://github.com/Savsou/BopStop/blob/dev/assets/ezgif-7-95f306527d.gif" alt="Demo Animation" width="830">
 
 ### Wishlist
 
-<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnNmOTVveHp5MndpZnRnd2dqdTV5b2ZoOXE0ejRkcnBic3RwbnJqYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V95hhGkt3aoyg9ImIc/giphy.gif" alt="Demo Animation" width="830">
+<img src="https://github.com/Savsou/BopStop/blob/dev/assets/ezgif-7-5d1373d8c7.gif" alt="Demo Animation" width="830">
 
 ### Cart
-<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGhxbnU2dHNndmppY3RpdzI2cHk4Y29vaTRjMmdyd3p4cWl5eWNrOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UmhJWC3rs3C4WHi7FL/giphy.gif" alt="Demo Animation" width="830">
+<img src="https://github.com/Savsou/BopStop/blob/dev/assets/ezgif-7-705fde165c.gif" alt="Demo Animation" width="830">
 
 ### Connect With Team BopStop:
 
